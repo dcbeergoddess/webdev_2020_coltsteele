@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emmet Demo</title>
+</head>
+<body>
+  <!-- Create Nested Elements : main>section>h1 -->
+  <main>
+    <section>
+      <h1></h1>
+    </section>
+  </main>
+
+  <!-- Create Sibling Elements : h1+h2+h3 -->
+  <h1></h1>
+  <h2></h2>
+  <h3></h3>
+
+  <!-- Climb-up^ : div+div>p>span+em^bq -->
+  <div></div>
+  <div>
+    <p><span></span><em></em></p>
+    <blockquote></blockquote>
+  </div>
+
+  <!-- Multiplication : ul>li*4 -->
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+
+  <!-- Numbers : nav>ul>li.item$$$*5>a[href=www.$.com] -->
+  <nav>
+    <ul>
+      <li class="item001"><a href="www.1.com"></a></li>
+      <li class="item002"><a href="www.2.com"></a></li>
+      <li class="item003"><a href="www.3.com"></a></li>
+      <li class="item004"><a href="www.4.com"></a></li>
+      <li class="item005"><a href="www.5.com"></a></li>
+    </ul>
+  </nav>
+
+  <!-- TEXT:{} : a{Click me} -->
+
+  <a href="">Click me</a>
+
+  <!-- nav>ul>li.item$$$*5>a[href=www.$.com]{Click me} -->
+
+  <nav>
+    <ul>
+      <li class="item001"><a href="www.1.com">Click me</a></li>
+      <li class="item002"><a href="www.2.com">Click me</a></li>
+      <li class="item003"><a href="www.3.com">Click me</a></li>
+      <li class="item004"><a href="www.4.com">Click me</a></li>
+      <li class="item005"><a href="www.5.com">Click me</a></li>
+    </ul>
+  </nav>
+
+
+</body>
+</html>
