@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Race Registration Form</title>
+</head>
+
+<body>
+  <h1>Race Registration</h1>
+  <form action="/register">
+    <div>
+      <label for="fName">First Name</label>
+      <input type="text" name="fName" id="fName" required>
+      <label for="lName">Last Name</label>
+      <input type="text" name="lName" id="lName" required>
+    </div>
+    <div>
+      <p> Select a Race:</p>
+      <div>
+        <input type="radio" name="race" id="fun">
+        <label for="fun">Fun Run 5k</label>
+      </div>
+      <div>
+        <input type="radio" name="race" id="half">
+        <label for="half">Half Marathon</label>
+      </div>
+      <div>
+        <input type="radio" name="race" id="full">
+        <label for="full">Full Marathon</label>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+      </div>
+      <div>
+        <label for="age">Select Age Group</label>
+        <select name="age" id="age">
+          <option value="under18">under 18</option>
+          <option value="18to30">18-30</option>
+          <option value="30to50">30-50</option>
+          <option value="over50">50+</option>
+        </select>
+      </div>
+      <button>Register</button>
+  </form>
+
+  <!-- file:///register?fName=Rachel&lName=Murray&race=on&email=dcbeergoddess%40gmail.com&password=asdfasdf&age=under18 -->
+</body>
+
+</html>

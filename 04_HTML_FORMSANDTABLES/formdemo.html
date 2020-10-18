@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Demo</title>
+</head>
+
+<body>
+  <h1>Form Demo</h1>
+  <form action="/tacos">
+    <!-- file:///tacos?username=chicken&password=help&color=%23b01717&num=3&time=06%3A00 -->
+    <button type="button">PLEASE DO NOT SUBMIT THE FORM</button>
+    <p>
+      <label for="username">Enter a Username:</label>
+      <input type="text" placeholder="username" id="username" name="username">
+      <!-- file:///tacos?username=chickenman -->
+    </p>
+    <p>
+      <label for="password">Enter a Password</label>
+      <input type="password" placeholder="password" id="password" name="password">
+      <!-- file:///tacos?username=chicken&password=help -->
+    </p>
+    <p>
+      <label for="color">Pick a Color</label>
+      <input type="color" id="color" name="color">
+    </p>
+    <p>
+      <label for="number">Enter a number</label>
+      <input type="number" placeholder="number" id="number" name="num" min="1" max="1000" step="2">
+    </p>
+    <!-- it is valid to nest input in the label but far less common -->
+    <!-- easier to style when not nested -->
+    <p>
+      <label>
+        Pick a Time
+        <input type="time" id="time" name="time">
+      </label>
+    </p>
+    <!-- goes to /tacos because that is the ACTION of the form by default -->
+    <!-- If inside form with submit the form by default if not specified -->
+    <button>Submit!!!</button>
+    <!-- Odder way to make submit button -->
+    <input type="submit">
+    <input type="submit" value="Click Me!">
+
+    <!-- Sending Form to Reddit -->
+  </form>
+  <!-- Outside a form so not default behavior -->
+  <button>OUTSIDE THE FORM</button>
+
+  <h2>Hijacking Searches</h2>
+  <h3>Search Reddit</h3>
+  <form action="https://www.reddit.com/search">
+    <input type="text" name="q">
+    <button>Search Reddit</button>
+  </form>
+  <h3>Search Google</h3>
+  <form action="https://www.google.com/search">
+    <input type="text" name="q">
+    <button>Search Google</button>
+  </form>
+  <h3>Search Youtube</h3>
+  <form action="https://www.youtube.com/results">
+    <input type="text" name="search_q">
+    <button>Search Youtube</button>
+  </form>
+
+  <h2>More Inputs</h2>
+  <form action="/birds">
+    <input type="checkbox" name="agree_tos" id="agree" checked>
+    <label for="agree">I agree to everything</label>
+    <p>
+      <label for="xs">XS</label>
+      <input type="radio" name="size" id="xs" value="xs">
+      <label for="s">S</label>
+      <input type="radio" name="size" id="s" value="s">
+      <label for="m">M</label>
+      <input type="radio" name="size" id="m" value="m">
+    </p>
+    <p>
+      <label for="meal">Please Select an Entree</label>
+      <select name="meal" id="meal">
+        <option value="fish">Fish</option>
+        <option value="veg">Vegetarian</option>
+        <option value="" selected>-please select an option-</option>
+        <option value="steak">Steak</option>
+      </select>
+    </p>
+    <p>
+      <label for="cheese">Amount of Cheese</label>
+      <input type="range" name="cheese_level" id="cheese" value="8" min="1" max="10">
+    </p>
+
+    <p>
+      <label for="requests">Any Special Requests</label>
+      <br>
+      <textarea name="Requests?" id="requests" cols="40" rows="10" placeholder="type something here"></textarea>
+    </p>
+    <button>Submit</button>
+    <!--if checked: file:///birds?agree_tos=on -->
+    <!--if unchecked file:///birds? -->
+    <!-- file:///birds?agree_tos=on&size=m -->
+    <!-- file:///birds?agree_tos=on&size=m&meal=veg -->
+    <!-- file:///birds?agree_tos=on&meal=&cheese_level=4 -->
+    <!-- file:///birds?agree_tos=on&meal=&cheese_level=8&Requests%3F=aasfsdfasdfasdf -->
+  </form>
+
+  <h2>Validation Demo</h2>
+  <form action="/dummy">
+    <label for="first">Enter First Name</label>
+    <input type="text" name="first" id="first" required>
+    <p>
+      <label for="username">Username</label>
+      <input type="text" name="username" id="userman" minlength="5" maxlength="20" required>
+    </p>
+    <p>
+      <!-- matching a pattern needs @ with text after -->
+      <label for="email"></label>
+      <input type="email" name="email" id="email" required>
+    </p>
+    <p>
+      <!-- matching a pattern of url -->
+      <label for="url"></label>
+      <input type="url" name="url" id="url" required>
+    </p>
+    <p>
+
+    </p>
+    <button>Submit</button>
+  </form>
+
+  <!-- file:///dummy?first=rachekl&username=rachel&email=alskjf%40lkjlj&url=http%3A%2F%2Fwww.alskdjfalsk.com -->
+</body>
+
+</html>

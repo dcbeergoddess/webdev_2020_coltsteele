@@ -1,9 +1,23 @@
 # SECTION
 
-#### Crucial 
+## Crucial 
 
+### *
 
-#### Important
+<br>
 
+## Important 
 
-#### Nice to Have
+### *
+
+<br>
+
+## Nice to Have
+
+### * 
+
+<br>
+
+## Notes
+
+<hr>
