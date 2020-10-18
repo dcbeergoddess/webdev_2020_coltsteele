@@ -1,0 +1,132 @@
+/* 
+UNIVERSAL SELECTOR
+--------------------------
+* {
+  background-color: cyan;
+} 
+---------------------------
+*/
+
+body {
+  background-color: #f1faee;
+}
+
+/* ELEMENT SELECTOR */
+
+button {
+  font-size: 30px;
+  background-color: #a8dadc;
+}
+
+/* SELECTOR LIST H1 & H2 */
+h1, h2 {
+  color: #1d3557;
+}
+
+/* ID SELECTOR */
+#signup {
+  color:  #f1faee;
+  background-color: #1d3557;
+}
+
+span {
+  color: #457b9d;
+}
+
+/* CLASS SELECTOR */
+.tag {
+  background-color: #e63946;
+  color: #f1faee; 
+  font-size: 16px;
+}
+
+/* DESCENDANT SELECTOR */
+/* All anchor tags inside the class post, made each post section class="post" */
+
+.post a {
+  color: #457b9d;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* any a tags that descend a footer */
+footer a {
+  color: #e63946;
+}
+
+/* ADJACENT SELECTORS */
+
+h2 + button {
+  font-size: 20px;
+}
+
+/* DIRECT CHILD/DESCENDENT SELECTOR */
+
+footer > a {
+  color: #457b9d;
+}
+
+/* ATTRIBUTE SELECTORS */
+
+input[type="password"] {
+  color: greenyellow;
+}
+
+/* COULD DO THIS AS WELL */
+/* section.post {
+  background-color: ivory;
+} */
+
+a[href*="www.google.com"] {
+  background: magenta;
+}
+
+/* PSEUDO CLASSES */
+
+.post button:hover {
+  background-color: #e63946;
+  color: #f1faee
+}
+
+.post a:hover {
+  text-decoration: underline;
+}
+
+.post button:active {
+  background-color: #02c39e;
+}
+
+/* 2n gets you every second post, just 2 would get you only the 2nd element */
+.post:nth-of-type(2n) {
+  background-color: #dfe8dc;
+}
+
+/* PSEUDO ELEMENTS */
+
+h2::first-letter {
+  font-size: 50px;
+}
+
+p::first-line {
+  color: purple
+}
+
+/* CHANGE ANY PART OF SOME SELECTED ELEMENT ON PAGE */
+
+p::selection {
+  background-color: #fcbf49;
+}
+
+/* SPECIFICITY EXAMPLES */
+button:hover {
+  /* won't apply to all, buttons inside post are more specific, signup button more specific */
+  background-color: olive;
+  /* does apply to all */
+  font-size: 10px;
+}
+
+/* !important */
+/* button {
+  background-color: magenta !important;
+} */
+

@@ -1,0 +1,24 @@
+/* body has no text inside it but the elements inherit the purple color if we have not applied a style to it */
+body {
+    color: purple;
+}
+
+h1 {
+    color: blue;
+}
+
+/* applies to all elements in the sections, will inherit the closet parent color */
+section {
+    color: aqua
+}
+
+/* label inherits color but form controls do not */
+form {
+    color: greenyellow;
+}
+
+button, input {
+    /* inherit from nearest parent */
+    color: inherit;
+}
+
