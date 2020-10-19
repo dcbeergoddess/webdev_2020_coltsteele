@@ -1,0 +1,30 @@
+/* Wrangle images into grid */
+/* change your name on site | style with border on bottom */
+/* FLEX BOX WOULD DO THIS FOR US BUT WE ARE NOT USING IT YET */
+
+img {
+  /* related to body, will scale down with window size */
+  /* 10% of space left with 3 images across, taking 30% of space */
+  width: 30%;
+  /* do not want to hard code with pixels, otherwise would not scale down */
+  /* margin: 1.6666666%; */
+  margin: calc(10%/6);
+}
+/* 
+30% + 30% + 30% = 90% | 10% / 6 = 1.66666666 | 6 because on either side of each image
+*/
+nav {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  border-bottom: 2px solid #f1f1f1;
+  width: 30%;
+  /* inline with photos but not on all sides */
+  margin-left: calc(10%/6);
+  /* increase padding */
+  padding: 1.2em 0
+}
+
+
+
+

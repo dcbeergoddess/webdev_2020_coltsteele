@@ -1,0 +1,39 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #151b29;
+  /* centered button using display flex properties following it */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* transition | all because only one element */
+}
+
+button {
+  background: none;
+  color: #FFA260;
+  /* default is inset border */
+  border: 2px solid;
+  padding: 1em 2em;
+  font-size: 1em;
+  /* transition: all 0.25s; */
+  /* transition separately  */
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s
+}
+
+button:hover {
+  border-color: #F1ff5c;
+  color: white;
+  box-shadow: 0 0.5em 0.5em -0.4em #F1ff5c; 
+  /* move it up */
+  transform: translatey(-0.25em);
+  /* change to cursor */
+  cursor: pointer;
+}
+
+/* BOX-SHADOW */
+/* offset-x | offset-y | blur-radius | spread-radius | color */
+/* box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
+
+
+

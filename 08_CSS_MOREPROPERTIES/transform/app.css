@@ -1,0 +1,66 @@
+h1 {
+    background-color: #2a9d8f;
+    border: 5px solid #264653;
+    color: #eae2b7;
+    padding: 0.7em;
+    width: 300px;
+    font-size: 1.8em;
+    text-align:center;
+    /* SET LEFT RIGHT MARGIN TO AUTO = CENTERED IN BOX CONTAINER */
+    margin: 20px auto;
+    font-family: Courier New;
+    font-weight: lighter;
+}
+
+h1:nth-of-type(2n) {
+    background-color: #e9c46a;
+}
+h1:nth-of-type(3n) {
+    background-color: #f4a261;
+}
+h1:nth-of-type(4n) {
+    background-color: #e76f51;
+}
+
+/* ROTATE */
+section:first-of-type h1:nth-of-type(1) {
+    /* transform-origin: top right; */
+    transform: rotate(45deg);
+}
+
+/* SCALE */
+/* SHRINK OR SCALE UP,  */
+section:first-of-type h1:nth-of-type(2) {
+    /* shrink or scale it up */
+    transform: scale(0.6);
+}
+
+/* TRANSLATE */
+/* MOVE ELEMENT AROUND */
+section:first-of-type h1:nth-of-type(3) {
+    transform: translateX(200px);
+}
+section:first-of-type h1:nth-of-type(4) {
+    transform: translate(-100px, 50px);
+}
+
+/* SKEW */
+section:nth-of-type(2) h1:nth-of-type(1) {
+    transform: skew(30deg); 
+}
+section:nth-of-type(2) h1:nth-of-type(2) {
+    transform: skew(10deg, 5deg); 
+}
+
+/* MULTIPLE TRANSFORMS */
+section:nth-of-type(2) h1:nth-of-type(3) {
+    transform: rotate(-20deg) scale(1.2); 
+}
+section:nth-of-type(2) h1:nth-of-type(4) {
+    transform: translatex(-500px) rotate(0.5turn) scaley(1.5); 
+}
+/* TRANSFORM ENTIRE BOTTOM SECTION */
+/* WILL TRANSLATE DOWN TO CHILD ELEMENTS */
+section:nth-of-type(2) {
+    transform: scale(0.7) translatex(500px); 
+}
