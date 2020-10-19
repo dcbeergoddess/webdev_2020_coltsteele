@@ -1,0 +1,29 @@
+span {
+  background-color: palevioletred;
+  border: 1px solid black;
+  width: 500px;
+  padding: 50px;
+  margin: 50px;
+}
+
+h1 {
+  background-color: paleturquoise;
+  border: 1px solid black;
+  width: 300px;
+  height: 200px;
+  padding: 50px;
+  margin: 100px;
+  /* elements still there but not showing */
+  display: none;
+}
+
+div {
+  height: 200px;
+  width: 200px; 
+  background-color: olivedrab;
+  border: 5px solid black;
+  /* behave like inline elements but properties in respect to box model will work */
+  display: inline-block;
+  margin: 50px;
+}
+
