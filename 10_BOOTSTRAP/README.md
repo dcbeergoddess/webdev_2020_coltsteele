@@ -31,7 +31,8 @@
 <hr>
 
 **CSS FRAMEWORKS** 
-BOOTSTRAP : COMPONENTS & GRID SYSTEM  
+BOOTSTRAP : COMPONENTS & GRID SYSTEM
+  - using CLASSES for COMPONENTS
 
 - [BOOTSTRAP DOCUMENTATION](https://getbootstrap.com/docs/4.5/getting-started/introduction/)
 - [GRID SYSTEM](https://getbootstrap.com/docs/4.5/layout/grid/)
@@ -66,7 +67,67 @@ BOOTSTRAP : COMPONENTS & GRID SYSTEM
     // Extra large devices (large desktops, 1200px and up)
     @media (min-width: 1200px) { ... }
     ```
-2. 
+2. BUTTONS 
+- [BUTTON DOCUMENTATION](https://getbootstrap.com/docs/4.5/components/buttons/)
+
+3. SEMANTIC COLORS IN BOOTSTRAP
+  - [COLOR UTILITIES](https://getbootstrap.com/docs/4.5/utilities/colors/)
+  - primary, secondary, success, danger, etc.
+  - can change them - more semantic/meaning 
+
+4. TYPOGRAPHY 
+  - [Typography in BOOTSTRAP](https://getbootstrap.com/docs/4.5/content/typography/)
+  - **DISPLAY HEADINGS**
+  ```html
+  <h1 class="display-1">Display 1</h1>
+  <h1 class="display-2">Display 2</h1>
+  <h1 class="display-3">Display 3</h1>
+  <h1 class="display-4">Display 4</h1>
+  ```
+  - **LEAD**
+    - Make a paragraph stand out by adding `class="lead"`
+    - changes `font-size` and `font-weight`
+  - BLOCKQUOTES
+    - quoting block of content from another source within your document. Wrap `<blockquote class="blockquote>` around any HTML as the quote
+
+5. **UTILITIES**
+  - [BOOTSTRAP UTILITIES](https://getbootstrap.com/docs/4.5/utilities/borders/)
+
+6. **BADGES**
+  - [BADGE COMPONENT](https://getbootstrap.com/docs/4.5/components/badge/)
+  - `<h1>Example heading<span class="badge badge-secondary">NEW</span></h1>`
+  - can use it to count, label, etc.
+
+7. **BUTTON GROUP**
+  - [BUTTON GROUP COMPONENT](https://getbootstrap.com/docs/4.5/components/button-group/)
+  - group buttons together
+  - accessibility: `role="group"` (tells screen reader group of buttons)  
+  ```html
+  <!-- BASIC EXAMPLE -->
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary">Left</button>
+      <button type="button" class="btn btn-secondary">Middle</button>
+      <button type="button" class="btn btn-secondary">Right</button>
+    </div>
+  ```
+8. **ALERTS**
+  - [ALERT COMPONENT](https://getbootstrap.com/docs/4.5/components/alerts/)
+  - bring users attention to some piece of information
+  ```html
+    <div class="alert alert-primary" role="alert">
+        A  simple primary alert—check it out!
+    </div>
+  ```
+  - make alert dismissible
+  - using role and aria labels so make accessible to screen readers
+  ```html
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  ```
 
 <br>
 
