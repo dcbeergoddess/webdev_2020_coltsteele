@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Forms</title>
+  <!-- PUT BOOTSTRAP CDN BEFORE YOUR OWN STYLE SHEET -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <!-- OUR STYLE SHEET-->
+  <link rel="stylesheet" href="app.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 class="display-2">Forms</h1>
+    <form action="#nowhere">
+      <!-- group inputs together in row to make a form layout -->
+      <!-- use form row, less gutter space -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" id="email" placeholder="email">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" id="password" placeholder="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Street Address</label>
+        <input type="text" class="form-control" name="address" id="address" placeholder="923 Chicken Ranch">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="city">City</label>
+          <input type="text" class="form-control" name="city" id="city" placeholder="">
+        </div>
+        <div class="form-group col-md-3 col-6">
+          <label for="state">State</label>
+          <select class="form-control" name="state" id="state">
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3 col-6">
+          <label for="zip">Zip Code</label>
+          <input type="text" class="form-control" name="zip" id="zip" placeholder="">
+        </div>
+      </div>
+      <!-- STANDARD CHECKBOX -->
+      <!-- <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+        <label class="form-check-label" for="defaultCheck1">
+          Sign Me Up
+        </label>
+      </div> -->
+      <!-- CUSTOM CHECKBOX -->
+      <div class="form-group">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="tos">
+        <label class="custom-control-label" for="tos">Sign Me Up</label>
+      </div>
+    </div>
+      <button type="submit" class="btn btn-success">Register</button>
+
+    </form>
+  </div>
+
+  <!-- JQUERY, POPPER.js, BOOTSTRAP -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
