@@ -2,5 +2,13 @@
   "cSpell.ignoreWords": [
     "divs",
     "flexbox"
-  ]
+  ],
+  "editor.quickSuggestions": null,
+
+  "editor.tokenColorCustomizations": {
+
+    "comments": "#265b26"
+},
 }
+
+
