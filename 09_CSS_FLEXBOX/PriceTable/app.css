@@ -71,7 +71,6 @@ body {
   background-color: white;
   border-radius: 10px;
   padding: 15px 25px;
-  /* DON'T THINK MAX-WIDTH IS WORKING LIKE COLT'S */
   max-width: 960px;
   display: flex;
   flex-direction: column;
@@ -151,6 +150,21 @@ body {
 .pricing-button.is-featured:hover, .pricing-button.is-featured:focus {
   background-color: #269aff;
   color: white
+}
+
+/* GO TO ROW AFTER ABOUT 900px or so  */
+@media (min-width:900px) {
+  .panel {
+    flex-direction: row;
+  }
+  .pricing-plan {
+    border-bottom: none;
+    border-right: 1px solid #e1f1ff;
+    padding: 25px 50px;
+  }
+  .pricing-plan:last-child {
+    border-right: none;
+  }
 }
 
 
