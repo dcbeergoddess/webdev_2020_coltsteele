@@ -4,7 +4,7 @@ Notes and Code Alongs with Colt Steele's Web Developers Boot Camp 2020
 
 ## New Curriculum
 
-* [WBD 2.0 Migration Guide](https://github.com/dcbeergoddess/webdev_2020_coltsteele.git)
+* [WBD 2.0 Migration Guide](https://www.notion.so/WDB-2-0-Migration-Guide-43af6af65ec743d385c2aa01ba4c516c)
 
 * [Change Log](https://www.notion.so/Web-Developer-Bootcamp-ChangeLog-45e3eab6be724c5f9a4b83c01044e126)
 
