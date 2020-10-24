@@ -168,6 +168,8 @@ while (true) {
 
 **EXAMPLE**
 ```js
+//we come up with variable name to represent individual elements in array
+//good for when you don't need to know the index
   for (variable of iterable) {
     statement
   }
