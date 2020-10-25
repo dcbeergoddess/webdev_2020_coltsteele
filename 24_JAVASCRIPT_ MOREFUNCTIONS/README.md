@@ -186,4 +186,17 @@ try {
 
   console.log("AFTER")
 
+  //WITH FUNCTION
+  function yell(msg){
+    try {
+    console.log(msg.toUpperCase().repeat(3));
+    } catch (e){
+      console.log(e)
+      console.log("please pass a string")
+    }
+  }
+
+  yell(1) 
+  yell("hello")
+
 ```
