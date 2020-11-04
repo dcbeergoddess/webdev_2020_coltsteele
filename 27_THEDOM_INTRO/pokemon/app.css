@@ -1,0 +1,11 @@
+/* CREATE A CLASS TO ADD TO ELEMENTS INSTEAD OF USING ELEMENT TAGS TO STYLE */
+.pokemon {
+  display: inline-block;
+  text-align: center;
+}
+
+.pokemon img {
+  display: block;
+}
+
+
