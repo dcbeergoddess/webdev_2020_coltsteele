@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Score Keeper</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+  <h1>Ping Pong Score Keeper</h1>
+
+  <div id="container">
+    <h1 id=score><span id="p1Score">0</span> to <span id="p2Score">0</span></h2>
+    <p>Use the buttons below to keep score</p>
+
+    <label for="winScore">Playing To:</label>
+    <select name="" id="winScore">
+      <!-- USE JS TO ADD OPTIONS UP To A Certain point??? -->
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+    <div id="buttons">
+      <button id="player1">+1 Player One</button>
+      <button id="player2">+1 Player Two</button>
+      <button id="reset">Reset</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
