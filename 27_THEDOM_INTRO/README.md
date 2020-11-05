@@ -228,33 +228,7 @@ p.append('I am new Text!!! YAY!!!!!!')
 
 - `remove()` : can call direct element you want to remove (does not work in internet explorer), do not have to pass anything in
 
-#### Events
 
-* `clicks`
-* `drags`
-* `drops`
-* `hovers`
-* `scrolls`
-* `form submission`
-* `key presses`
-* `focus/blur`
-* `mouse wheel`
-* `double click`
-* `copying`
-* `pasting`
-* `audio start`
-* `screen resize`
-* `printing`
-
-#### addEventListener
-- Specify the event type and a callback to run
-```js
-  const button = document.querySelector('h1');
-
-  button.addEventListener('click', () => {
-    alert("You clicked me!!")
-  })
-```
 
 
 
