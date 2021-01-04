@@ -27,6 +27,15 @@
 * Use color classes under Helpers/Color
 * Bulma has built in styles for disabled buttons
 
+- IF you want to add more opponents change opponents to an array, pass in array of opponents
+- iterate over everyone else if player wins
+- FEATURES TO ADD, WIN BY 2 FOR PING PONG - EDGE CASES
+- Fireworks when some wins
+- best of 3 or best of 5
+- Allow players to enter their names
+
+
+
 
 
 

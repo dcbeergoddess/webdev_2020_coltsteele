@@ -18,7 +18,7 @@ let isGameOver = false;
 let winningScore = 3;
 
 //REFACTOR p1Button, p2Button, DRY CODE
-
+//IF you want to add more opponents change opponents to an array
 function updateScores(player, opponent) {
   if (!isGameOver)  {
     player.score += 1;
