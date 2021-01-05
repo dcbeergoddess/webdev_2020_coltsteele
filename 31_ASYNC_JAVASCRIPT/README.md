@@ -27,7 +27,7 @@
 
 <hr>
 
-### The Call Stack
+## The Call Stack
 **mechanism JavaScript uses behind the scenes**
 
 - The mechanism the JS interpreter uses to keep track of its place in a scrip that calls multiple functions.
@@ -73,8 +73,45 @@
 
 - [LOUPE Call Stack Visual](http://latentflip.com/loupe/?code=ZnVuY3Rpb24gbXVsdGlwbHkoeCx5KSB7CiAgICByZXR1cm4geCAqIHk7Cn0KCmZ1bmN0aW9uIHNxdWFyZSh4KSB7CiAgICByZXR1cm4gbXVsdGlwbHkoeCx4KTsKfQoKZnVuY3Rpb24gaXNSaWdodFRyaWFuZ2xlKGEsYixjKXsKICAgIHJldHVybiBzcXVhcmUoYSkgKyBzcXVhcmUoYikgPT09IHNxdWFyZShjKTsKfQoKaXNSaWdodFRyaWFuZ2xlKDMsNCw1KQ%3D%3D!!!)
 
-- USING THE CHROME DEV TOOLS OPEN UP callstack Exercise and look under SOURCES, under page look under app.js, Apply breakpoint by clicking line, stops the codes execution and inspect one varialbe at a time.
-- 
+- USING THE CHROME DEV TOOLS OPEN UP callstack Exercise and look under SOURCES, under page look under app.js, Apply breakpoint by clicking line, stops the codes execution and inspect one variable at a time.
+- DEBUGGER for Call Stack - Add Breakpoint and then use arrows to watch, and play with values in console. 
+
+## WebAPIs and Single Threaded
+**JS is Single Threaded**
+- At any given point in time, that single JS thread is running at most one line of JS code.
+- Call switch back and forth really quickly
+
+- Hello Movie API, send me all movies that match the the query "BAT"
+  - THIS CAN TAKE A LONG TIME 
+  - WHAT HAPPENS IN BETWEEN THAT TIME SINCE JS CAN ONLY RUN ONE LINE AT A TIME
+
+**EXAMPLE**
+```js
+  const newTodo = input.value; //get user input
+  saveToDatabase(newTodo); //this could take a while!
+  input.value = ''; //reset form
+```
+**WORKAROUND**
+```js
+  console.log('I print first');
+  setTimeout(() => {
+    console.log('I print after 3 seconds');
+  }, 3000);
+  console.log('I print second!');
+  //CALLBACKS????
+```
+- remember setTimeout - pass in function
+- THE BROWSER DOES THE WORK!!!!!
+  - The browser itself is not written in JS, usually in C++, etc. that can do more than JS 
+  - JS hands off certain tasks to browser to take care of
+  - WebAPIs are methods we can call from JS
+
+#### WebAPIs, Browsers, & JS
+- Browsers come with Web APIs that are able to handle certain tasks in the background (like making requests or setTimeout)
+- The JS call stack recognizes these Web API functions and passes them off to the browser to take care of
+- Once the browser finishes those tasks, they return and are pushed onto the stack as a callback
+
+
 
 
 
