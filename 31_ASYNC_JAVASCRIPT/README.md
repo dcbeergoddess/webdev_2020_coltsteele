@@ -111,7 +111,15 @@
 - The JS call stack recognizes these Web API functions and passes them off to the browser to take care of
 - Once the browser finishes those tasks, they return and are pushed onto the stack as a callback
 
+## Callback Hell :(
+```js
+  //Look at Rainbow exercise
+  //Example of putting in call back function that won't execute until request is done
 
+  searchMovieAPI('amadeus', () => {
+    saveToMyDB(movies, )
+  })
+```
 
 
 
