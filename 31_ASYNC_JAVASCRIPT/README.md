@@ -49,6 +49,18 @@
 - When the current function is finished, the interpreter takes it off the stack and resumes execution where it left off in the last code listing.
 
 ```js
+// WITHOUT ARROW FUNCTIONS
+
+  function multiply(x, y) {
+    return x * y;
+  }
+  function square(x) {
+    return multiply(x, x);
+  }
+  function isRightTriangle(3, 4, 5) {
+    return square(a) * square(b) === square(c);
+  } 
+// WITH ARROW FUNCTIONS
   const multiply = (x, y) => x * y;
   
   const square = (x) => multiply(x, x);
@@ -73,8 +85,8 @@
 
 - [LOUPE Call Stack Visual](http://latentflip.com/loupe/?code=ZnVuY3Rpb24gbXVsdGlwbHkoeCx5KSB7CiAgICByZXR1cm4geCAqIHk7Cn0KCmZ1bmN0aW9uIHNxdWFyZSh4KSB7CiAgICByZXR1cm4gbXVsdGlwbHkoeCx4KTsKfQoKZnVuY3Rpb24gaXNSaWdodFRyaWFuZ2xlKGEsYixjKXsKICAgIHJldHVybiBzcXVhcmUoYSkgKyBzcXVhcmUoYikgPT09IHNxdWFyZShjKTsKfQoKaXNSaWdodFRyaWFuZ2xlKDMsNCw1KQ%3D%3D!!!)
 
-- USING THE CHROME DEV TOOLS OPEN UP callstack Exercise and look under SOURCES, under page look under app.js, Apply breakpoint by clicking line, stops the codes execution and inspect one variable at a time.
-- DEBUGGER for Call Stack - Add Breakpoint and then use arrows to watch, and play with values in console. 
+- USING THE `CHROME DEV TOOLS` OPEN UP callstack Exercise and look under `SOURCES`, under page look under app.js, Apply breakpoint by clicking line, stops the codes execution and inspect one variable at a time.
+- `DEBUGGER` for Call Stack - Add Breakpoint and then use arrows to watch, and play with values in console. 
 
 ## WebAPIs and Single Threaded
 **JS is Single Threaded**
@@ -100,26 +112,39 @@
   console.log('I print second!');
   //CALLBACKS????
 ```
-- remember setTimeout - pass in function
+- remember `setTimeout` - pass in function
 - THE BROWSER DOES THE WORK!!!!!
   - The browser itself is not written in JS, usually in C++, etc. that can do more than JS 
   - JS hands off certain tasks to browser to take care of
   - WebAPIs are methods we can call from JS
 
-#### WebAPIs, Browsers, & JS
+### WebAPIs, Browsers, & JS
 - Browsers come with Web APIs that are able to handle certain tasks in the background (like making requests or setTimeout)
 - The JS call stack recognizes these Web API functions and passes them off to the browser to take care of
 - Once the browser finishes those tasks, they return and are pushed onto the stack as a callback
 
 ## Callback Hell :(
+  - Promises and Async JS help fix callback hell 
+  - THIS IS A COMMON 
 ```js
   //Look at Rainbow exercise
   //Example of putting in call back function that won't execute until request is done
 
   searchMovieAPI('amadeus', () => {
-    saveToMyDB(movies, )
-  })
+    // STANDARD TO HAVE SUCCESS AND FAIL CALLBACK
+    saveToMyDB(movies, () => {
+      //if it works, run this:
+    }, () => {
+      //if it doesn't work, run this:
+    })
+  }, () => {
+    //If API is down, or request failed
+  });
 ```
+## Promises
+- A `promise` is an object representing the eventual completion or failure of an `asynchronous operation`
+- 
+
 
 
 
