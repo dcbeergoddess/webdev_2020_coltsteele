@@ -183,8 +183,83 @@ async function uhOh() {
 uhOh();
 // Promise (<rejected>: Error: "oh no!")
 ```
+* ARROW FUNCTION = FUNCTION DECLARATION
+```js
+async function hello() {
+  //AUTOMATICALLY RETURNS PROMISE
+}
 
+//FUNCTION DECLARATION
+const sing = async () => {
+  //RETURNS PROMISE
+}; 
+```
+- Throw Error when Promise Rejected
+```js
+  const sing1 = async () => {
+  throw "oh, no problem"
+  return 'LA LA AL AL'
+}
 
+sing1()
+  .then((data) => {
+    console.log("Promise Resolved With:", data)
+  })
+  .catch((err) => {
+    console.log("OH NO, Promise REJECTED!")
+    console.log(err)
+  })
+  ```
+
+  - `await` | can only use the keyword inside functions declared with async | WILL PAUSE execution of the function, waiting for a promise to be resolved
+
+  ```js
+        async function rainbow() {
+      await delayedColorChange('red', 1000)
+      console.log("red")
+      await delayedColorChange('orange', 1000)
+      console.log("orange")
+      await delayedColorChange('yellow', 1000)
+      console.log("yellow")
+      await delayedColorChange('green', 1000)
+      console.log("green")
+      await delayedColorChange('blue', 1000)
+      console.log("blue")
+      await delayedColorChange('indigo', 1000)
+      console.log("indigo")
+      await delayedColorChange('violet', 1000)
+      console.log("violet")
+    }
+  ```
+
+  - SAVE IT TO A VARIABLE
+
+  ```js
+    async makeTwoRequests() {
+      let data1 = await fakeRequest('page1');
+      console.log(data1)
+    }
+  ```
+### HANDLING ERRORS
+```js
+  try {
+
+  } catch(e) {
+
+  }
+
+      async function makeTwoRequests() {
+        try {
+          let data1 = await fakeRequest('/page1');
+          console.log(data1);
+          let data2 = await fakeRequest('/page2');
+          console.log(data2)
+        } catch(e) {
+          console.log('Caught an error');
+          console.log("error is:", e)
+        }
+      }
+```
 
 
 
