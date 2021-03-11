@@ -160,7 +160,29 @@ new Promise((resolve, reject) => {
 });
 ```
 - Creating new Promises | Pass in `function` where are there are 2 `params`, 1: function to `resolve` promise 2: function to `reject` it 
-- 
+
+## ASYNC FUNCTIONS
+- Syntax Improvement
+- newer && cleaner syntax for working with async code! Syntax "makeup" for promises
+- `Syntactical Sugar` 
+### `ASYNC` and `AWAIT`
+- 2 Pieces - Keywords
+- will see major uses in making requests and ajax
+* `async` | Functions always return a promise | IF function returns a value, promise resolved with that value | IF function throws an exceptions, the promise will be rejected
+```js
+// EXAMPLE:
+
+async function hello() {
+  return 'Hey Guy!';
+}
+hello();
+// Promise {<resolved>: "Hey Guy!"}
+async function uhOh() {
+  throw new Error('oh no!');
+}
+uhOh();
+// Promise (<rejected>: Error: "oh no!")
+```
 
 
 
