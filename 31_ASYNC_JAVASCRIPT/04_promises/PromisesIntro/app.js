@@ -23,6 +23,7 @@ const fakeRequestPromise = (url) => {
     })
 }
 
+//THIS IS CALLBACK HELL
 
 // fakeRequestCallback('books.com/page1',
 //     function (response) {
@@ -97,7 +98,8 @@ fakeRequestPromise('yelp.com/api/coffee/page1')
     .catch((err) => {
         console.log("OH NO, A REQUEST FAILED!!!")
         console.log(err)
-    })
+    });
+
 
 
 

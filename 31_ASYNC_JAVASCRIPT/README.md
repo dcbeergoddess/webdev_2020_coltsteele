@@ -143,7 +143,26 @@
 ```
 ## Promises
 - A `promise` is an object representing the eventual completion or failure of an `asynchronous operation`
+- CallBack Hell when nesting requests and connection timeout fails with error handling
+- HANDLE ERRORS
+- PROMISES --- Help nested, hideous code --- NEW - No Internet Explorer
+- [MDN Promise Doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- If you are a good boy, then you can have candy
+- [SAMPLE Chained Promises](04_promises/PromisesIntro/app.js) || `.then` && `.catch` || Pass in value, `data` or `err` to print out response
+### Creating Promises
+- [Code Ref](04_promises/CreatingPromises/app.js)
+```js
+  // Make NEW PROMISE ==> Pass in Function (2 params, res and err)
+
+new Promise((resolve, reject) => {
+  // pending until resolve or reject is called
+
+});
+```
+- Creating new Promises | Pass in `function` where are there are 2 `params`, 1: function to `resolve` promise 2: function to `reject` it 
 - 
+
+
 
 
 
