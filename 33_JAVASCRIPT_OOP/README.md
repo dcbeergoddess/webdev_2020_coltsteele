@@ -124,8 +124,68 @@ class Color {
 }
 ```
 
-
-
 ### Extends and Super Keywords
-- 
+- Subclasses and INHERITANCE
+- [BACK TO BASICS EXAMPLE](06_extends_and_super/app.js)
+- Create Standalone classes for duplicated code that new classes can extend from | kind of like parent child relationship
+- `extends` keyword
+```js
+    class Pet {
+      constructor(name, age){
+        this.name = name;
+        this.age = age;
+      }
+      eat(){
+        return `${this.name} is eating`
+      }
+    }
+
+    class Dog extends Pet {
+      bark(){
+        return 'WOOOOOF!!'
+      }
+    }
+
+    class Cat extends Pet {
+      meow(){
+        return 'MEOWWW!!';
+      }
+    }
+```
+- `super` keyword: additional information for extended classes
+```js
+    class Pet {
+      constructor(name, age){
+        this.name = name;
+        this.age = age;
+      }
+      eat(){
+        return `${this.name} is eating`
+      }
+    }
+    ///INSTEAD OF DOING THIS TO ADD TO CAT
+    class Cat extends Pet {
+      constructor(name, age, livesLeft = 9){
+        this.name = name;
+        this.age = age;
+        this.livesLeft = livesLeft;
+      }
+      meow(){
+        return 'MEOWWW!!';
+      }
+    }
+
+    //// YOU CAN DO THIS
+    class Cat extends Pet {
+      constructor(name, age, livesLeft = 9){
+        super(name, age) //ref to what we are extending from
+        this.livesLeft = livesLeft;
+      }
+      meow(){
+        return 'MEOWWW!!';
+      }
+    }
+```
+
+
 
