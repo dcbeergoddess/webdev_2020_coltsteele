@@ -48,9 +48,13 @@
 
 ### Intro to Object Oriented Programming
 - [MDN OOP for Beginners](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS)
-- 
+- Organizing our code, Designing and Structuring our applications by breaking things up into distinct patterns of objects
+- Create application to convert colors
+![EXAMPLE OF USING CLASSES - COLOR](assets/color.png)
+- FOR EXAMPLE: `XHR`: Making `new` `XMLHttpRequest` (you are creating a new object that inherits the properties and methods in `XMLHttpRequest`) - h1 - object template
 
 ### Factory Functions
+
 
 ### Constructor Functions
 
