@@ -210,6 +210,11 @@ getDadJoke();
 ```
 
 ### TV Show Search App
-
-
+- [TV MAZE API](https://www.tvmaze.com/api)
+- End Goal is to Search for tv show and get an image
+- use postman to see data coming back
+- `console.dir(form)` - shows you the object, `elements`, to `query: input`
+- CLEAR INPUT FIELD AFTER SUBMIT = `form.elements.query.value = ''`
+- params for multiple queries `const config = { params: { q: searchTerm }, headers: {}};
+- Go back and make function that clears previous search items
 
