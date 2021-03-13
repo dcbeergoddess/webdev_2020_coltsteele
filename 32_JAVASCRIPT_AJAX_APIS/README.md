@@ -44,6 +44,7 @@
 - Web API = for web browser/server - interface that occurs over HTTP
 - [EXAMPLE CYRPTONATOR](https://www.cryptonator.com/api)
 - `https://api.cryptonator.com/api/ticker/btc-usd`
+- BITCOIN TICKER `ENDPOINT`:
 ```json
 // RETURNS DATA IN JSON
 // Buried in Code of Website using data - don't want all the CSS and HTML - Just DATA - JSON
@@ -72,7 +73,7 @@ EXAMPLE CODE OF PRODUCTS:
 - Not Identical to JS - `"true" "false" "null"`
 - Parse JSON into JS - `JSON.parse(text, [, reviver]`
 - Turn JS into JSON - `JSON.stringify(value, [, replacer[, space]])`
-[JSON CODE ALONG EXAMPLES](02_JSON/app.js)
+[JSON CODE ALONG EXAMPLES](01_JSON/app.js)
 
 ### Using Postman
 - See Headers and Status Code in API RESPONSES
@@ -89,15 +90,126 @@ EXAMPLE CODE OF PRODUCTS:
 ![HEADERS EXAMPLE](assets/postman.png)
 
 ### Query Strings & Headers
-  - 
+- `?q=:query`
+- We provide the value for `:query`
+- A lot of API's requre us to use query strings
+- MULTIPLE PARAMETERS use `&`: `?q=:query&imbd=tt4767897&color=black`
+- **FORMS**
+- [DAD JOKE API](https://icanhazdadjoke.com/api): Requires you pass in `Headers` on request 
+EXAMPLE USING POSTMAN:
+![DAD JOKE HEADER](assets/headers.png)
+
 
 ### Making XHR's
+- `XMLHttpRequest` | The "original" way of sending requests via JS || Does not support PROMISES, so... lots of callbacks! || WTF is going on with the weird capitalization | Clunky syntax that I find difficult to remember!
+
+```js
+  const myReq = new XMLHttpRequest();
+
+  myReq.onload = function() {
+    const data = JSON.parse(this.responseText);
+    console.log(data);
+  };
+  myReq.onerror = function(err) {
+    console.log('ERROR!', err);
+  };
+  myReq.open('get', 'https://icanhazdadjoke.com/', true);
+  myReq.setRequestHeader('Accept', 'application/json');
+  myReq.send();
+```
+- To make more requests you have to keep nesting your code. It GETS UGLY!!!
 
 ### The Fetch API
+- newer way of making HTTP Request using JavaScript
+- Supports Promises
+- Does not support Internet Explorer
+- [Fetch API MDN Docs](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- Resolves the Data first. Does not send DATA right away.
+- .JSON = different from Json.parse `res.json()`
+```js
+  fetch('https://api.cryptonator.com/api/ticker/btc-usd')
+  .then(res => {
+    console.log("RESPONSE, WAITING TO PARSE", res)
+    return res.json();
+  })
+  .then(data => {
+    console.log('DATA PARSED', data)
+    console.log('BTC PRICE:', data.ticker.price)
+  })
+  .catch(e => {
+    console.log('ERROR', e)
+  });
+```
+
+- THIS IS THE NATIVE VERSION OF AXIOS, AXIOS IS BUILT ON TOP OF THIS, MAKES FOR BETTER CODE
+- GOOD TO UNDERSTAND WHAT IS HAPPENING HERE INSTEAD OF JUMPING STRAIGHT TO AXIOS LIBRARY
+
+```JS
+// ASYNC
+  const fetchBitcoinPrice = async () => {
+    try {
+    const res = await fetch('https://api.cryptonator.com/api/ticker/btc-usd');
+    console.log('FULL DATA RESPONSE:', res);
+    const data = await res.json();
+    console.log('BTC PRICE:', data.ticker.price);
+    } catch(e) {
+      console.log('Something Went Wrong!!!')
+    }
+  }
+
+  fetchBitcoinPrice();
+```
 
 ### Intro to Axios
+- A Library for making HTTP Requests
+- Built on top of Fetch
+[AXIOS GITHUB](https://github.com/axios/axios)
+- Going to include CDN link in HTML `<head>` for now
+- Can use on client side and Node.js
+```js
+  axios.get('https://api.cryptonator.com/api/ticker/btc-usd')
+  .then(res => {
+    console.log('BTC Price:', res.data.ticker.price)
+  })
+  .catch(err => {
+    console.log('ERROR!', err)
+  })
+```
+- ASYNC VERSION
+```js
+  const fetchBitcoinPrice = async () => {
+  try {
+    const res = await axios.get('https://api.cryptonator.com/api/ticker/btc-usd')
+    console.log('BTC Price:', res.data.ticker.price)
+  } catch(e) {
+    console.log('ERROR!')
+  }
+}
+fetchBitcoinPrice();
+```
+#### NODE Environment 
+- `const axios = require('axios');`
 
 ### Setting Headers With Axios
+- [EXERCISE WITH DAD JOKES AND HEADERS](04_axios/app.js)
+- WILL CHANGE FROM API TO API: READ THE DOCS
+
+```js
+  const getDadJoke = async () => {
+  try {
+    // create variable for headers first
+    const config = { headers:{ACCEPT: 'application/json'}}
+    const res = await axios.get('https://icanhazdadjoke.com/', config)
+    console.log(res)
+  } catch(e) {
+    console.log('ERROR!')
+  }
+}
+
+getDadJoke();
+```
 
 ### TV Show Search App
+
+
 
