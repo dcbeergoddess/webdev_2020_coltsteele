@@ -54,9 +54,13 @@
 - FOR EXAMPLE: `XHR`: Making `new` `XMLHttpRequest` (you are creating a new object that inherits the properties and methods in `XMLHttpRequest`) - h1 - object template
 
 ### Factory Functions
-
+- [FACTORY FUNCTION CODE ALONG](02_factory_functions/app.js)
+- Makes us an object and returns it at the end so we can use it
+- NOT AS COMMONLY USED
 
 ### Constructor Functions
+- [CONSTRUCTOR FUNCTION CODE ALONG](03_constructor_functions/app.js)
+- 
 
 ### JavaScript Classes
 
