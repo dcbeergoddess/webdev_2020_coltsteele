@@ -58,7 +58,6 @@ fs.mkdir('Dogs', { recursive: true }, (err) => {
   if (err) throw err;
 }); 
 
-
 //===========SYNCHRONOUS VERSION=========//
 // Write Data to/Make File
 try {
