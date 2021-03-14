@@ -39,13 +39,20 @@
 
 ### COMMANDS
 
-* `LS`: _list_ current contents of the directory your in
+* `LS`: _List_ current contents of the directory your in
 * `PWD`: _Print Working Directory_: compass to tell you where you are
+* `CD`: _Change Directory_: `cd ../` : go back one level
 * ``:
 * ``:
 * ``:
-* ``:
+* **CLEAR TERMINAL** : `CMD + K`
 
+### Absolute and Relative Path
+- `pwd`: see path to current directory
+- **ABSOLUTE PATH:** `cd /Users/dcbeergoddess`: CAN DO THIS FROM ANYWHERE | STARTS WITH SLASH `/`
+- **RELATIVE PATH:** `cd udemy`: NEED TO BE IN HOME DIRECTORY
+- **ROOT DIRECTORY:** `cd /` : GET TO ROOT DIRECTORY
+- **HOME DIRECTORY:** `cd ~`: GET TO MY HOME DIRECTORY (dcbeergoddess@Rachels-MBP) 
 
 
 
