@@ -39,13 +39,20 @@
 
 ### COMMANDS
 
-* `LS`: _List_ current contents of the directory your in
-* `PWD`: _Print Working Directory_: compass to tell you where you are
-* `CD`: _Change Directory_: `cd ../` : go back one level
-* ``:
-* ``:
-* ``:
+* `ls`: _List_ current contents of the directory your in
+* `pwd`: _Print Working Directory_: compass to tell you where you are
+* `cd`: _Change Directory_: `cd ../` : go back one level
+* `mkdir`: _Make Directory_: can make more than one on same line | `mkdir ../Frog`: Makes new Folder one level up | `mkdir Frog/TreeFrog`: make directory one level down
+* `man`: _manual_: `man ls`: gives us information | type `q` to get out of it
+* `-`: _flags_: `-@`, etc: almost like arguments in a function, different parameters for how we want to work
+EXAMPLE OF `man ls` in HOME DIRECTORY:
+![man_flags](assets/man_flags.png)
+* `touch`: _MAKE NEW FILE_ | Change Access Permissions | `touch` file that exists with change access time: `man touch`
+* `rm`: _REMOVE_ | remove file/multiple files | does not put in trash can - IT IS GONE!!
+* `rmdir`: _REMOVE EMPTY DIRECTORY_
+* `rm -rf`: _FLAG TO REMOVE DIRECTORY w/ CONTENT_ | `rf`: recursive force |
 * **CLEAR TERMINAL** : `CMD + K`
+
 
 ### Absolute and Relative Path
 - `pwd`: see path to current directory
