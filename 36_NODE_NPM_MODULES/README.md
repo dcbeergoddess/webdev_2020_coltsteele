@@ -50,4 +50,20 @@ module.exports.square = square;
 
 ### NPM - NODE PACKAGE MANAGER
 1. A library of thousands of packages published by other developers that we can use for free!
-2. A command line tool to easily install and manage those packages in our Node projects
+2. A command line tool to easily install and manage those packages in our `Node` projects
+- [NPM DOCS & SITE](https://docs.npmjs.com/NPM)
+- FIRST: `npm init`
+- i.e: `npm install --save give-me-a-joke` | `node_modules` | `package-lock.json` = contents of node module directory
+
+- INSTALL PACKAGE GLOBALLY
+- `npm install -g cowsay`
+- CHANGE OWNERSHIP PERMISSIONS: `sudo chown -R $USER /usr/local/lib/node_modules`
+- `npm link cowsay` - link and require in file now that it's global
+
+### PACKAGE.JSON
+- contain metadata about package - `dependencies`
+- run `npm init` in terminal
+- creates `package.json`
+
+
+
