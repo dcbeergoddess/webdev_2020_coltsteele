@@ -57,15 +57,45 @@
 ```
 - `localhost:` : specific to your local machine
 - `PORT`: Different addresses we can use to identify and refer to them
-- 
 
 ### The Request and Response Objects
+```js
+  app.use((req, res) => {
+    console.log("WE GOT A NEW REQUEST");
+    res.send({color: black}); //RETURNS JSON OBJECT
+  }) 
+```
+- TWO DIFFERENT PARAMETERS IN FUNCTION AUTOMATICALLY PASSED IN
+1. OBJECT that represents the REQUEST
+2. OBJECT that represents the RESPONSE
+- req, res | objects made by express and passed into the callback, text information from JS, express parses and turns it into an object
+- `res`: `res.send`
+- USE POSTMAN TO TEST
+![POSTMAN RES SEND EXAMPLE](./assets/postman_res_send.png)
+- HEADER SET TO `application/json`: automatically
+```js
+  app.use((req, res) => {
+  console.log("WE GOT A NEW REQUEST") //EVERY TIME A REQUEST HIT OUR SERVER WE PRINT THIS OUT(refresh page)
+  res.send('WE GOT A RESOONSE ON THE WEBSITE'); //get a response on the server/localhost:8080 
+})
+
+app.use((req, res) => {
+  console.log("WE GOT A NEW REQUEST") //EVERY TIME A REQUEST HIT OUR SERVER WE PRINT THIS OUT(refresh page)
+  res.send(`<h1>THIS IS MY WEBPAGE</h1>`); //renders H1 on server/localhost:8080 - HTML in POSTMAN
+}) 
+
+```
 
 ### Express Routing Basics
+- RESPOND WITH DIFFERENT CONTENT FOR DIFFERENT INCOMING REQUESTS | INSTEAD OF HANDLING EVERY SINGLE REQUEST THE EXACT SAME WAY
+**ROUTING**
+- 
 
 ### Express Path Parameters 
 
+
 ### Working With Query Strings
+
 
 ### Auto-Restart with Nodemon
 
