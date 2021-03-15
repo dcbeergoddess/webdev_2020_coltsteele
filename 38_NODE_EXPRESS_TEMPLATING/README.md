@@ -57,11 +57,51 @@
 - [PATH DOCS](https://nodejs.org/api/path.html)
 
 ### EJS Interpolation Syntax
-- 
+**TAGS**
+- INDICATES THAT WHAT YOU ARE ABOUT TO SEE IS NOT HTML
+* `<%` 'Scriptlet' tag, for control-flow, no output
+* `<%_` ‘Whitespace Slurping’ Scriptlet tag, strips all whitespace before it
+* `<%=` Outputs the value into the template (HTML escaped)
+* `<%-` Outputs the unescaped value into the template
+* `<%#` Comment tag, no execution, no output
+* `<%%` Outputs a literal `'<%'`
+* `%>` Plain ending tag
+* `-%>` Trim-mode ('newline slurp') tag, trims following newline
+* `_%>` ‘Whitespace Slurping’ ending tag, removes all whitespace after it
+
+```html
+  <h1>HOME PAGE <%=WHATEVER I PUT IN HERE GETS TREATED AS JS%></h1>
+```
+- USUALLY to DEAL WITH DATA COMING FROM THE DATABASE
 
 ### Passing Data To Templates
+```html
+  <!-- ESJ = JS in TEMPLATE -->
+  <body>
+    <h1>Your random number is: <%= Math.floor(Math.random() * 10) + 1 %></h1>
+  </body>
+```
+- YOU WANT TO REMOVE AS MUCH LOGIC AS YOU CAN IN YOUR TEMPLATES
+- JUST DISPLAY THINGS
+- Generate Number first and then pass to template
+```js
+  //GENERATE RANDOM NUMBER
+app.get('/rand', (req, res) => {
+  const num = Math.floor(Math.random() * 10) + 1;
+  //PASS IN SECOND ARGUEMENT OF KEY VALUE PAIRS
+  res.render('random', { rand: num });
+  //WHATEVER NUM IS WILL BE AVAILABLE IN TEMPLATE UNDER RAND
+})
+```
+```html
+    <!-- pass in value from route -->
+  <body>
+    <h1>Your random number is: <%= rand %></h1>
+  </body>
+```
 
 ### Subreddit Template Demo
+
 
 ### Conditionals in EJS
 
