@@ -120,7 +120,16 @@ app.use((req, res) => {
 ```
 
 ### Express Path Parameters 
-
+- BEFORE IT WAS DIRECT MATCH ROUTES
+- Often want to define PATTERNS for our routes
+```js
+  app.get('/r/:subreddit', (req, res) => {
+    console.log(req.params) //---> /r/cats | {subreddit: 'cats'}
+    res.send('THIS IS A SUBREDDIT');
+  })
+  //ACCESS `:subreddit` in the req object!!!
+```
+- colon `:` indicates variable without having to hard code
 
 ### Working With Query Strings
 
