@@ -152,6 +152,52 @@ app.get('/cats', (req, res) => {
 ```
 
 ### A More Complex Subreddit Demo
+- using `data.json` file
+
+```js
+//REQUIRE AT TOP
+const redditData = require('./data.json');
+
+//SAMPLE ROUTE 
+app.get('/r/:subreddit', (req, res) => {
+  const { subreddit } = req.params;
+  const data = redditData[subreddit];
+  console.log(data) //should get print out of data
+  res.render('subreddit', { ...data }) //spread data and access individual properties
+})
+```
+```html
+<!-- EJS SYNTAX -->
+<body>
+  <h1>Browsing the <%= name %> subreddit </h1> 
+  <h2> <%= description %> </h2>
+  <p><%= subscribers %>: Total Subscribers </p>
+  <hr>
+  <!-- render all posts using loop -->
+  <% for( let post of posts ) { %>
+    <article>
+      <h3><%= post.title %> - <b><%= post.author %></b></h3>
+      <% if (post.img) { %>
+          <img src="<%= post.img %>" alt="">
+      <% } %>
+    </article>
+  <% } %>
+
+</body>
+```
+**ERROR HANDLING**
+```js
+
+app.get('/r/:subreddit', (req, res) => {
+  const { subreddit } = req.params;
+  const data = redditData[subreddit];
+  if(data) {
+    res.render('subreddit', { ...data })
+  } else {
+    res.render('notfound', { subreddit })
+  }
+})
+```
 
 ### Serving Static Assets in Express
 
