@@ -132,7 +132,22 @@ app.use((req, res) => {
 - colon `:` indicates variable without having to hard code
 
 ### Working With Query Strings
-
+- **Query String:** portion of the URL that comes after a `?` and can include information in `key value pairs`
+- parse query string in express and use it!!!
+- `req` object has property called `query`
+```js
+  app.get('/search', (req, res) => {
+    console.log(req.query)
+    const { q } = req.query;
+    if(!q) {
+      res.send('NOTHING FOUND IN NOTHING SEARCHED')
+    }
+    res.send(`SEARCH RESULTS FOR ${q}`);
+  })
+  // TYPE `localhost:8080/search?q=dogs&color=red` in postman
+  // RETURNS
+  { q: 'dogs', color: 'red'} //for req.params
+```
 
 ### Auto-Restart with Nodemon
 
