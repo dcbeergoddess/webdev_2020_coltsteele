@@ -73,6 +73,7 @@
 - USE POSTMAN TO TEST
 ![POSTMAN RES SEND EXAMPLE](./assets/postman_res_send.png)
 - HEADER SET TO `application/json`: automatically
+- anytime you use res.send you are done with that request
 ```js
   app.use((req, res) => {
   console.log("WE GOT A NEW REQUEST") //EVERY TIME A REQUEST HIT OUR SERVER WE PRINT THIS OUT(refresh page)
@@ -88,8 +89,35 @@ app.use((req, res) => {
 
 ### Express Routing Basics
 - RESPOND WITH DIFFERENT CONTENT FOR DIFFERENT INCOMING REQUESTS | INSTEAD OF HANDLING EVERY SINGLE REQUEST THE EXACT SAME WAY
-**ROUTING**
-- 
+**ROUTING** | ANY SERVER, NOT JUST EXPRESS
+- Take incoming request and path and match it to a response
+#### GET
+```js
+//PATH YOU ARE MATCHING AND CALLBACK FUNCTION
+  app.get('/cats', (req, res) => {
+    console.log("CAT REQUEST!!!")
+    res.send('MEOW!!!')
+  })
+```
+- **ROOT ROUTE** | `/` | Request the Root Resource without any path named after it
+
+#### POST
+```js
+  app.post('/cats',(req, res) => {
+    res.send('POST REQUEST TO /cats!!! THIS IS DIFFERENT FROM A GET REQUEST')
+  })
+```
+
+- APIs
+- HTTP VERBS (GET, POST, DELETE, etc.)
+
+**GENERIC RESPONSE**
+```js
+//PUT THIS AT END //MATCHED IN ORDER
+  app.get('*', (req, res) {
+    res.send(`I do not know that path!`)
+  })
+```
 
 ### Express Path Parameters 
 
