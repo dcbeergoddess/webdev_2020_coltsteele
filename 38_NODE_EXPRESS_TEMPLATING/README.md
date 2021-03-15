@@ -125,6 +125,31 @@ app.get('/rand', (req, res) => {
 ```
 
 ### Loops in EJS
+- Creation of very similar content
+- subreddit has 1,000s of post and each has the same formula
+- json file behind the scene with data
+- render template over and over
+```js
+//CREATING QUICK DATABASE WITH ARRAY//
+app.get('/cats', (req, res) => {
+  const cats = [
+    'Jade', 'Samson', 'Philip', 'Freya', 'Ninja'
+  ];
+  res.render('cats', { cats });
+})
+```
+```html
+<body>
+  <h1>All Cats!</h1>
+  <!-- Create Markup to Render All Cats -->
+  <!-- MAKE EACH CAT NAME A LI -->
+  <ul>
+    <% for( let cat of cats ) { %>
+      <li> <%= cat %>  </li>
+    <% } %>
+  </ul>
+</body>
+```
 
 ### A More Complex Subreddit Demo
 
