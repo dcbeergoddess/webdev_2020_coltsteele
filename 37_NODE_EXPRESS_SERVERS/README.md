@@ -37,6 +37,27 @@
 - `Ruby on Rails` = Framework
 
 ### Our Very First Express App
+- [OUR FIRST APP CODE](01_first_app/index.js)
+- `npm init -y`: skip questions
+- `npm i express`: `--save` not necessary in newer versions!!!!
+```js
+  const express = require('express');
+  const app = express(); //Execute Express
+  console.dir(app) // TO SEE WHAT WE HAVE AVAILABLE
+  PORT = 3000
+
+  app.use(() => {
+    console.log("WE GOT A NEW REQUEST")
+  }) //EVERY TIME A REQUEST HIT OUR SERVER WE PRINT THIS OUT
+
+  app.listen(PORT, () => {
+    console.log(`LISTENING ON http://localhost:${PORT}` )
+  }) //listen on port
+
+```
+- `localhost:` : specific to your local machine
+- `PORT`: Different addresses we can use to identify and refer to them
+- 
 
 ### The Request and Response Objects
 
