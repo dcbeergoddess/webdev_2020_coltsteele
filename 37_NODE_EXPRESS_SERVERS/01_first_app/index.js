@@ -25,7 +25,6 @@ app.get('/r/:subreddit/comments/:postId', (req, res) => {
   const { subreddit, postId } = req.params;
   res.send(`<h1> Viewing Post ID: ${postId} the ${subreddit} subreddit</h1>`);
 })
-
 //POST REQUEST | DIRECT MATCH
 app.post('/cats',(req, res) => {
   res.send('POST REQUEST TO /cats!!! THIS IS DIFFERENT FROM A GET REQUEST')
@@ -39,6 +38,18 @@ app.get('/dogs', (req, res) => {
   // console.log("DOG REQUEST!!!!")
   res.send('WOOF!!!')
 });
+
+// QUERY STRINGS AND EXPRESS
+
+app.get('/search', (req, res) => {
+  console.log(req.query);
+  const { q } = req.query;
+  if(!q) {
+    res.send('NOTHING FOUND IF N0THING SEARCH')
+  }
+  res.send(`SEARCH RESULTS FOR ${q}`);
+})
+
 
 //GENERIC RESPONSE FOR WRONG PATHS
 app.get('*', (req, res) => {
