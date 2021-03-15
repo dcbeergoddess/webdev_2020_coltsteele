@@ -101,9 +101,17 @@ app.get('/rand', (req, res) => {
 ```
 
 ### Subreddit Template Demo
+```js
+  app.get('/r/:subreddit', (req, res) => {
+    const { subredditt } = req.params;
+    res.render('subreddit', { subreddit })
+  })
+```
+- THIS IS VERY COMMON | USUALLY taking parameter and looking up information in a database, passing data that we found to render
 
 
 ### Conditionals in EJS
+- 
 
 ### Loops in EJS
 
