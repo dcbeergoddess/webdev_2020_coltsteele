@@ -150,4 +150,8 @@ app.use((req, res) => {
 ```
 
 ### Auto-Restart with Nodemon
+- RESTART SERVER AFTER CHANGES
+- [NODEMON](https://www.npmjs.com/package/nodemon)
+- `npm i -g nodemon`
+- `nodemon index.js`
 

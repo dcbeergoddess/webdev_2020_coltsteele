@@ -10,7 +10,7 @@ PORT = 8080
 
 //ROUTE ROUTE
 app.get('/', (req, res) => {
-  res.send('THIS IS THE HOME PAGE')
+  res.send('THIS IS THE HOME PAGE!!!')
 });
 
 //PATH PARAMS | PATTERNS
@@ -45,7 +45,7 @@ app.get('/search', (req, res) => {
   console.log(req.query);
   const { q } = req.query;
   if(!q) {
-    res.send('NOTHING FOUND IF N0THING SEARCH')
+    res.send('NOTHING FOUND IF N0THING SEARCHED')
   }
   res.send(`SEARCH RESULTS FOR ${q}`);
 })
