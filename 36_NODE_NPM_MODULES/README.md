@@ -64,6 +64,13 @@ module.exports.square = square;
 - contain metadata about package - `dependencies`
 - run `npm init` in terminal
 - creates `package.json`
+- `npm install`: in directory with package.json
+
+### Language Activity
+- Franc
+- Langs: CODE FOR LANGUAGES: ISO - process.argv[2] - get that language then pass it to FRANC - out of object - `langs.where("3", "language code")
+- error handling 
+- Colors
 
 
 
