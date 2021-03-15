@@ -109,9 +109,20 @@ app.get('/rand', (req, res) => {
 ```
 - THIS IS VERY COMMON | USUALLY taking parameter and looking up information in a database, passing data that we found to render
 
-
 ### Conditionals in EJS
-- 
+- MORE EJS SYNTAX
+- ADD JS Logic without anything being rendered `<%`
+```html
+  <% if (num % 2 === 0) { %>
+      <h2>That is an Even Number</h2>
+      <p>MIGHT HAVE MORE TO RENDER IN THIS INSTANCE</p>
+  <% } else { %>
+      <h2>That is an Odd Number</h2>
+  <% } %>
+  <!-- ANOTHER WAY TO WRITE ABOVE CODE -->
+  <!-- Ternary operator -->
+  <h3>That number is <%= num%2===0 ? 'EVEN' : 'ODD' %> </h3>
+```
 
 ### Loops in EJS
 

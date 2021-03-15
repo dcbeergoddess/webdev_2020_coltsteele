@@ -22,7 +22,7 @@ app.get('/r/:subreddit', (req, res) => {
 app.get('/rand', (req, res) => {
   const num = Math.floor(Math.random() * 10) + 1;
   //PASS IN SECOND ARGUEMENT OF KEY VALUE PAIRS
-  res.render('random', { rand: num });
+  res.render('random', { num });
   //WHATEVER NUM IS WILL BE AVAILABLE IN TEMPLATE UNDER RAND
 })
 
