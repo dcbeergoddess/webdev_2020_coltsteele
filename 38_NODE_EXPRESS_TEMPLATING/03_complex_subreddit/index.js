@@ -6,6 +6,9 @@ const PORT = 8080;
 const redditData = require('./data.json');
 console.log(redditData);
 
+//SERVE UP FILES
+app.use(express.static(path.join(__dirname, 'public')));
+
 //TELL EXPRESS TO USE EJS
 app.set('view engine', 'ejs');
 //access outside of being in directory of app

@@ -200,6 +200,26 @@ app.get('/r/:subreddit', (req, res) => {
 ```
 
 ### Serving Static Assets in Express
+- `CSS`, `JS`, ETC. files that we want to include in response back to `client`
+- same for fonts, images, audio files
+- [SERVING STATIC FILES IN EXPRESS](https://expressjs.com/en/starter/static-files.html)
+- `express.static` = MIDDLEWARE - runs in between the requests coming in and the response going out
+```js
+ // TELL EXPRESS TO USE FILES//PUBLIC//
+ // MAKE STYLE SHEETS AND SERVE IT
+  app.use(express.static(path.join(__dirname, 'public')))
+```
+```html
+<!-- SERVE UP FILE IN VIEWS -->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= name %> </title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+```
 
 ### Bootstrap + Express
 
