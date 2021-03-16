@@ -222,5 +222,11 @@ app.get('/r/:subreddit', (req, res) => {
 ```
 
 ### Bootstrap + Express
+- Download CSS & JS min from Bootstrap
+- Create CSS and JS Directories in Public
+- CAN USE CDN BUT GOING TO DOWNLOAD
+- use `bootstrap.min.js` and `bootstrap.min.css`
+- use jquery compressed min version
 
 ### EJS & Partials
+- **Partials**: 
