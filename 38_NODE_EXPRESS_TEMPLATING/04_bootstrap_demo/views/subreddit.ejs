@@ -1,37 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/head') %> 
+<%- include('partials/navbar') %> 
+<!-- COULD INCLUDE THE ABOVE IN THE HEAD... MORE DRY -->
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    <%= name %>
-  </title>
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <script src="/js/jquery.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Express Demo</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" aria-current="page" href="/">Home</a>
-          <a class="nav-link" href="/rand">Random</a>
-          <a class="nav-link" href="/r/chickens">Chickens</a>
-          <a class="nav-link" href="/r/soccer">Soccer</a>
-          <a class="nav-link" href="/r/mightyharvest">Mighty Harvest</a>
-        </div>
-      </div>
-    </div>
-  </nav>
   <div class="container">
     <h1>Browsing the <%= name %> subreddit </h1>
     <h2>
@@ -55,6 +25,5 @@
       </article>
       <% } %>
   </div>
-</body>
 
-</html>
+  <%- include('partials/footer') %> 

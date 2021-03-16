@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random</title>
-</head>
-<body>
-  <h1>Your random number is: <%= num %></h1>
+<%- include('partials/head') %>
+  <%- include('partials/navbar') %>
 
-  <!-- DISPLAY IF EVEN OR ODD NUMBER -->
-  <!-- ADD LOGIC TO CONTROL OTHER PARTS OF TEMPLATE -->
-  <!-- CAN PUT LOGIC IN ROUTE - BOOLEAN -->
-  <% if (num % 2 === 0) { %>
+    <h1>Your random number is: <%= num %>
+    </h1>
+
+    <!-- DISPLAY IF EVEN OR ODD NUMBER -->
+    <!-- ADD LOGIC TO CONTROL OTHER PARTS OF TEMPLATE -->
+    <!-- CAN PUT LOGIC IN ROUTE - BOOLEAN -->
+    <% if (num % 2===0) { %>
       <h2>That is an Even Number</h2>
       <p>MIGHT HAVE MORE TO RENDER IN THIS INSTANCE</p>
-  <% } else { %>
-      <h2>That is an Odd Number</h2>
-  <% } %>
-  <!-- ANOTHER WAY TO WRITE ABOVE CODE -->
-  <!-- Ternary operator -->
-  <h3>That number is <%= num%2===0 ? 'EVEN' : 'ODD' %> </h3>
-  
-</body>
-</html>
+      <% } else { %>
+        <h2>That is an Odd Number</h2>
+        <% } %>
+          <!-- ANOTHER WAY TO WRITE ABOVE CODE -->
+          <!-- Ternary operator -->
+          <h3>That number is <%= num%2===0 ? 'EVEN' : 'ODD' %>
+          </h3>
+
+          <%- include('partials/footer') %>

@@ -229,4 +229,15 @@ app.get('/r/:subreddit', (req, res) => {
 - use jquery compressed min version
 
 ### EJS & Partials
-- **Partials**: 
+- **Partials**: SUB TEMPLATES IN TEMPLATES
+- Head, Footer, NAV, etc.
+```html
+  <%- include('partials/head') %> 
+  <%- include('partials/navbar') %> 
+
+  <!-- CODE FOR PAGE HERE -->
+
+  <%- include('partials/footer') %> 
+```
+
+- `<%-`: Outputs the unescaped value into the template - ESCAPE CONTENT = TREATING IT AS A STRING - HERE WE TREAT IT LIKE HTML

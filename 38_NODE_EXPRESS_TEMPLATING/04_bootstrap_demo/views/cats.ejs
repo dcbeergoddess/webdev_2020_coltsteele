@@ -1,0 +1,13 @@
+<%- include('partials/head') %> 
+<%- include('partials/navbar') %>
+
+  <h1>All Cats!</h1>
+  <!-- Create Markup to Render All Cats -->
+  <!-- MAKE EACH CAT NAME A LI -->
+  <ul>
+    <% for( let cat of cats ) { %>
+      <li> <%= cat %>  </li>
+    <% } %>
+  </ul>
+
+  <%- include('partials/footer') %> 
