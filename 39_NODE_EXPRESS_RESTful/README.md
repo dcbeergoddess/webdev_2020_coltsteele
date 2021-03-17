@@ -140,7 +140,46 @@ app.get('/comments/:id', (req, res) => {
 
 ```
 ### The UUID Package
-
+- create ids for new comments - instead of faking ids
+- Mimic what we get from a database
+- [uuid npm](https://www.npmjs.com/package/uuid)
+=======WHAT WE WILL BE USING==========
+To create a random UUID...
+1. Install
+`npm i uuid`
+2. Create a UUID (ES6 module syntax)
+```js
+import { v4 as uuidv4 } from 'uuid';
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+```
+... or using CommonJS syntax:
+```js
+//CAN CHANGE uuidv4 to anything you want
+const { v4: uuidv4 } = require('uuid');
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+```
+3. SET ID ON COMMENTS ARRAY
+```js
+    {
+      id: uuid(),
+      username: 'onlysayswoof',
+      comment: 'woof woof woof'
+    }
+```
+4. SET IT ON MAKE NEW COMMENT
+```js
+app.post('/comments', (req, res) => {
+  const { username, comment } = req.body;
+  comments.push({ username, comment, id: uuid() });
+  res.redirect('/comments'); 
+});
+//NO NEED TO PARSE AS WITH FAKE DATA
+app.get('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  const comment = comments.find(c => c.id === id);
+  res.render('comments/show', { comment, id });
+});
+```
 
 ### RESTful Comments Update
 

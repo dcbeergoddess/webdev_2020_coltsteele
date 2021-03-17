@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
-const path = require('path');
 const PORT = 3000;
+const path = require('path');
+const { v4: uuid } = require('uuid');
+uuid();
 
 //TELL EXPRESS TO PARSE FORM ENCODED INFORMATION FOR REQUEST BODY
 //USE THIS MIDDLEWARE
@@ -31,22 +33,22 @@ app.get('/', (req, res) => {
 // use `let` since will be updated and edited
 let comments = [
   {
-      id: 1,
+      id: uuid(),
       username: 'Todd',
       comment: 'lol that is so funny!'
   },
   {
-      id: 2,
+      id: uuid(),
       username: 'Skyler',
       comment: 'I like to go birdwatching with my dog'
   },
   {
-      id: 3,
+      id: uuid(),
       username: 'Sk8erBoi',
       comment: 'Plz delete your account, Todd'
   },
   {
-      id: 4,
+      id: uuid(),
       username: 'onlysayswoof',
       comment: 'woof woof woof'
   }
@@ -72,7 +74,7 @@ app.post('/comments', (req, res) => {
   //EXTRACT/DESTRUCTURE req.body
   const { username, comment } = req.body;
   //push comment to `comments` array
-  comments.push({ username, comment });
+  comments.push({ username, comment, id: uuid() });
   res.redirect('/comments'); //default GET Redirect
 });
 
@@ -81,10 +83,12 @@ app.post('/comments', (req, res) => {
 app.get('/comments/:id', (req, res) => {
   //extract id from req.params
   const { id } = req.params;
-  //array method find: where c.id = this id(string not number so parse)
-  const comment = comments.find(c => c.id === parseInt(id));
+  //array method find: where c.id = this id(string not number so parse) | find finds first instance
+  //CHANGED WHEN WE USED THE UUID -- NO LONGER NEED TO 
+  // const comment = comments.find(c => c.id === parseInt(id));
+  const comment = comments.find(c => c.id === id);
   //render page//export comment object to template
-  res.render('comments/show', { comment });
+  res.render('comments/show', { comment, id });
 });
 
 //===============EDIT=====================//
