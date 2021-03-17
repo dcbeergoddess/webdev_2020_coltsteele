@@ -110,9 +110,37 @@ app.use(express.json()) //application.json
 ```
 
 ### RESTful Comments Show
+- NEED A UNIQUE IDENTIFIER - Does not have to be random number, could be username, but needs unique identifier
+- GET /comments/:id - Get one comment (using ID)
+- `slug`: easier to understand, after id, for user
+- nested routes, maybe more than one id in a path -  post - comment -
+```js
+app.get('/comments/:id', (req, res) => {
+  //extract id from req.params
+  const { id } = req.params;
+  //array method find: where c.id = this id(string not number so parse)
+  const comment = comments.find(c => c.id === parseInt(id));
+  //render page
+  res.render('comments/show', { comment });
+})
+```
+- details/expanded - show page
+- link to show page instead of typing id
+- make link to comment
+```html
+  <ul>
+    <% for(let c of comments) { %>
+      <li>
+        <%= c.comment %> - <b><%= c.username %> </b>
+        <!-- LINK TO DETAILS FOR COMMENT -->
+        <a href="/comments/<%= c.id %>">details</a>
+      </li>
+    <% } %>
+  </ul>
 
-
+```
 ### The UUID Package
+
 
 ### RESTful Comments Update
 
