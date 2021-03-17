@@ -63,8 +63,40 @@ app.use(express.json()) //application.json
 - PATCH = UPDATE
 
 ### RESTful Comments Overview
+- Use An ARRAY as Data for now
+- Comments: Username | Text
+- CRUD Functionality for a Comment
+- GET /allcomments
+- POST /newcomment
+- FOLLOW PATTERN - REST Compliant - Not the only way to implement a RESTful API
+
+**PATTERN**
+- GET /comments - list all comments
+- POST /comments - crate a new comment
+- GET /comments/:id - Get one comment (using ID)
+- PATCH or PUT /comments/:id - Update one comment
+- DELETE /comments/:id - Destroy one comment
+- Match different HTTP Verbs with some resource, base URL, often pluralized 
 
 ### RESTful Comments New
+![CRUD FOR COMMENTS](assets/crud_comments.png)
+- create form to input data
+- 2 ROUTES | 1. SERVE THE FORM ITSELF - `NEW` ROUTE | 2. DATA SENT as POST Request to different path and added to comments array - `CREATE` ROUTE 
+```js
+  //NEW COMMENTS POST
+  app.post('/comments', (req, res) => {
+    // console.log(req.body);
+    //EXTRACT/DESTRUCTURE req.body
+    const { username, comment } = req.body;
+    //push comment to `comments` array
+    comments.push({ username, comment })
+    res.send("IT WORKED!!!")
+  })
+```
+```html
+<!-- FORM NEEDS PATH AND ACTION REF -->
+  <form action="/comments" method="post">
+```
 
 ### Express Redirects
 
