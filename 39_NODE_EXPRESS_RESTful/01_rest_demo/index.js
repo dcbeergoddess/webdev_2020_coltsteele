@@ -118,7 +118,14 @@ app.get('/comments/:id/edit', (req, res) => {
 
 //============DELETE/DESTROY=============//
 //======removes a single comment=========//
-
+app.delete('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  // const foundComment = comments.find(c => c.id === id);
+  //USE ARRAY FILTER METHOD - filter everything into new array - good practice not to mutate - REACT!!! - INSTEAD MAKE COPY and make a change to that copy
+  //set comments to new array (why `let` comments = [])
+  comments = comments.filter(c => c.id !== id); //return new array
+  res.redirect('/comments');
+})
 
 //=========================================//
 //===========TACOS BASIC DEMO============//

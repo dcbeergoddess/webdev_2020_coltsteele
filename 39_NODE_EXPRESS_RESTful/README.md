@@ -238,3 +238,29 @@ app.patch('/comments/:id', (req, res) => {
 ```
 
 ### RESTful Comments Delete
+- SET UP ENDPOINT TO DESTROY COMMENT
+- Can use method-override or JAVASCRIPT with a click listener (click on button to send delete request using axios or fetch api)
+- WE ARE: Creating form with no input with a button to submit it
+- USE ARRAY FILTER METHOD - filter everything into new array - good practice not to mutate - REACT!!! - INSTEAD MAKE COPY and make a change to that copy
+- When dealing with database this won't matter because we will have a remove ability by id
+```js
+  app.delete('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  // const foundComment = comments.find(c => c.id === id);
+  //USE ARRAY FILTER METHOD - filter everything into new array that does not have id in payload
+  //set comments to new array (why `let` comments = [])
+  comments = comments.filter(c => c.id !== id); //return new array
+  res.redirect('/comments');
+})
+```
+```html
+`  <h1>Comment id: <%= comment.id %> </h1>
+  <h2><%= comment.comment %> - <%= comment.username %></h2>
+  <a href="/comments">Back to Main Comments</a>
+  <a href="/comments/<%=comment.id%>/edit ">Edit Comment</a>
+  <!-- CREATE FORM FOR DELETE -->
+  <form method="POST" action="/comments/<%=comment.id%>?_method=DELETE ">
+    <button>DELETE COMMENT</button>
+  </form>
+```
+
