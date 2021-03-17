@@ -69,7 +69,7 @@ app.post('/comments', (req, res) => {
   const { username, comment } = req.body;
   //push comment to `comments` array
   comments.push({ username, comment })
-  res.send("IT WORKED!!!")
+  res.redirect('/comments'); //default GET Redirect
 })
 
 //===============SHOW=====================//

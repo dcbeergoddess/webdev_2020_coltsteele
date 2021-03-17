@@ -99,8 +99,18 @@ app.use(express.json()) //application.json
 ```
 
 ### Express Redirects
+- redirect user after submitting form - no duplicate form
+- `res.redirect` - STATUS CODE 300 - REDIRECTS - 302
+```js
+  app.post('/comments', (req, res) => {
+  const { username, comment } = req.body;
+  comments.push({ username, comment })
+  res.redirect('/comments'); 
+})
+```
 
 ### RESTful Comments Show
+
 
 ### The UUID Package
 
