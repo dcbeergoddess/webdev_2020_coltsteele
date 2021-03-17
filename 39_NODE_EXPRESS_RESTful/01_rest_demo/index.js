@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const path = require('path');
+const methodOverride = require('method-override');
 const { v4: uuid } = require('uuid');
 uuid();
 
@@ -9,7 +10,9 @@ uuid();
 //USE THIS MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
 //ANTICIPATE JSON DATA// BUILT IN PARSING MIDDLEWARE
-app.use(express.json()) //application.json
+app.use(express.json()); //application.json
+//method-override MIDDLEWARE
+app.use(methodOverride('_method'));
 
 //SET VIEW ENGINE for EJS
 app.set('view engine', 'ejs')
@@ -93,9 +96,25 @@ app.get('/comments/:id', (req, res) => {
 
 //===============EDIT=====================//
 //====renders a form to edit a comment====//
+// take id and find the comment based on some payload that was sent in the request body
+app.patch('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  // use next two lines to test in postman
+  // console.log(req.body.comment); 
+  // res.send("ALL GOOD NOW")
+  const newCommentText = req.body.comment;
+  const foundComment = comments.find(c => c.id === id);
+  foundComment.comment = newCommentText;
+  res.redirect('/comments')
+})
 
 //===============UPDATE==================//
 //======updates a particular comment=====//
+app.get('/comments/:id/edit', (req, res) => {
+  const { id } = req.params;
+  const comment = comments.find(c => c.id === id);
+  res.render('comments/edit', { comment, id });
+})
 
 //============DELETE/DESTROY=============//
 //======removes a single comment=========//

@@ -121,7 +121,7 @@ app.get('/comments/:id', (req, res) => {
   //array method find: where c.id = this id(string not number so parse)
   const comment = comments.find(c => c.id === parseInt(id));
   //render page
-  res.render('comments/show', { comment });
+  res.render('comments/show', { comment, id });
 })
 ```
 - details/expanded - show page
@@ -182,7 +182,59 @@ app.get('/comments/:id', (req, res) => {
 ```
 
 ### RESTful Comments Update
+- Provide Form to edit a particular comment
+- **PATCH** Request - Apply Partial modifications to a resource
+- **PUT** Request - replaces all current representations of the target resource with the request payload
+**EXAMPLE OF TESTING IN POSTMAN**
+```js
+// THIS IS THE ROUTE
+app.patch('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  //use next two lines to test in postman
+  console.log(req.body.comment); 
+  res.send("ALL GOOD NOW")
+  // const comment = comments.find(c => c.id === id);
+  
+})
+```
+**POSTMAN TEST**
+![postman screen shot](assets/patch_postman.png)
+
+- NEXT Take `id` from `req.params` and find a comment with that `id`, take whatever is in `req.body.comments` (this is the payload - includes everything) and save to a variable, and then update the found comment with the new comment text (need error handling if the `id` can not be found)
+- don't put `patch` in here, respond with a redirect (like creating a comment)
+```js
+app.patch('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  const newCommentText = req.body.comment;
+  const foundComment = comments.find(c => c.id === id);
+  foundComment.comment = newCommentText;
+  res.redirect('/comments')
+})
+```
+**Postman Update Test**
+![postman test update](assets/update_postman.png)
+![postman test update2](assets/update2_postman.png)
+- ENDPOINT IS NOW SET UP CORRECTLY
+- IMMUNIBILITY - DON'T MUTATE OBJECTS like this: `foundComment.comment = newCommentText;` | BETTER COMPLICATED WAYS...
+
+**UPDATING**
+- CREATE FORM TO UPDATE COMMENT
+- FORMS CAN ONLY GET OR POST, FAKE PATCH/PUT - METHOD OVERRIDE
+- Make ROUTE TO SERVE FORM - GET REQUEST 
 
 ### Express Method Override
+- NPM PACKAGE
+- `npm i method-override` | then use query string value
+- `const methodOverride = require('method-override');`
+- THIS IS MIDDLEWARE: `app.use(methodOverride('_method'))`
+- `_method` (can be whatever but this is standard)
+```html
+  <form method="POST" action="/comments/<%=comment.id%>?_method=PATCH">
+    <textarea name="comment" id="" cols="30" rows="10">
+    <%=  comment.comment %> 
+    </textarea>
+    <button>SAVE</button>
+  </form>
+```
 
 ### RESTful Comments Delete
