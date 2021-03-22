@@ -46,6 +46,10 @@
 ![QUICK NoSQL EXAMPLE](assets/NoSQL.png)
 
 ### Why We're Learning Mongo
+- Mongo is very commonly used with Node and Express (MEAN & MERN stacks)
+- I's easy to get started with (though it can be tricky to truly master)
+- It plays particularly well with JavaScript
+- Its popularity also means there is a strong community of developers using Mongo
 
 ### Installing Mongo: MacOS
 
