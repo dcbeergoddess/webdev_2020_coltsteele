@@ -52,10 +52,34 @@
 - Its popularity also means there is a strong community of developers using Mongo
 
 ### Installing Mongo: MacOS
+- Still Using Robo3T --- Had some issues but with the power of google fu I believe it's all good now. 
+```
+  <!-- OLD WAY -->
+sudo killall Mongod
+mongod --dbpath ~/mongodata/
+
+```
+```
+<!-- NEW WAY -->
+mongod --config /usr/local/etc/mongod.conf --fork
+mongo
+```
 
 ### The Mongo Shell
+- mongo comes with it's own REPL 
+- use to create, edit, update DBs
+- change permissions
+- JS Code
+![IN THE MONGO SHELL](assets/mongoShell.png)
+- `show dbs`: show all databases, a database with no data will not show up
+- `use animalShelter`: looks for database, creates if not there and now you are in the DB
+![MORE MONGO](assets/mongoShell2.png)
 
 ### What On Earth is BSON?
+- `JSON` and `BSON` format to store data for Mongo 
+- `JSON` is a text-based format and it can be very slow, not space efficient, does not support all data types
+- `BSON` - `Binary JSON` : BSON's binary structure encodes type and length information - allows it to be parsed more quickly
+![EXAMPLE BSON](assets/BSON.png)
 
 ### Inserting With Mongo
 
