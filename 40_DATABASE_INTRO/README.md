@@ -95,6 +95,11 @@ mongo
 ![Mongo Insert Array or Object](assets/mongoInsert2.png) 
 
 ### Finding With Mongo
+- Reading Data back out of a Database
+- `db.collection.find()`: find every document in a collection, returns `cursor` to document (reference to results to iterate over)
+- `db.collection.findOne()`: returns document itself
+- find dogs within a age range, and other things are possible, can pass multiple parameters into find like object
+![Mongo FIND](assets/mongoFind.png)
 
 ### Updating With Mongo
 
