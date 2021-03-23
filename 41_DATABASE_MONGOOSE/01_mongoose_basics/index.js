@@ -5,4 +5,5 @@ mongoose.connect('mongodb://localhost:27017/movieApp', {useNewUrlParser: true, u
 })
 .catch(err => {
   console.log("OH NO ERROR!")
+  console.log(err)
 });
