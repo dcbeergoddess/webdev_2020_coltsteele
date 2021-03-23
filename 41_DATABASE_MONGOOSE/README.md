@@ -98,6 +98,18 @@ Movie.insertMany([
 ```
 
 ### Finding With Mongoose
+* `Model.find()` - returns query object --> Treat like promises for error handling - are thenable objects
+`Movie.find({}).then(data => console.log(data))`
+![Find All](assets/find.png)
+`Movie.find({rating: 'PG-13'}).then(data => console.log(data))`
+![Find By Parameters](assets/find1.png)
+* `Model.findOne()`
+`Movie.findOne({}).then(m => console.log(m))` --> find's first instance
+![Find One](assets/find2.png)
+- When writing async functions we can use the `.exec` - turns into promise instead of thenable object
+* `Model.findById()`
+`Movie.findById('605a520e9c51c61b9ab4e28d').then(m => console.log(m))`
+![Find By Id](assets/find3.png)
 
 
 ### Updating With Mongoose
