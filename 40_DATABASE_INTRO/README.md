@@ -114,7 +114,11 @@ mongo
 - `db.collection.replaceOne()` : modify entire contents of Document while keeping the dame `_id`
 
 ### Deleting With Mongo
-
+- `db.collection.deleteMany()`
+* Can pass in more than one parameters if you need
+- `db.collection.deleteOne()`
+![MONGO DELETE](assets/mongoDelete.png)
+![MONGO DELETE](assets/mongoDelete2.png)
 
 ### Additional Mongo Operators
 
