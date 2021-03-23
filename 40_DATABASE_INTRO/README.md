@@ -121,5 +121,22 @@ mongo
 ![MONGO DELETE](assets/mongoDelete2.png)
 
 ### Additional Mongo Operators
+- fancier operators for finding and deleting
+- NESTED PROPERTIES
+![FIND BY TRAITS NESTED IN OBJECT](assets/mongoO.png)
+![FIND BY TRAITS](assets/mongoO2.png)
+- MORE MONGO OPERATORS
+[MONGO OPERATORS REFERENCE](https://docs.mongodb.com/manual/reference/operator/query/)
+![Comparison Operators](assets/mongoO3.png)
+![Logical Operators](assets/mongoO4.png)
+![Sample Query Operators](assets/mongoO5.png)
 
-
+* `$in:`: selects documents where the value of a field equals any value in the specified array
+* `db.dogs.find({breed: {$in: ['Mutt', 'Corgi']}})`
+* `db.dogs.find({breed: {$in: ['Mutt', 'Corgi']}, age: {$lt: 10}})`
+![$in operator](assets/mongoO6.png)
+`$ne`: not equal to
+`$nin`: not in
+- find dogs where personality is cat friendly or age is less than or equal to 2
+- `db.dogs.find({$or: [{'personality.catFriendly': true}, {age: {$lte: 2}}]})`
+![$or operator](assets/mongoO7.png)
