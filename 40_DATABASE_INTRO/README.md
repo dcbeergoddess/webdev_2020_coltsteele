@@ -82,6 +82,17 @@ mongo
 ![EXAMPLE BSON](assets/BSON.png)
 
 ### Inserting With Mongo
+- Website has lots of DOCs focus on these:
+[SERVER DOCS on MongoDB Website](https://docs.mongodb.com/manual/)
+[CRUD OPERATIONS](https://docs.mongodb.com/manual/crud/)
+- Insert into `Collection`: Grouping of Data in a DB
+* `db.collection.insertOne()` --> pass in object (treat like JS Object) -->  `db.dogs.insertOne({name: "Charlie", age: 3, breed: "corgi", catFriendly: true})`
+- `"_id":` is automatically created for us, `primary key`, will be unique
+![Mongo Shell Insert](assets/mongoInsert.png)
+* `db.collection.insertMany()` --> pass in array
+* `db.collection.insert()` --> can pass in object or array --> `db.dogs.insert([{name: "Wyatt", breed: "Golden", age: 14, catFriendly: false}, {name: "Tonya", age: 2, breed: "Chihuahua", age: 17, catFriendly: true}])`
+- don't have to follow any constraints between objects being inserted - Not Strict, can set if up to be in Mongo if you want
+![Mongo Insert Array or Object](assets/mongoInsert2.png) 
 
 ### Finding With Mongo
 
