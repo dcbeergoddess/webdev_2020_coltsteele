@@ -102,8 +102,19 @@ mongo
 ![Mongo FIND](assets/mongoFind.png)
 
 ### Updating With Mongo
+- Need to deal with two arguments, 1. finding the document, than 2. what you want to do with that document
+- `db.collection.updateOne()` - Update first match it finds --> 1. first argument = selector, 2. second argument = special operators in Mongo `$set: {<field1>: <value1>, ...}`
+* `db.dogs.updateOne({name: 'Charlie'}, {$set: {age: 4}})`
+* `db.dogs.updateOne({name: 'Charlie'}, {$set: {age: 4, breed: 'Lab'}})`
+![UPDATE ONE](assets/mongoUpdate.png)
+- `db.collection.updateMany()` - Update all matches it finds
+![UPDATE MANY](assets/mongoUpdate2.png)
+- `$currentDate`: `db.cats.updateOne({age: 6}, {$set: {age: 7}, $currentDate:{lastChanged: true}})` 
+![CURRENT DATE](assets/mongoUpdate3.png)
+- `db.collection.replaceOne()` : modify entire contents of Document while keeping the dame `_id`
 
 ### Deleting With Mongo
+
 
 ### Additional Mongo Operators
 
