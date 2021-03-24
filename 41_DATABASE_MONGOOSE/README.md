@@ -253,9 +253,45 @@ bike.save()
 - Products are being created but right now we can not update them with the validations, ORM, ODM --> when it's being updated you need to tell mongoose that you still want it to apply our validations
 - `Product.findOneAndUpdate({name: 'Tire Pump'}, {price: -100}, {new: true, runValidators: true})`
 
-
 ### Mongoose Validation Errors
-
+- Custom Error Msgs - for wrong price
+```js
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    maxlength: 20,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: [0, 'Price must be positive!!!']
+  },
+  onSale: {
+    type: Boolean,
+    default: false
+  },
+```
+- Error Handling and Messaging Packages Available
+- Usually check price before you would be saving it to a database, etc.
+- `enum` : Array, creates a validator that checks if the value is in the given array
+```js
+  qty: {
+    online: {
+      type: Number,
+      default: 0
+    },
+    inStore: {
+      type: Number,
+      default: 0
+    }
+  },
+  size: {
+    type: String,
+    enum: ['S', 'M', 'L']
+  }
+})
+```
 ### Model Instance Methods
 
 ### Mongoose Virtuals
