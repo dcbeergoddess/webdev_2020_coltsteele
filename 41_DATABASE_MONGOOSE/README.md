@@ -146,8 +146,35 @@ Movie.insertMany([
 ![Delete One and Return Data being Deleted](assets/delete2.png)
 
 ### Mongoose Schema Validations
+- More you can do with the Schema
+- required values
+```js
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number
+  }
+});
+```
+```js
+//CREATE A MODEL WITH SCHEMA
+const Product = mongoose.model('Product', productSchema);
 
-
+//CREATE PRODUCT
+const bike =  new Product({name: 'Mountain Bike', price: 999, color: "red"});
+bike.save()
+  .then(data => {
+    console.log("IT WORKED!")
+    console.log(data)
+  })
+  .catch(e => {
+    console.log("ON NO! ERROR!")
+    console.log(e)
+  });
+```
 ### Additional Schema Constraints
 
 ### Validating Mongoose Updates
