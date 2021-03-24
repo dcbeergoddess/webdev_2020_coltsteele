@@ -176,7 +176,79 @@ bike.save()
   });
 ```
 ### Additional Schema Constraints
-
+- [SchemaType Options](https://mongoosejs.com/docs/schematypes.html#schematype-options)
+- Declare certain options - i.e, `default` values
+```js
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  onSale: {
+    type: Boolean,
+    default: false
+  }
+})
+```
+- custom validators 
+- Constraints for Strings (lowercase, uppercase, trim, min, max length) - packages that help with this, email, etc.
+```js
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    maxlength: 20,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  onSale: {
+    type: Boolean,
+    default: false
+  }
+})
+```
+- SET UP CATEGORIES - Array existing only of strings `categories: [String]`
+```js
+//CREATE PRODUCT
+const bike =  new Product({name: 'Bike Helmet', price: 19.50, categories: ['Cycling', 'Safety', 123]});
+bike.save()
+  .then(data => {
+    console.log("IT WORKED!")
+    console.log(data)
+  })
+  .catch(e => {
+    console.log("ON NO! ERROR!")
+    console.log(e)
+  });
+```
+- NESTED SUB DOCUMENTS
+```js
+  onSale: {
+    type: Boolean,
+    default: false
+  },
+  categories: {
+    type: [String],
+    default: ['cycling']
+  }, 
+  qty: {
+    online: {
+      type: Number,
+      default: 0
+    },
+    inStore: {
+      type: Number,
+      default: 0
+    }
+  }
+```
 ### Validating Mongoose Updates
 
 ### Mongoose Validation Errors
