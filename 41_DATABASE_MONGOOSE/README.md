@@ -99,41 +99,54 @@ Movie.insertMany([
 
 ### Finding With Mongoose
 * `Model.find()` - returns query object --> Treat like promises for error handling - are thenable objects
-`Movie.find({}).then(data => console.log(data))`
+- `Movie.find({}).then(data => console.log(data))`
 ![Find All](assets/find.png)
-`Movie.find({rating: 'PG-13'}).then(data => console.log(data))`
+- `Movie.find({rating: 'PG-13'}).then(data => console.log(data))`
 ![Find By Parameters](assets/find1.png)
 * `Model.findOne()`
-`Movie.findOne({}).then(m => console.log(m))` --> find's first instance
+- `Movie.findOne({}).then(m => console.log(m))` --> find's first instance
 ![Find One](assets/find2.png)
 - When writing async functions we can use the `.exec` - turns into promise instead of thenable object
 * `Model.findById()`
-`Movie.findById('605a520e9c51c61b9ab4e28d').then(m => console.log(m))`
+- `Movie.findById('605a520e9c51c61b9ab4e28d').then(m => console.log(m))`
 ![Find By Id](assets/find3.png)
 
 ### Updating With Mongoose
 - They do not return/resolve with the updated info - will show if it was updated or error but does not show data that was updated
 * `Model.update()`
 * `Model.updateOne()` : Match first thing that you find
-`Movie.updateOne({title: 'Amadeus'}, {year: 1984}).then(res => console.log(res))`
+- `Movie.updateOne({title: 'Amadeus'}, {year: 1984}).then(res => console.log(res))`
 ![UPDATE ONE](assets/update.png)
 ![UPDATED OBJECT](assets/update1.png)
 * `Model.updateMany()`
 - Find in DB to test
-`db.movies.find({title: {$in: ['Amadeus', 'Stand By Me']}})`
+- `db.movies.find({title: {$in: ['Amadeus', 'Stand By Me']}})`
 - Update iin Mongoose
-`Movie.updateMany({title: {$in: ['Amadeus', 'Stand By Me']}}, {score: 10}).then(res => console.log(res))`
+- `Movie.updateMany({title: {$in: ['Amadeus', 'Stand By Me']}}, {score: 10}).then(res => console.log(res))`
 ![UPDATE MANY](assets/update2.png)
 * `Model.findOneAndUpdate()`: find something based upon criteria and it will give us the object after the update is applied
 - `Movie.findOneAndUpdate({title: 'The Iron Giant'}, {score: 7.0}).then(m => console.log(m))` --> returned old object without update
 ![Find and Update](assets/update3.png)
 - need to specify option 
-`new: true` option: `Movie.findOneAndUpdate({title: 'The Iron Giant'}, {score: 7.0}, {new: true}).then(m => console.log(m))`
+- `new: true` option: `Movie.findOneAndUpdate({title: 'The Iron Giant'}, {score: 7.0}, {new: true}).then(m => console.log(m))`
 ![Find and Update, NEW](assets/update4.png)
 
 ### Deleting With Mongoose
+- Removes, but does not give data back to show what was deleted
+* `Model.remove()`
+- `Movie.remove({title: 'The Iron Giant'}).then(msg => console.log(msg))` | DELETED BOTH INSTANCES | DEPRECATION WARNING
+![delete with Model.remove()](assets/delete.png)
+
+* `Model.deleteMany()` 
+- after 1999 
+- `Movie.deleteMany({year: {$gte: 1999}}).then(msg => console.log(msg))`
+![Delete Many](assets/delete1.png)
+* `Model.findOneAndDelete()` or `Model.findByIdAndDelete` : get back what you are deleting
+- `Movie.findOneAndDelete({title: 'Alien'}).then(m => console.log(m))`
+![Delete One and Return Data being Deleted](assets/delete2.png)
 
 ### Mongoose Schema Validations
+
 
 ### Additional Schema Constraints
 
