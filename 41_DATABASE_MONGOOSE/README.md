@@ -293,6 +293,38 @@ const productSchema = new mongoose.Schema({
 })
 ```
 ### Model Instance Methods
+- OUR CUSTOM METHODS!!!!
+- Instance vs Class/Static Methods
+- Instance Method is available on every single instance versus a class or static method like being able to call methods on Products like `Product.find()`
+- calling `.save()` on making new Product you are using that on a instance of Product
+- Define our own `someSchema.methods.yourMethod = function()`
+- USE TRADITIONAL FUNCTION SYNTAX - the value of `this` changes
+```js
+productSchema.methods.greet = function() {
+  console.log('HELLO!!!!')
+  console.log(`- from ${this.name}`);
+}
+```
+- type node in console while in folder, run `.load product.js`
+- In console
+```js
+const p = new Product({name: 'bike bag', price: 10})
+//INSTANCE OF PRODUCT
+
+//NOW call 
+p.greet() //Have access to this when we find
+```
+```js
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({name: 'Bike Helmet'});
+  foundProduct.greet();
+}
+//USUALLY YOU WOULD HAVE TRY AND CATCH
+findProduct();
+// Hello!!
+//- from Bike Helmet
+```
+- group functionality on where it should go
 
 ### Mongoose Virtuals
 
