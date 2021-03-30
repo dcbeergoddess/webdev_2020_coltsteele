@@ -365,12 +365,53 @@ app.get('/products/new', (req, res) => {
 30. CREATE ROUTE TO SUBMIT FORM:
 <hr>
 
+* 1. CREATE MIDDLEWARE:
 ```js
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+//ADD FOLLOWING TO MIDDLEWARE TO PARSE INFO
+app.use(express.urlencoded({extended: true}));
+```
+2. CREATE POST ROUTE - TEST FIRST by printing out req.body and calling `res.send`:
+```js
+//REMEMBER WE DON'T HAVE ACCESS OR DEFINED REQ.BODY YET
+// 2. ROUTE TO POST FORM WHEN SUBMIT
+app.post('/products', (req, res) => {
+  console.log(req.body)
+  res.send("MAKING YOUR PRODUCT!!!")
+})
 ```
 <hr>
 
-#### [TEMPLATE](06_templates_/index.js)
+31. NOT GOING TO BE ERROR HANDLING or PRODUCT VALIDATION for info being posted and TEST AGAIN w/ `res.send()` and print `newProduct` to console | NOT a guarantee it was saved since it creates id before it is inserted | Not validation in place right now: 
+<hr>
+
+```js
+app.post('/products', async (req, res) => {
+  const newProduct = new Product(req.body);
+  await newProduct.save();
+  console.log(newProduct);
+  res.send("MAKING YOUR PRODUCT!!!");
+});
+```
+<hr>
+
+32. ADD REDIRECT - Prevents resubmission
+<hr>
+
+```js
+// 2. ROUTE TO POST FORM WHEN SUBMIT
+app.post('/products', async (req, res) => {
+  const newProduct = new Product(req.body);
+  await newProduct.save();
+  console.log(newProduct);
+  res.redirect(`/products/${newProduct._id}`);
+});
+```
+<hr>
+
+#### [TEMPLATE: index.js](06_templates_create_new/index.js)
+#### [TEMPLATE: new.ejs](06_templates_create_new/new.ejs)
 
 ### Updating Products
 
