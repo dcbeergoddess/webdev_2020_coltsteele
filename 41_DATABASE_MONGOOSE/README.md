@@ -389,5 +389,29 @@ Product.fireSale().then(res => console.log(res))
 - `Instance methods` operate on individual instances of a model - i.e `addCategory()` or `toggleOnSale()`
 
 ### Mongoose Virtuals
+- [Virtuals Docs](https://mongoosejs.com/docs/guide.html#virtuals)
+- ability to add `properties` to a schema that don't actually exist in the database itself
+#### Classic First Example
+- [Person/User Model](01_mongoose_basics/person.js)
+- Want to access full name even though it doesn't exist in the database, you have first and last name
+- you can define a getter and a setter - this will be `.get()` - want to retrieve some `value` and it will behave like an actual `property` instead of just writing an `instance method` - hence virtual
+##### GET
+```js
+const personSchema = new mongoose.Schema({
+  first: String,
+  last: String
+})
+
+personSchema.virtual('fullName').get(function () {
+  //this refers to instance we are working with 
+  return `${this.first} ${this.last}`
+});
+```
+![virtual get example](assets/virtual.png)
+##### SET
+- take property/value of fullName and use that to update first and last name
+- `tammy.fullName = 'Tammy Xiao'`
+![virtual set syntax](assets/virtualSet,png)
 
 ### Defining Mongoose Middleware
+
