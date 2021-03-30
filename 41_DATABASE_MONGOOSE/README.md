@@ -293,6 +293,7 @@ const productSchema = new mongoose.Schema({
 })
 ```
 ### Model Instance Methods
+[Mongoose Docs Instance Methods](https://mongoosejs.com/docs/guide.html#methods)
 - OUR CUSTOM METHODS!!!!
 - Instance vs Class/Static Methods
 - Instance Method is available on every single instance versus a class or static method like being able to call methods on Products like `Product.find()`
@@ -325,6 +326,54 @@ findProduct();
 //- from Bike Helmet
 ```
 - group functionality on where it should go
+
+#### onSale Toggle instance Method
+* Create method instance
+```js
+productSchema.methods.toggleOnSale = function () {
+  this.onSale = !this.onSale;
+  return this.save(); //it takes time to return the `thenable`
+}; 
+```
+- Find product by name and toggle the opposite of onSale
+```js
+//CREATE A MODEL WITH SCHEMA
+const Product = mongoose.model('Product', productSchema);
+
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({name: 'Mountain Bike'});
+  console.log(foundProduct);
+  await foundProduct.toggleOnSale();
+  console.log(foundProduct);
+};
+
+findProduct();
+```
+- IN CONSOLE
+![Console Print Out](assets/mongoose.png)
+
+- Methods to help you update the values in your model instead of writing logic over and over again, extract it into a method
+- ADD NEW CATEGORY
+```js
+productSchema.methods.addCategory = function (newCat) {
+  this.categories.push(newCat);
+  return this.save();
+};
+```
+```js
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({name: 'Mountain Bike'});
+  console.log(foundProduct);
+  await foundProduct.toggleOnSale();
+  console.log(foundProduct);
+  await foundProduct.addCategory('Outdoors');
+  console.log(foundProduct);
+};
+
+findProduct();
+```
+### Adding Model Static Methods
+
 
 ### Mongoose Virtuals
 
