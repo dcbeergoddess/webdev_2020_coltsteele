@@ -331,6 +331,44 @@ app.get('/products/:id', async (req, res) => {
 #### [TEMPLATE: index.js](05_templates_productDetails/index.js)
 
 ### Creating Products
+- NEED TWO ROUTES --> need a form --> need route to submit form
+28. ROUTE TO SERVE UP `FORM` in `index.js`:
+<hr> 
+
+```js
+// MAKE SURE TO PUT THIS BEFORE 'products/:id' route
+app.get('/products/new', (req, res) => {
+  res.render('products/new')
+})
+```
+29. Create Template for form --> [products/new.ejs](01_mongoose_express/views/products/new.ejs): 
+<hr>
+
+```html
+  <h1>Add a Product</h1>
+  <form action="/products" method="POST">
+    <label for="name">Product Name</label>
+    <input type="text" name="name" id="name" placeholder="product name">
+    <label for="price">Price (Unit)</label>
+    <input type="number" name="price" id="price" placeholder=0>
+    <label for="category">Select Category</label>
+    <select name="category" id="category">
+      <option value="fruit">fruit</option>
+      <option value="vegetable">vegetable</option>
+      <option value="dairy">dairy</option>
+    </select>
+    <button>Submit</button>
+  </form>
+```
+<hr>
+
+30. CREATE ROUTE TO SUBMIT FORM:
+<hr>
+
+```js
+
+```
+<hr>
 
 #### [TEMPLATE](06_templates_/index.js)
 
