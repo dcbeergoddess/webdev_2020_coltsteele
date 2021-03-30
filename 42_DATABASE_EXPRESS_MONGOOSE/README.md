@@ -73,7 +73,7 @@ mongoose.connect('mongodb://localhost:27017/dbName', {useNewUrlParser: true, use
 8. POSSIBLE  CONNECTION ERROR - OPEN BACK UP WITH THIS CODE in TERMINAL
 * 1.  `mongod --config /usr/local/etc/mongod.conf --fork`
 * 2. `mongo`
-#### [INDEX.JS TEMPLATE](02_templates_initial/index.js)
+#### [TEMPLATE: index.js](02_templates_initial/index.js)
 
 ### Creating our Model
 - making app to manage inventory at a farm stand
@@ -212,13 +212,54 @@ Product.insertMany(seedProducts)
 
 19. run file again in terminal --> `node seeds.js`
 18. mongo shell to check --> `db.products.find()`
-#### [TEMPLATE](03_templates_seed/product.js)
-#### [TEMPLATE](03_templates_seed/index.js)
-#### [TEMPLATE](03_templates_seed/seeds.js)
+#### [TEMPLATE: product.js](03_templates_seed/product.js)
+#### [TEMPLATE: index.js](03_templates_seed/index.js)
+#### [TEMPLATE: seeds.js](03_templates_seed/seeds.js)
 
 ### Products Index
+17. Route to Index Page (in index.js) - List of All Products - Make sure it's working first and await the response properly:
+<hr>
 
-#### [TEMPLATE](04_templates_/index.js)
+```js
+//INDEX PAGE - GET ALL PRODUCTS - async (takes time)
+app.get('/products', async (req, res) => {
+  const products = await Product.find({});
+  console.log(products)
+  res.send('PRODUCTS WILL BE HERE');
+});
+```
+<hr>
+
+18. `mkdir views/products`
+19. `touch views/products/index.ejs`
+20. [index.ejs CODE](01_mongoose_express/views/products/index.ejs)
+21. route products to index.ejs and pass through all products we found to res.render:
+<hr>
+
+```js
+app.get('/products', async (req, res) => {
+  const products = await Product.find({});
+  res.render('products/index.ejs', { products });
+});
+```
+<hr>
+
+22. MAKE UL - LOOP in `products/index.ejs` - Will give you template if you type `<%` in VS CODE for easier time formatting loop to start
+<hr>
+
+```html
+  <h1>All Products!</h1>
+
+  <ul>
+    <% for( let product of products ) { %>
+      <li><%= product.name %> </li>
+    <% } %>
+  </ul>
+```
+<hr>
+
+#### [TEMPLATE: index.ejs](04_templates_productIndex/index.ejs)
+#### [TEMPLATE: index.js](04_templates_productIndex/index.js)
 
 ### Product Details
 
