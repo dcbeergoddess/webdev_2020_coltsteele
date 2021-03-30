@@ -373,7 +373,20 @@ const findProduct = async () => {
 findProduct();
 ```
 ### Adding Model Static Methods
+[Statics Docs](https://mongoosejs.com/docs/guide.html#statics)
+- Live on the model itself and not instances of the model. `this` refers to the model class itself
+```js
+//set every product on sale set to true and a price of 0
+productSchema.statics.fireSale = function () {
+  return this.updateMany({}, {onSale: true, price: 0})
+}
 
+//do this usually in a async function
+Product.fireSale().then(res => console.log(res))
+```
+- Fancy find, or fancy update, fancy create or fancy removal, etc. | usually built on top of  existing model methods like `find()` or `update()`
+- Methods on the Class/Model
+- `Instance methods` operate on individual instances of a model - i.e `addCategory()` or `toggleOnSale()`
 
 ### Mongoose Virtuals
 

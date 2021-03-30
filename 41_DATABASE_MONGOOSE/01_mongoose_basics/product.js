@@ -66,6 +66,10 @@ productSchema.methods.addCategory = function (newCat) {
   return this.save();
 };
 
+productSchema.statics.fireSale = function () {
+  return this.updateMany({}, {onSale: true, price: 0})
+};
+
 //CREATE A MODEL WITH SCHEMA
 const Product = mongoose.model('Product', productSchema);
 
@@ -80,8 +84,9 @@ const findProduct = async () => {
   await foundProduct.addCategory('Outdoors');
   console.log(foundProduct);
 }
-
-findProduct();
+// findProduct();
+//fireSale is a method on product
+Product.fireSale().then(res => console.log(res));
 
 //CREATE PRODUCT
 // const bike =  new Product({name: 'Cycling Jersey', price: 28.50, categories: ['Cycling'], size: 'L'});
