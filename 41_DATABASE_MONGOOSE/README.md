@@ -414,4 +414,35 @@ personSchema.virtual('fullName').get(function () {
 ![virtual set syntax](assets/virtualSet,png)
 
 ### Defining Mongoose Middleware
+- [Middleware Docs](https://mongoosejs.com/docs/middleware.html)
+- ability to run code before and after certain mongoose methods are called
+- Middleware (also called pre and post _hooks_) are functions which are passed control during the during execution of asynchronous functions. Middleware is specified on the schema level and is useful for writing plugins.
+- times you remove a user, you may also need to delete all associated comments, and posts, etc. - use middleware to help us
+- `.pre()` and `.post()`
+```js
+  // can either us `next` that you pass in
+  // or make a promise/async function 
+personSchema.pre('save', async function () {
+  console.log("About to Save")
+})
+personSchema.post('save', async function () {
+  console.log("Just Saved")
+})
+```
+![middleware console](assets/middleware.png)
+- Create a Troll Pre Middleware
+```js
+personSchema.pre('save', async function () {
+  this.first = 'YO';
+  this.last = 'MAMA';
+  console.log("ABOUT TO SAVE!!!!")
+})
+
+personSchema.post('save', async function () {
+  console.log("JUST SAVED!!!!")
+})
+```
+![middleware console](assets/middleware.png)
+
+- if you have review site you could make a post middleware/hook that updates the average review score
 
