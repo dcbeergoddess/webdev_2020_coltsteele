@@ -262,8 +262,73 @@ app.get('/products', async (req, res) => {
 #### [TEMPLATE: index.js](04_templates_productIndex/index.js)
 
 ### Product Details
+- Set Up Details Page for a Single Product (can make `slug` for user error to pass in name, etc to web address --> we'll use mongo id)
+23. SET UP ROUTE in `index.js` TO FIND BY MONGO ID:
+<hr>
 
-#### [TEMPLATE](05_templates_/index.js)
+```js
+// SINGLE PRODUCT PAGE
+app.get('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  console.log(product);
+  res.send('details page!'); //TEST ROUTE
+}); 
+```
+<hr>
+
+24. Grab ID from mongo product and test route --> `http://localhost:8080/products/606377391810e721abde9f56` --> check console to see if correct product printed out from `console.log(product)` written into GET Route for Single Product
+
+25. Create and Render Template --> `touch views/products/show.ejs` --> to Display Single Product:
+<hr>
+
+```js
+app.get('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  res.render('products/show', { product });
+}); 
+```
+- EJS CODE
+```html
+  <title><%= product.name %></title>
+</head>
+<body>
+  <h1><%= product.name %></h1>
+  <ul>
+    <li>Price: $<%= product.price %></li>
+    <li>Category: <%= product.category %></li>
+  </ul>
+  <a href="/products">All Products</a>
+
+</body>
+```
+<hr>
+
+26. Test again with manual insertion of mongo id in address bar: `http://localhost:8080/products/606377391810e721abde9f56`
+
+27. Create Link to Product using `product._id` in `product/index.ejs` to take you to a `show.ejs` page: 
+<hr>
+
+```html
+  <title>All Products</title>
+</head>
+<body>
+  <h1>All Products!</h1>
+
+  <ul>
+    <% for( let product of products ) { %>
+      <li><a href="/products/<%=product._id%>"><%= product.name %></a></li>
+    <% } %>
+  </ul>
+```
+<hr>
+
+- FOR NOW WE ARE IGNORING ERROR HANDLING
+
+#### [TEMPLATE: products/index.ejs](05_templates_productDetails/index.ejs)
+#### [TEMPLATE: products/show.ejs](05_templates_productDetails/show.ejs)
+#### [TEMPLATE: index.js](05_templates_productDetails/index.js)
 
 ### Creating Products
 
