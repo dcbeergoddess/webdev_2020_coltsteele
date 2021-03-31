@@ -414,8 +414,104 @@ app.post('/products', async (req, res) => {
 #### [TEMPLATE: new.ejs](06_templates_create_new/new.ejs)
 
 ### Updating Products
+33. CREATE ROUTE FOR UPDATING PRODUCTS AFTER FIND ONE ROUTE:
+<hr>
 
-#### [TEMPLATE](07_templates_/index.js)
+* 1. FIRST FIND PRODUCT:
+```js
+//UPDATE PRODUCT
+app.get('/products/:id/edit', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  res.render('products/edit', { product });
+});
+```
+* 2. CREATE FORM TO EDIT PROJECT --> [products/edit.ejs](01_mongoose_express/views/products/edit.ejs): 
+```html
+  <h1>Edit Product</h1>
+  <form action="/products/<%=product._id%>" method="#">
+    <label for="name">Product Name</label>
+    <input type="text" name="name" id="name" placeholder="product name" value="<%= product.name %>">
+    <label for="price">Price (Unit)</label>
+    <input type="number" name="price" id="price" placeholder="price" value="<%= product.price %>">
+    <!-- worry about category later.... -->
+    <label for="category">Select Category</label>
+    <select name="category" id="category">
+      <option value="fruit">fruit</option>
+      <option value="vegetable">vegetable</option>
+      <option value="dairy">dairy</option>
+    </select>
+    <button>Submit</button>
+  </form>
+```
+<hr>
+
+34. CREATE PUT OR PATCH REQUEST (put = replace entire object vs patch = changing portion of object) | WILL USE PUT HERE | NEED `method-override`
+<hr>
+
+* 1. `npm i method-override`
+* 2. import/require to `index.js` in top of file:
+```js
+const methodOverride = require('method-override');
+```
+* 3. add code for method-override middleware
+```js
+//MIDDLEWARE 
+app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method')); //<--NEW ONE
+```
+* 4. ADD QUERY STRING TO EDIT FORM:
+```html
+<form action="/products/<%=product._id%>?_method=PUT" method="POST">
+```
+* 5. VERIFY PUT REQUEST:
+```js
+app.put('/products/:id', async (req, res) => {
+  console.log(req.body); //--> make sure req is coming from form
+  res.send('PUT!!!!') //--> Confirm with message
+});
+```
+* 6. MOMENT OF TRUTH: check by adding `/edit` to end of product with id: --> `http://localhost:8080/products/60637c0a75fce02275999039/edit` --> update some info on `product` and `submit` --> should get `PUT!!!` back with new object info printing out in console. 
+<hr>
+
+35. WRITE LOGIC TO UPDATE A PRODUCT USING MONGOOSE:
+- MULTIPLE WAYS TO DO THIS: CAN USE `findById` and pass in id and update where we pass in the ID and then we pass in our data | this is the lazy way with no validation but you get the point
+- REMEMBER: [findByIdAndUpdate Docs](https://mongoosejs.com/docs/api/model.html#model_Model.findByIdAndUpdate) | need to specify `runValidators: true` | don't want old info so `new: true` (also this all depends on what you are looking to do) --> then redirect to page with new info so you are not allowed to send post request again
+<hr>
+
+```js
+app.put('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findByIdAndUpdate(id, req.body, {runValidator: true, new: true});
+  res.redirect(`/products/${product._id}`); //Still NOT GOOD BECAUSE you don't have access to product._id if you do not await it, not resolved value, not product info you want
+});
+```
+<hr>
+
+36. TEST EDIT in address bar `http://localhost:8080/products/6063b5804e05752e95ba3087/edit` 
+```
+(node:1254) DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated. See: https://mongoosejs.com/docs/deprecations.html#findandmodify
+```
+- ABOVE WARNING DID APPEAR WHEN TESTING EDIT BY MANUALly CHECKING ON LOCAL HOST PORT
+37. ADD LINK IN ON `show.ejs` PAGE TO EDIT:
+```html
+  <a href="/products">All Products</a>
+  <a href="/products/<%=product._id%>/edit">Edit Product</a>
+```
+38. TEST EDITING AGAIN VIA NEW LINK!!!
+39. MAKE LINK on `edit.ejs`
+<hr>
+
+```html
+     </select>
+    <button>Submit</button>
+  </form>
+  <!-- LINK TO GO BACK/CANCEL EDIT ==> take back to show page -->
+  <a href="/products/<%=product._id%> ">Cancel</a>
+```
+#### [TEMPLATE: index.js](07_templates_update/index.js)
+#### [TEMPLATE: edit.ejs](07_templates_update/edit.ejs)
+#### [TEMPLATE: show.ejs](07_templates_update/show.ejs)
 
 ### Tangent On Category Selector
 
