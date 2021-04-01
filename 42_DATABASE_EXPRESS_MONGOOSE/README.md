@@ -592,14 +592,43 @@ e. `products/edit.ejs` FORM | TERNARY OPERATOR --> dynamic --> if product.catego
 
 </body>
 ```
+<hr>
+
 #### [TEMPLATE: index.js](08_templates_EJSloop/index.js)
 #### [TEMPLATE: index.ejs](08_templates_EJSloop/index.ejs)
 #### [TEMPLATE: edit.ejs](08_templates_EJSloop/edit.ejs)
 
 ### Deleting Products
+51. SET UP DELETE ROUTE --> FOR DELETE BUTTON --> method.override to fake a POST --> from lectures on method override
+<hr>
 
-#### [TEMPLATE](09_templates_/index.js)
+a. CREATE FORM IN `products/show.ejs` w/ `button` to submit the form:
+```html
+  <form action="/products/<%=product._id%>?_method=DELETE" method="POST">
+    <button>Delete</button>
+  </form>
+```
+b. CREATE THE ROUTE IN `index.js` - async - test with `res.send`:
+```js
+//DELETE PRODUCT
+app.delete('products/:id', async (req, res) => {
+  res.send("YOU MADE IT!!!") 
+})
+```
+c. TAKE ID - EXTRACT FROM `req.params` --> AND REMOVE PRODUCT FROM THE DATABASE USING THAT `_id` --> redirect to homepage --> no error handling right now:
+```js
+//DELETE PRODUCT
+app.delete('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const deletedProduct = await Product.findByIdAndDelete(id);
+  res.redirect('/products');
+})
+```
+
+#### [TEMPLATE: index.js](09_templates_delete/index.js)
+#### [TEMPLATE: show.ejs](09_templates_delete/show.ejs)
 
 ### BONUS: Filtering By Category
+
 
 #### [TEMPLATE](10_templates_/index.js)
