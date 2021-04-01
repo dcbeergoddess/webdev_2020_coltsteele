@@ -514,8 +514,8 @@ app.put('/products/:id', async (req, res) => {
 #### [TEMPLATE: show.ejs](07_templates_update/show.ejs)
 
 ### Tangent On Category Selector
-- dynamically turn on `selected` for each products category in the edit form
-1. FIRST VERSION: EJS in EDIT FORM - If category is selected add selected otherwise nothing | **TERNARY OPERATOR** first value is what happens if the condition is true, the second value is for the false --- THIS IS THE CLUNKY VERSION!!! - what if you add more categories
+49. dynamically turn on `selected` for each products category in the edit form
+1. FIRST VERSION: EJS in `products/edit.ejs` FORM - If category is selected add selected otherwise nothing | **TERNARY OPERATOR** first value is what happens if the condition is true, the second value is for the false --- THIS IS THE CLUNKY VERSION!!! - what if you add more categories
 <hr>
 
 ```js
@@ -528,9 +528,73 @@ app.put('/products/:id', async (req, res) => {
 ```
 <hr>
 
-2. SECOND VERSION: CREATE A LOOP?
+2. SECOND VERSION: CREATE A LOOP -- CREATE AN ARRAY of CATEGORIES in `index.js` before the routes and pass that through to the `new route`, iterate over categories when you create a new product
+<hr>
 
-#### [TEMPLATE](08_templates_/index.js)
+a. CREATE ARRAY
+```js
+//******************************************** */
+///////////////////ARRAY CATEGORIES//////////////
+//******************************************** */
+const categories = ['fruit', 'vegetable', 'dairy'];
+```
+b. PASS THROUGH TO NEW ROUTE
+```js
+// 1. SERVE UP FORM TO CREATE NEW PRODUCTS - not doing anything async
+app.get('/products/new', (req, res) => {
+  res.render('products/new', { categories });
+});
+```
+c. CREATE EJS LOOP IN `products/new.ejs`
+```html
+    <label for="category">Select Category</label>
+    <select name="category" id="category">
+      <% for( let category of categories ) { %>
+          <option value="<%=category%>"><%=category%></option>
+      <% } %>
+    </select>
+```
+- NOW WHEN YOU ADD NEW CATEGORIES TO ARRAY THEY WILL POPULATE IN THE NEW FORM
+d. `index.js` in the EDIT ROUTE
+```js
+//UPDATE PRODUCT
+app.get('/products/:id/edit', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  res.render('products/edit', { product, category });
+});
+```
+e. `products/edit.ejs` FORM | TERNARY OPERATOR --> dynamic --> if product.category is the same as category in our loop then add selected otherwise add nothing:
+```html
+    <label for="category">Select Category</label>
+    <select name="category" id="category">
+      <% for( let category of categories ) { %>
+        <option value="<%=category%>" <%= product.category === category ? 'selected' : ''  %> ><%=category%></option>
+      <% } %>
+    </select>
+```
+<hr>
+
+- CODE IS CLEANED UP AND CAN ADD NEW OPTIONS MANUALLY TO ARRAY
+50. ADD LINK TO CREATE NEW PRODUCT - `index.ejs`:
+<hr>
+
+```html
+<body>
+  <h1>All Products!</h1>
+
+  <ul>
+    <% for( let product of products ) { %>
+      <li><a href="/products/<%=product._id%>"><%= product.name %></a></li>
+    <% } %>
+  </ul>
+  <a href="/products/new">New Product</a>
+
+</body>
+```
+#### [TEMPLATE: index.js](08_templates_EJSloop/index.js)
+#### [TEMPLATE: index.ejs](08_templates_EJSloop/index.ejs)
+#### [TEMPLATE: edit.ejs](08_templates_EJSloop/edit.ejs)
 
 ### Deleting Products
 
