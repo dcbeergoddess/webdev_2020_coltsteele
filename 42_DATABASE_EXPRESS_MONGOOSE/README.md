@@ -514,6 +514,21 @@ app.put('/products/:id', async (req, res) => {
 #### [TEMPLATE: show.ejs](07_templates_update/show.ejs)
 
 ### Tangent On Category Selector
+- dynamically turn on `selected` for each products category in the edit form
+1. FIRST VERSION: EJS in EDIT FORM - If category is selected add selected otherwise nothing | **TERNARY OPERATOR** first value is what happens if the condition is true, the second value is for the false --- THIS IS THE CLUNKY VERSION!!! - what if you add more categories
+<hr>
+
+```js
+    <label for="category">Select Category</label>
+    <select name="category" id="category">
+      <option value="fruit" <%=product.category === 'fruit' ? 'selected' : ''%>>fruit</option>
+      <option value="vegetable" <%=product.category === 'vegetable' ? 'selected' : ''%>>vegetable</option>
+      <option value="dairy" <%=product.category === 'dairy' ? 'selected' : ''%>>dairy</option>
+    </select>
+```
+<hr>
+
+2. SECOND VERSION: CREATE A LOOP?
 
 #### [TEMPLATE](08_templates_/index.js)
 
