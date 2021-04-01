@@ -629,6 +629,116 @@ app.delete('/products/:id', async (req, res) => {
 #### [TEMPLATE: show.ejs](09_templates_delete/show.ejs)
 
 ### BONUS: Filtering By Category
+- VIEW PRODUCTS BY CATEGORY
+- MAKE LINKS ON SHOW PAGE LINKS TO SHOW ALL PRODUCTS IN THE CATEGORY
+- possible routes = `/categories/name` or `/products?category=name`
+<hr>
 
+1. CREATE LINK FOR CATEGORY in `products/show.ejs`: 
+- QUERY STRING in URL: `http://localhost:8080/products?category=fruit`
+```html
+  <h1><%= product.name %></h1>
+  <ul>
+    <li>Price: $<%= product.price %></li>
+    <li>Category: <a href="/products?category=<%=product.category%>"><%= product.category %></a></li>
+  </ul>
+```
 
-#### [TEMPLATE](10_templates_/index.js)
+2. LOOK TO SEE IF YOU HAVE A CATEGORY IN THE GET ROUTE --> If there is a category in the query string we are going to want to use that to find products that match that category --> otherwise if there is no category we want all products:
+```js
+//INDEX PAGE - GET ALL PRODUCTS - async (takes time)
+app.get('/products', async (req, res) => {
+  const { category } = req.query;
+  if(category){
+    // const products = await Product.find({category: category})
+    const products = await Product.find({ category })//Shorten to this
+    res.render('products/index', { products })
+  } else {
+    const products = await Product.find({});
+      // console.log(products);
+    res.render('products/index', { products });
+  }
+});
+```
+3. NOW TO GET TITLE TO DISPLAY WHICH CATEGORY IS BEING VIEWED --> pass through category when you render products by category --> set `category: 'ALL'` in second render:
+```js
+//INDEX PAGE - GET ALL PRODUCTS - async (takes time)
+app.get('/products', async (req, res) => {
+  const { category } = req.query;
+  if(category){
+    // const products = await Product.find({category: category})
+    const products = await Product.find({ category })//Shorten to this
+    res.render('products/index', { products, category })
+  } else {
+    const products = await Product.find({});
+      // console.log(products);
+    res.render('products/index', { products, category: 'All' });
+  }
+});
+```
+4. CHANGE `products/index.ejs` to dynamically change title based on category --> NEEDS UPPERCASE: 
+```html
+  <title>All Products</title>
+</head>
+<body>
+  <h1><%= category %> Products!</h1>
+
+  <ul>
+    <% for( let product of products ) { %>
+      <li><a href="/products/<%=product._id%>"><%= product.name %></a></li>
+    <% } %>
+  </ul>
+  <a href="/products/new">New Product</a>
+```
+5. CAPITALIZE --> WITH FUNCTION IN EJS FILE `products/index.ejs`:
+```html
+  <title>All Products</title>
+</head>
+<body>
+  <% 
+  const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+  %>
+
+  <h1><%= capitalize(category) %> Products!</h1>
+
+  <ul>
+    <% for( let product of products ) { %>
+```
+6. HAVE ALL PRODUCTS LINK SHOW UP WHEN ON CATEGORY PAGE BUT NOT INDEX PAGE --> in `index.ejs`:
+```html
+<body>
+  <h1><%= category %> Products!</h1>
+
+  <ul>
+    <% for( let product of products ) { %>
+      <li><a href="/products/<%=product._id%>"><%= product.name %></a></li>
+    <% } %>
+  </ul>
+  <a href="/products/new">New Product</a>
+  <% if (category !== 'All') { %>
+    <a href="/products">All Products</a>
+  <% } %>
+</body>
+```
+<hr>
+
+52. ADDED CANCEL BUTTON TO IN `new.ejs` to go back to main page 
+<hr>
+
+```html
+  </form>
+
+  <!-- LINK TO GO BACK/CANCEL EDIT ==> take back to main page -->
+  <a href="/products">Cancel</a>
+
+</body>
+```
+<hr>
+
+#### [TEMPLATE: index.js](10_templates_finalChanges/index.js)
+#### [TEMPLATE: index.ejs](10_templates_finalChanges/index.ejs)
+#### [TEMPLATE: new.ejs](10_templates_finalChanges/new.ejs)
+#### [TEMPLATE: show.ejs](10_templates_finalChanges/show.ejs)
