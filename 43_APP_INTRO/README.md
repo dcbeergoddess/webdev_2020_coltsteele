@@ -175,6 +175,22 @@ seedDB().then(() => {
 ```
 
 ### Campground Index
+- Create route to populate entire index of campgrounds
+```js
+//INDEX
+app.get('/campgrounds', async (req, res) => {
+  const campgrounds = await Campground.find({});
+  res.render('campgrounds/index', { campgrounds });
+});
+```
+- Create view to populate index titles to test
+```html
+  <ul>
+    <% for( let campground of campgrounds ) { %>
+    <li><%= campground.title %> </li>
+    <% } %>
+  </ul>
+```
 
 
 ### Campground Show
