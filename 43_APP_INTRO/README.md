@@ -229,7 +229,52 @@ app.get('/campgrounds/:id', async (req, res) => {
 ```
 
 ### Campground New & Create
+- NEW FORM ROUTE
+<hr>
 
+- Route to Test - Make sure before `campgrounds/:id` route
+
+```js
+//NEW FORM
+app.get('/campgrounds/new', (req, res) => {
+  res.render('campgrounds/new');
+})
+```
+- Simple form EJS
+```html
+  <form action="/campgrounds" methods="POST">
+    <div>
+      <label for="title">Title</label>
+      <input type="text" id="title" name="campground[title]">
+    </div>
+    <div>
+      <label for="location">Location</label>
+      <input type="text" id="location" name="campground[location]">
+    </div>
+    <button>Add Campground</button>
+  </form>
+```
+- CREATE/POST ROUTE
+```js
+//POST ROUTE
+app.post('/campgrounds', async (req, res) => {
+  res.send(req.body)
+})
+```
+- NEED TO TELL EXPRESS TO PARSE THE REQ.BODY FOR US so we can see it on the browser after we submit the form to test the route
+```js
+//MIDDLEWARE
+app.use(express.urlencoded({extended: true}))
+```
+- NEW POST ROUTE
+```js
+//POST ROUTE
+app.post('/campgrounds', async (req, res) => {
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`campgrounds/${campground._id}`);
+})
+```
 ### Campground Edit & Update
 
 ### Campground Delete
