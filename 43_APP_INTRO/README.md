@@ -191,9 +191,42 @@ app.get('/campgrounds', async (req, res) => {
     <% } %>
   </ul>
 ```
-
-
 ### Campground Show
+- Details page for a Campground
+- Set up Route
+```js
+//SHOW
+app.get('/campgrounds/:id', async (req, res) => {
+  res.render('campgrounds/show');
+})
+```
+- Set up Template for Show Page
+- Make Titles in Index Page link to it's Details
+```html
+  <h1>All Campgrounds</h1>
+  
+  <ul>
+    <% for( let campground of campgrounds ) { %>
+    <li><a href="/campgrounds/<%=campground._id%>"><%= campground.title %></a></li>
+    <% } %>
+  </ul>
+```
+- Set up `findById()` in show route - Show title and location from now
+```js
+//SHOW
+app.get('/campgrounds/:id', async (req, res) => {
+  const campground = await Campground.findById(req.params.id)
+  res.render('campgrounds/show', { campground });
+})
+```
+- Use Info in `show.ejs`
+```html
+  <title>Show</title>
+</head>
+<body>
+  <h1><%= campground.title %></h1>
+  <h2><%= campground.location %></h2>
+```
 
 ### Campground New & Create
 
