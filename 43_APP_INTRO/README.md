@@ -276,7 +276,56 @@ app.post('/campgrounds', async (req, res) => {
 })
 ```
 ### Campground Edit & Update
-
+- FORM TO UPDATE --> GET ROUTE --> copy from show route:
+```js
+//UPDATE
+app.get('/campgrounds/:id/edit', async(req, res) => {
+  const campground = await Campground.findById(req.params.id)
+  res.render('campgrounds/edit', { campground });
+})
+```
+- CREATE FORM --> populate data from id you are updating
+```html
+  <h1>Edit Campground</h1>
+  <form action="/campgrounds" method="POST">
+    <div>
+      <label for="title">Title</label>
+      <input type="text" id="title" name="campground[title]" value="<%= campground.title %>">
+    </div> 
+    <div>
+      <label for="location">Location</label>
+      <input type="text" id="location" name="campground[location]" value="<%= campground.location %>">
+    </div>
+    <button>Update Campground</button>
+  </form>
+```
+- install `npm i method-override`
+- require in `app.js` --> `const methodOverride = require('method-override');`
+- add to `middleware` in `app.js` --> `app.use(methodOverride('_method'))`
+- create PUT route to update and test 
+```js
+//PUT ROUTE TO UPDATE
+app.put('/campgrounds/:id', async (req, res)=> {
+  res.send("IT WORKED!!")
+})
+```
+- update form to include PUT method
+```html
+  <h1>Edit Campground</h1>
+  <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST">
+    <div>
+```
+- CODE IN PUT ROUTE TO UPDATE OBJECT
+- SPREAD OPERATOR `{...req.body.campground}`
+```js
+//PUT ROUTE TO UPDATE
+app.put('/campgrounds/:id', async (req, res)=> {
+  const { id } = req.params;
+  const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground})
+  //HAD ISSUES WHEN IT WAS `campgrounds/${campground._id}`
+  res.redirect(`${campground._id}`);
+});
+```
 ### Campground Delete
 
 
