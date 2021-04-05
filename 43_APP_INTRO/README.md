@@ -327,6 +327,25 @@ app.put('/campgrounds/:id', async (req, res)=> {
 });
 ```
 ### Campground Delete
+- Create DELETE ROUTE with `id` included
+- Not going to do anything with the object being deleted for now -- later on this will change
+```js
+//DELETE ROUTE
+app.delete('/campgrounds/:id', async (req, res) => {
+  const { id } = req.params;
+  await Campground.findByIdAndDelete(id);
+  res.redirect('/campgrounds');
+});
+```
+- ADD BUTTON to send DELETE REQUEST as a FORM
+```html
+  <p>
+    <form action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+      <button>Delete</button>
+    </form>
+  </p>
+```
+
 
 
 
