@@ -18,6 +18,8 @@
 <hr>
 
 ### Intro to Express Middleware
+- Express middleware are functions that run during the request/response lifestyle
+- REQUEST ---> MIDDLEWARE ---> RESPONSE
 
 ### Using Morgan - Logger Middleware
 * [MORGAN DOCS](https://github.com/expressjs/morgan)
