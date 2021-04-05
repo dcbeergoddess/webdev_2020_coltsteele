@@ -11,6 +11,11 @@ app.use((req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
+
+app.use('/dogs', (req, res, next) => {
+  console.log("I LOVE DOGS!");
+  next();
+});
 /*
 app.use((req, res, next) => {
   console.log('THIS IS MY FIRST MIDDLEWARE!!');
@@ -24,14 +29,18 @@ app.use((req, res, next) => {
 */
 //ROUTES
 app.get('/', (req, res) => {
-  console.log(`REQUEST DATE: ${req.requestTime}`)
+  console.log(`REQUEST DATE: ${req.requestTime}`);
   res.send('HOME PAGE!');
 });
 
 app.get('/dogs', (req, res) => {
-  console.log(`REQUEST DATE: ${req.requestTime}`)
+  console.log(`REQUEST DATE: ${req.requestTime}`);
   res.send('WOOF! WOOF!');
-})
+});
+
+app.use((req, res) => {
+  res.status(404).send('NOT FOUND');
+});
 
 //LISTENER
 app.listen(3030, () => {

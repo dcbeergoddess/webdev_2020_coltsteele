@@ -138,7 +138,19 @@ app.get('/dogs', (req, res) => {
 ```
 
 ### Setting up a 404 Route
-
+- app.use w/ routes
+```js
+app.use('/dogs', (req, res, next) => {
+  console.log("I LOVE DOGS!");
+  next();
+})
+```
+- place at end before listener - will match any request or verb that is not found
+```js
+app.use((req, res) => {
+  res.status(404).send('NOT FOUND');
+})
+```
 ### Password Middleware Demo (NOT REAL AUTH)
 
 ### Protection Specific Routes
