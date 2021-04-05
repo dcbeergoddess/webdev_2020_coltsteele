@@ -179,3 +179,21 @@ app.get('/secret', (req, res) => {
 ```
 
 ### Protection Specific Routes
+- MAKE MIDDLEWARE SPECIFIC TO CERTAIN ROUTE
+- with `app.get` --> pass in callback functions (i.e. middleware)
+- save password as a callback function
+```js
+const verifyPassword = ((req, res, next) => {
+  const { password } = req.query;
+  if(password === 'chickennugget'){
+    next();
+  }
+  res.send('Sorry you need a password')
+})
+```
+- add to `/secret` in callback after path
+```js
+app.get('/secret', verifyPassword, (req, res) => {
+  res.send('MY SECRET IS: Sometimes I wear headphones in public so I do not have to talk to anyone')
+})
+```
