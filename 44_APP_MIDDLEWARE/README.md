@@ -95,6 +95,47 @@ app.use((req, res, next) => {
 }); 
 ```
 ### More Middleware Practice 
+- The Utility of Writing Middleware --> access information from the request and we can modify or add data to the request object object before any of our route handlers are executed (i.e. check to see if user is authenticated)
+- Decorating or adding on to request object
+- RECREATE MORGAN - GET INFO FROM REQUEST
+```js
+//MAKING OUR OWN MIDDLEWARE
+app.use((req, res, next) => {
+  console.log(req.method, req.path)
+  next();
+})
+```
+- MAKE EVERYTHING A GET METHOD -- EXAMPLE
+```js
+//MAKING OUR OWN MIDDLEWARE
+app.use((req, res, next) => {
+  req.method = 'GET';
+  console.log(req.method, req.path)
+  next();
+});
+```
+- Make every route have access to `requestTime = Date.now()`
+```js
+//MAKING OUR OWN MIDDLEWARE
+app.use((req, res, next) => {
+  req.requestTime = Date.now();
+  console.log(req.method, req.path);
+  next();
+});
+```
+- USE IN ROUTES
+```js
+//ROUTES
+app.get('/', (req, res) => {
+  console.log(`REQUEST DATE: ${req.requestTime}`)
+  res.send('HOME PAGE!');
+});
+
+app.get('/dogs', (req, res) => {
+  console.log(`REQUEST DATE: ${req.requestTime}`)
+  res.send('WOOF! WOOF!');
+})
+```
 
 ### Setting up a 404 Route
 
