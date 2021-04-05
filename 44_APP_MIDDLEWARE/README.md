@@ -145,12 +145,37 @@ app.use('/dogs', (req, res, next) => {
   next();
 })
 ```
-- place at end before listener - will match any request or verb that is not found
+- place at end before listener - will match any request or verb that is not found - last ditch
 ```js
 app.use((req, res) => {
   res.status(404).send('NOT FOUND');
 })
 ```
 ### Password Middleware Demo (NOT REAL AUTH)
+- Exercise: create secret route that requires a password
+```js
+app.use((req, res, next) => {
+  console.log(req.query)
+  next();
+})
+```
+- test in browser `http://localhost:3030/dogs?password=chickennugget`
+- GET BACK `{ password = chicken nuggets}` in console
+```js
+app.use((req, res, next) => {
+  const { password } = req.query;
+  if(password === 'chickennugget'){
+    next();
+  }
+  res.send('Sorry you need a password')
+})
+```
+- TEST AGAIN AND YOU CAN GET BACK TO DOGS PAGE
+- SET UP SECRET ROUTE:
+```js
+app.get('/secret', (req, res) => {
+  res.send('MY SECRET IS: Sometimes I wear headphones in public so I do not have to talk to anyone')
+})
+```
 
 ### Protection Specific Routes
