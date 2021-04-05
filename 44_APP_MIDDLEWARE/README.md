@@ -54,8 +54,46 @@ Get /asdfasdf 404 147 - 2.830 ms
 * `app.use(morgan('dev'))` --> same info from 'tiny' displayed slightly different
 
 ### Defining Our Own Middleware
-- 
-
+- [WRITING MIDDLEWARE DOCS](http://expressjs.com/en/guide/writing-middleware.html)
+- Example 1 of Creating our own middleware
+```js
+//MAKING OUR OWN MIDDLEWARE
+app.use((req, res) => {
+  res.send('HIJACKED BY MY APP.USE')
+}); 
+```
+- OFTEN WE WILL WANT TO CALL NEXT MIDDLEWARE. `next` refers to the next middleware. DOCS EXAMPLE:
+```js
+app.get('/', function(req, res, next) {
+  next();
+})
+```
+- `res.send` stops the whole cycle so won't matter on first example above. `console.log` instead for now on every request that comes in
+```js
+//MAKING OUR OWN MIDDLEWARE
+app.use((req, res, next) => {
+  console.log('THIS IS MY FIRST MIDDLEWARE!!');
+  next();
+  console.log('THIS IS MY FIRST MIDDLEWARE!! - AFTER NEXT()'); //PRINTS OUT AFTER NEXT Middleware runs 
+}); 
+app.use((req, res, next) => {
+  console.log('THIS IS MY SECOND MIDDLEWARE!!');
+  next();
+}); 
+```
+- can `return next();` to unsure no code runs after calling next and stop the function
+```js
+//MAKING OUR OWN MIDDLEWARE
+app.use((req, res, next) => {
+  console.log('THIS IS MY FIRST MIDDLEWARE!!');
+  return next();
+  console.log('THIS IS MY FIRST MIDDLEWARE!! - AFTER NEXT()'); //THIS CODE WILL NOT RUN NOW
+}); 
+app.use((req, res, next) => {
+  console.log('THIS IS MY SECOND MIDDLEWARE!!');
+  return next();
+}); 
+```
 ### More Middleware Practice 
 
 ### Setting up a 404 Route
