@@ -201,6 +201,7 @@ const seedDB = async () => {
 <hr>
 
 ## Styling Campground Index
+- 
 
 ## Styling Edit Form
 
