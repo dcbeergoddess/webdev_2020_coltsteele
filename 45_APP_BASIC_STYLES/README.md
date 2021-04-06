@@ -201,6 +201,32 @@ const seedDB = async () => {
 <hr>
 
 ## Styling Campground Index
+- Update Index.ejs --> Using Bootstrap5! Card
+- [BOOTSTRAP5! CARD DOCS](https://getbootstrap.com/docs/5.0/components/card/)
+<hr>
+
+```html
+    <% for( let campground of campgrounds ) { %>
+      <div class="card mb-3">
+        <div class="row">
+          <div class="col-md-4">
+            <img class="img-fluid" src="<%=campground.image%>/400x400" alt="campground image">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><%= campground.title %></h5>
+              <p class="card-text"><%= campground.description %></p>
+              <p class="card-text">
+                <small class="text-muted"><%= campground.location %></small>
+              </p>
+              <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>">View <%= campground.title %></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+```
+## Styling New Form
 - 
 
 ## Styling Edit Form
