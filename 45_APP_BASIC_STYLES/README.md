@@ -61,7 +61,8 @@
 ```
 ## Navbar Partial
 - [Bootstrap5! Navbar Docs](https://getbootstrap.com/docs/5.0/components/navbar/)- [Bootstrap5! Navbar Docs](https://getbootstrap.com/docs/5.0/components/navbar/)
-- make sticky-top, dark navbar - if toggle works js is connected correctly:
+- - mkdir `partials` in `views` for `navbar.ejs`
+- make `sticky-top`, dark navbar - if toggle works js is connected correctly:
 <hr>
 
 ```html
@@ -81,7 +82,7 @@
   </div>
 </nav>
 ```
-- mkdir `partials` in `views` for `navbar.ejs` --> include in `boilerplate.ejs`:
+- include in `boilerplate.ejs`:
 ```html
 </head>
 <body>
@@ -92,6 +93,47 @@
 ```
 
 ## Footer Partial
+- [Footer DOCS]
+- make `footer.ejs` in `partials` directory
+- include in `boilerplate.ejs`
+- make footer `bg-dark`
+- give it padding on top and bottom: `py-3`
+- make text in span muted `class="container"`
+- add copyright symbol `&copy;`
+<hr>
+
+```html
+<footer class="footer bg-dark py-3">
+  <div class="container">
+    <span class="text-muted">&copy; YelpCamp 2020</span>
+  </div>
+</footer>
+```
+<hr>
+
+- make it stay at bottom
+- give `body` min height and force it to go down in `boilerplate.ejs`
+- flexbox utilities in bootstrap --> `class="d-flex flex-column"`
+- make view height it be at least 100 --> `class="d-flex flex-column vh-100"`
+- ADD TO FOOTER - Make margin top auto --> `<footer class="footer bg-dark py-3 mt-auto">`
+- when you want to move one thing on the page use margin to move it, there is no justify self and other flexbox properties/classes in bootstrap5 would effect all elements if you try to use them 
+- FINAL PRODUCT:
+```html
+<!-- FOOTER.EJS -->
+<footer class="footer bg-dark py-3 mt-auto">
+  <div class="container">
+    <span class="text-muted">&copy; YelpCamp 2020</span>
+  </div>
+</footer>
+
+<!-- BOILERPLATE BODY -->
+<body class="d-flex flex-column vh-100">
+  <%- include('../partials/navbar') %> 
+  <main class="container mt-5">
+    <%- body %> 
+  </main>
+  <%- include('../partials/footer') %> 
+```
 
 ## Adding Images
 
