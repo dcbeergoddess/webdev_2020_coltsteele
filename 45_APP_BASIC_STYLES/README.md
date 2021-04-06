@@ -136,6 +136,69 @@
 ```
 
 ## Adding Images
+- using URLS - Unsplash API
+- [Unsplash: In the Woods Collection](https://unsplash.com/collections/483251/in-the-woods)
+- seed images --> copy collection `id` = `483251` --> `https://unsplash.com/collections/483251/in-the-woods`
+- [Source Unsplash](https://source.unsplash.com/)
+- `https://source.unsplash.com/collection/{COLLECTION ID}` --> `https://source.unsplash.com/collection/483251`
+- update `MODEL` - `campground.js` to include images
+<hr>
+
+```js
+const CampgroundSchema = new Schema ({
+  title: String,
+  image: String,
+  price: Number,
+  description: String,
+  location: String,
+});
+```
+<hr>
+
+- update `SEEDS` - `index.js`
+<hr>
+
+```js
+const seedDB = async () => {
+    await Campground.deleteMany({});
+    //CREATE LOOP FOR DATA - 50 times - 50 cities
+    for(let i = 0; i < 50; i++){
+        //random number to pick city[from 1000 city array]
+        const random1000 = Math.floor(Math.random() * 1000);
+        //random number for price
+        const price = Math.floor(Math.random() * 20) + 10
+        //make new Campground - location: city, state
+        const camp = new Campground({
+            location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            title: `${sample(descriptors)} ${sample(places)}`, 
+            image: 'https://source.unsplash.com/collection/483251',
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet incidunt maiores consectetur asperiores iure obcaecati quia voluptatum ipsa error, optio illo molestiae enim voluptatem itaque suscipit? Culpa excepturi libero deleniti.',
+            price //shorthand do not need price: price 
+        });
+        await camp.save()
+    }
+};
+```
+<hr>
+
+- run `node seeds/index.js`
+- look in mongo `db.campgrounds.find()` to check
+- update `projects/show.ejs` to display image and other seeded data
+```html
+  <h1><%= campground.title %></h1>
+  <h2><%= campground.location %></h2>
+  <img src="<%= campground.image %>" alt="campground image">
+  <p><%= campground.description %> </p>
+  <p>
+    <a href="/campgrounds/<%= campground._id %>/edit ">Edit Campground</a>
+  </p>
+  <p>
+    <form action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+      <button>Delete</button>
+    </form>
+  </p>
+```
+<hr>
 
 ## Styling Campground Index
 
