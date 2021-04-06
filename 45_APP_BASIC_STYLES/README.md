@@ -61,6 +61,7 @@
 ```
 ## Navbar Partial
 
+
 ## Footer Partial
 
 ## Adding Images
