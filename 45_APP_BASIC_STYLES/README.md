@@ -60,7 +60,36 @@
   </main>
 ```
 ## Navbar Partial
+- [Bootstrap5! Navbar Docs](https://getbootstrap.com/docs/5.0/components/navbar/)- [Bootstrap5! Navbar Docs](https://getbootstrap.com/docs/5.0/components/navbar/)
+- make sticky-top, dark navbar - if toggle works js is connected correctly:
+<hr>
 
+```html
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">YelpCamp</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/campgrounds">Campgrounds</a>
+        <a class="nav-link" href="/campgrounds/new">New Campgrounds</a>
+      </div>
+    </div>
+  </div>
+</nav>
+```
+- mkdir `partials` in `views` for `navbar.ejs` --> include in `boilerplate.ejs`:
+```html
+</head>
+<body>
+  <%- include('../partials/navbar') %> 
+  <main class="container mt-5">
+    <%- body %> 
+  </main>
+```
 
 ## Footer Partial
 
