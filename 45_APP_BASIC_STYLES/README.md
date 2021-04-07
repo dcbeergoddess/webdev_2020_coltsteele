@@ -276,7 +276,46 @@ const seedDB = async () => {
 <hr>
 
 ## Styling Edit Form
-- 
+```html
+<div class="row">
+  <h1 class="text-center">Edit Campground</h1>
+  <div class="col-6 offset-3">
+    <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %> ">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %> ">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input class="form-control" type="text" id="image" name="campground[image]" value="<%= campground.image %> ">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Campground Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="price-label">$</span>
+          <input type="text" class="form-control" id="price" name="campground[price]"placeholder="0.00" aria-label="price" aria-describedby="price-label" value="<%= campground.price %> ">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" type="text" id="description" name="campground[description]"><%= campground.description %></textarea>
+      </div>
+      <div class="mb-3">
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-info">Update Campground</button>
+      </div>
+    </form>
+    <a href="/campgrounds/<%= campground._id %> ">Back to Campground</a>
+  </div>
+</div>
+```
 
 ## Styling Show Page
+- `class="d-inline"` : display inline in bootstrap5
+- [BOOTSTRAP CARD CODE FOR SHOW PAGE - YelpCamp](08_show_card/show.ejs)
 
