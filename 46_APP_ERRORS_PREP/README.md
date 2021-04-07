@@ -286,7 +286,6 @@ app.get('/', function (req, res, next) {
   })
 });
 ```
-
 ### Defining An Async Utility
 
 ### Differentiating Mongoose Errors
