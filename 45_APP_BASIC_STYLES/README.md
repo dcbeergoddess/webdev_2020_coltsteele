@@ -227,7 +227,53 @@ const seedDB = async () => {
     <% } %>
 ```
 ## Styling New Form
-- 
+- put everything in the `grid`
+```html
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">New Campground</h1>
+  <!-- col-6 => don't want all the way to left => offset-3 -->
+  <div class="col-6 offset-3">
+    <form action="/campgrounds" method="POST">
+      <div>
+```
+- [BOOTSTRAP5! FORM DOCS](https://getbootstrap.com/docs/5.0/forms/overview/)
+- [BOOTSTRAP5! INPUT GROUP DOCS](https://getbootstrap.com/docs/5.0/forms/input-group/)
+<hr>
+
+```html
+    <form action="/campgrounds" method="POST">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="campground[title]">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input class="form-control" type="text" id="location" name="campground[location]">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input class="form-control" type="text" id="image" name="campground[image]">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Campground Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="price-label">$</span>
+          <input type="text" class="form-control" id="price" name="campground[price]"placeholder="0.00" aria-label="price" aria-describedby="price-label">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" type="text" id="description" name="campground[description]"></textarea>
+      </div>
+      <div class="mb-3">
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Add Campground</button>
+      </div>
+    </form>
+```
+<hr>
 
 ## Styling Edit Form
 
