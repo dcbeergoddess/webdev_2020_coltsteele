@@ -207,6 +207,85 @@ app.get('/admin', (req, res) => {
 - Can Respond with stack trace in development mode
 
 ### Handling Async Errors
+- Mongoose Queries - And Async Functions
+- Default Error
+```js
+app.use((err, req, res, next) => {
+  const { status = 500, message = 'Something Went Wrong'} = err;
+  res.status(status).send(message);
+});
+```
+- Test In Route
+```js
+app.get('/products/new', (req, res) => {
+  throw new AppError('NOT ALLOWED', 401)
+  res.render('products/new', { categories });
+});
+```
+- IN LOCALHOST:
+![ERROR HANDLING TEST](assets/async1.png)
+<hr>
+
+- TRY TO FIND PRODUCT WITH WRONG ID IN LOCAL HOST:
+![ASYNC TEST](assets/async2.png)
+
+- Eventually want to set up templates to handle errors instead of `product not found`. But for Now let's try this:
+```js
+// SINGLE PRODUCT PAGE
+app.get('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  if(!product){
+    throw new AppError('Product Not Found', 404)
+  }
+  res.render('products/show', { product });
+});
+```
+![ERROR IN CONSOLE](assets/async3.png)
+- ACTS DIFFERENT Inside async function
+- For errors returned from asynchronous functions invoked by route handlers and middleware, you must pass them to the `next()` function, where Express will catch and process them
+```js
+app.get('/products/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  if(!product){
+    next(new AppError('Product Not Found', 404))
+  };
+  res.render('products/show', { product });
+});
+```
+![ERROR IN LOCALHOST](assets/async4.png)
+![ERROR IN CONSOLE](assets/async5.png)
+- ERROR coming from EJS in console. `return` next function so it does not look for next middleware and run rest of code in route, i.e `res.render`
+```js
+  if(!product){
+    return next(new AppError('Product Not Found', 404))
+  };
+    res.render('products/show', { product });
+```
+- Another Example to Handle Async Code:
+```js
+app.get('/products/:id/edit', async (req, res, next) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+  if(!product){
+    return next(new AppError('Product Not Found', 404))
+  };
+  res.render('products/edit', { product, categories });
+});
+```
+- Express example - no need to return next in if, else statement
+```js
+app.get('/', function (req, res, next) {
+  fs.readFile('/file-does-not-exist', function (err, data) {
+    if (err) {
+      next(err) // Pass errors to Express.
+    } else {
+      res.send(data)
+    }
+  })
+});
+```
 
 ### Defining An Async Utility
 
