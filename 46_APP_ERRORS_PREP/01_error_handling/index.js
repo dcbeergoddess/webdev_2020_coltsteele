@@ -24,21 +24,15 @@ const verifyPassword = ((req, res, next) => {
   }
   res.send('Sorry you need a password')
 })
-/*
-app.use((req, res, next) => {
-  console.log('THIS IS MY FIRST MIDDLEWARE!!');
-  return next();
-  console.log('THIS IS MY FIRST MIDDLEWARE!! - AFTER NEXT()'); //THIS CODE WILL RUN AFTER OTHER MIDDLEWARE UNLESS YOU RETURN NEXT() AND STOP THE FUNCTION
-}); 
-app.use((req, res, next) => {
-  console.log('THIS IS MY SECOND MIDDLEWARE!!');
-  return next();
-}); 
-*/
+
 //ROUTES
 app.get('/', (req, res) => {
   console.log(`REQUEST DATE: ${req.requestTime}`);
   res.send('HOME PAGE!');
+});
+
+app.get('/error', (req, res) => {
+  chicken.fly();
 });
 
 app.get('/dogs', (req, res) => {
