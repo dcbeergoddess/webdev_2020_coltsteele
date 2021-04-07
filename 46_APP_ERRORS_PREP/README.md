@@ -48,8 +48,73 @@ const verifyPassword = ((req, res, next) => {
 ![throw error](assets/throw_error.png)
 
 ### Defining Custom Error Handlers
+- Writing Error handlers --> Express Docs
+- Needs to have 4 arguments that will be passed into the error-handling middleware function `(err, req, res, next)`
+- Put last in file after `app.use` or `app.get` before `app.listen`
+```js
+// ERROR HANDLING MIDDLEWARE FUNCTION
+app.use((err, req, res, next) => {
+  console.log('***************************')
+  console.log('**********Error************')
+  console.log('***************************')
+})
+```
+- POSTMAN:
+![PostMan Test of error](assets/middleware_error1.png)
+- CONSOLE:
+![Console Log of error](assets/middleware_error2.png)
+<hr>
 
-### Our Custom Error Class 
+- ADD IN `res.status(500).send("message")`
+```js
+// ERROR HANDLING MIDDLEWARE FUNCTION
+app.use((err, req, res, next) => {
+  console.log('***************************')
+  console.log('**********Error************')
+  console.log('***************************')
+  res.status(500).send("OH BOY, WE GOT AN ERROR!!!!")
+})
+```
+- POSTMAN:
+![PostMan Test of error](assets/middleware_error3.png)
+<hr>
+
+- Using `next()`
+```js
+// ERROR HANDLING MIDDLEWARE FUNCTION
+app.use((err, req, res, next) => {
+  console.log('***************************')
+  console.log('**********Error************')
+  console.log('***************************')
+  console.log(err)
+  next();
+})
+```
+- POSTMAN:
+![PostMan Test of error](assets/middleware_error4.png)
+- CONSOLE:
+![Console Log of error](assets/middleware_error5.png)
+<hr>
+
+- need to pass `err` into `next(err)` --> will call next error handling middleware vs next() --> calls non error middleware next
+```js
+// ERROR HANDLING MIDDLEWARE FUNCTION
+app.use((err, req, res, next) => {
+  console.log('***************************')
+  console.log('**********Error************')
+  console.log('***************************')
+  console.log(err);
+  next(err); //hit built in error failure
+})
+```
+- POSTMAN:
+![PostMan Test of error](assets/middleware_error6.png)
+- CONSOLE:
+![Console Log of error](assets/middleware_error7.png)
+
+### Our Custom Error Class
+- Express gives you a lot of control --> no one way to handle errors
+- [MDN HTTP STATUS CODES](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 
 
 ### Handling Async Errors
 

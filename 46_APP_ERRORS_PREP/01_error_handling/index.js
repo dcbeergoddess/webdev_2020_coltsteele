@@ -49,6 +49,15 @@ app.use((req, res) => {
   res.status(404).send('NOT FOUND');
 });
 
+// ERROR HANDLING MIDDLEWARE FUNCTION
+app.use((err, req, res, next) => {
+  console.log('***************************')
+  console.log('**********Error************')
+  console.log('***************************')
+  console.log(err);
+  next(err);
+})
+
 //LISTENER
 app.listen(3030, () => {
   console.log('App is running on localhost:3030');
