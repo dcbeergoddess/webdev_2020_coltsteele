@@ -50,7 +50,7 @@ app.get('/secret', verifyPassword, (req, res) => {
 });
 
 app.get('/admin', (req, res) => {
-  throw new AppError('You are not an admin', 403)
+  throw new AppError('You are not an Admin', 403)
 });
 
 app.use((req, res) => {
