@@ -114,7 +114,97 @@ app.use((err, req, res, next) => {
 
 ### Our Custom Error Class
 - Express gives you a lot of control --> no one way to handle errors
-- [MDN HTTP STATUS CODES](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 
+- [MDN HTTP STATUS CODES](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+```js
+const verifyPassword = ((req, res, next) => {
+  const { password } = req.query;
+  if(password === 'chickennugget'){
+    next();
+  }
+  // res.send('Sorry you need a password')
+  res.status(401)
+  throw new Error('Password required!')
+})
+```
+![STATUS CODE ERROR 401](assets/status_code1.png)
+
+- Would have to write this a lot so instead throw some generic error 
+- Instead: create new file `AppError.js`:
+```js
+class AppError extends Error {
+  constructor(message, status){
+    super();
+    this.message = message;
+    this.status = status;
+  }
+};
+
+module.exports = AppError;
+```
+- require in `index.js`: `const AppError = require('./AppError');`:
+```js
+const verifyPassword = ((req, res, next) => {
+  const { password } = req.query;
+  if(password === 'chickennugget'){
+    next();
+  }
+  throw new AppError('password required', 401);
+});
+```
+- ON LOCALHOST SAME RESPONSE:
+![STATUS CODE ERROR 401](assets/status_code2.png)
+
+- When an error is written, the following information is added to the response:
+* The res.statusCode is set from `err.status` (or `err.statusCode`). If this value is outside the 4xx or 5xx range, it will be set to 500.
+* The res.statusMessage is set according to the status code.
+* The body will be the HTML of the status code message when in production environment, otherwise will be `err.stack` --> errors have their own stack
+* Any headers specified in an `err.headers` object.
+- DESTRUCTURE `{ status }` from error stack:
+```js
+app.use((err, req, res, next) => {
+  const { status } = err;
+  res.status(status).send('ERRORRRR!!!!')
+});
+```
+- ON LOCALHOST:
+![STATUS CODE ERROR 401](assets/status_code3.png)
+
+- will not work on `/error` because has not status code, it's a reference (syntax) error:
+![NO STATUS CODE ERROR](assets/status_code4.png)
+- give deconstructed `{status}` a default value
+```js
+app.use((err, req, res, next) => {
+  const { status = 500 } = err;
+  res.status(status).send('ERRORRRR!!!!')
+});
+```
+- ON LOCALHOST:
+![STATUS CODE ERROR](assets/status_code5.png)
+
+- Very Simple way to set up Error Class where we can specify a message in a status, throw that from anywhere in our application with different status, different messages, and then have a  single handler that will take them. 
+- Also use default values if we don't provide them and then send that status code back with that message
+```js
+app.use((err, req, res, next) => {
+  const { status = 500, message = 'Something Went Wrong' } = err;
+  res.status(status).send(message);
+});
+```
+- ON LOCALHOST:
+![STATUS CODE ERROR](assets/status_code6.png)
+![STATUS CODE SECRET](assets/status_code7.png)
+
+- `403 Forbidden`
+- Make Fake admin route
+```js
+app.get('/admin', (req, res) => {
+  throw new AppError('You are not an Admin', 403)
+});
+```
+- ON LOCALHOST:
+![STATUS CODE 403 ERROR](assets/status_code8.png)
+
+- Can Respond with stack trace in development mode
 
 ### Handling Async Errors
 
