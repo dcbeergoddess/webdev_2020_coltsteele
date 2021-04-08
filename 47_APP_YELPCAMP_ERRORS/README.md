@@ -125,6 +125,7 @@ app.post('/campgrounds', async (req, res, next) => {
 - EVENTUALLY WE WILL WRITE LOGIC BUT NEED TO DEFINE OUR EXPRESS ERROR CLASS
 
 ## Defining ExpressError Class
+- 
 
 ## More Errors
 
