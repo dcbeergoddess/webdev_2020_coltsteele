@@ -92,6 +92,11 @@
     </div>
 ```
 - TRANSFER JS CODE TO BOILERPLATE FOR NOW
+- Change Edit Form for Bootstrap Validator
+- [FIRST NEW FORM](01_new_form1/new.ejs)
+- [SECOND NEW FORM](02_bootstrap_validate/new.ejs)
+- [EDIT FORM](02_bootstrap_validate/edit.ejs)
+- [BOILERPLATE FORM](02_bootstrap_validate/boilerplate.ejs)
 
 ## Basic Error Handler
 
