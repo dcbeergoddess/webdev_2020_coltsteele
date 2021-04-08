@@ -47,6 +47,51 @@
     })
 })()
 ```
+- JS Prevents Form from Being Submitted if Validation fails --> will move to separate files but for now in script tag in `new.ejs`
+```html
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.validated-form')
+
+  // Loop over them and prevent submission
+  // Array.prototype.slice.call(forms)
+  //NEW WAY
+  Array.from(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+```
+- IN FORM:
+```html
+  <form action="/campgrounds" method="POST" novalidate class="validated-form">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="campground[title]" required>
+```
+- Add `valid feedback`
+```html
+<form class="row g-3 needs-validation" novalidate>
+  <div class="col-md-4">
+    <label for="validationCustom01" class="form-label">First name</label>
+    <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+```
+- TRANSFER JS CODE TO BOILERPLATE FOR NOW
 
 ## Basic Error Handler
 
