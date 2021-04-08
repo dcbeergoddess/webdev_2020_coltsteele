@@ -71,14 +71,10 @@ app.get('/products/new', (req, res) => {
 });
 // 2. ROUTE TO POST FORM WHEN SUBMIT
 app.post('/products', wrapAsync (async (req, res, next) => {
-  try {
     const newProduct = new Product(req.body);
     await newProduct.save();
     console.log(newProduct);
     res.redirect(`/products/${newProduct._id}`);
-  } catch(e){
-    next(e);
-  } 
 }));
 // SINGLE PRODUCT PAGE
 app.get('/products/:id', wrapAsync(async (req, res, next) => {
@@ -106,19 +102,26 @@ app.put('/products/:id', wrapAsync(async (req, res, next) => {
 }));
 //DELETE PRODUCT
 app.delete('/products/:id', wrapAsync(async (req, res, next) => {
-  try {
     const { id } = req.params;
     const deletedProduct = await Product.findByIdAndDelete(id);
     res.redirect('/products');
-  } catch(e) {
-    next(e);
-  }
 }));
 
 //******************************************** */
 ////////DEFAULT ERROR/PORT LISTENING/////////////
 //******************************************** */
+//MONGO
+const handleValidationErr = err => {
+  console.dir(err);
+  return new AppError(`Validation Failed...${err.message}`, 400)
+};
 
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  if (err.name === 'ValidationError') err = handleValidationErr(err);
+  next(err);
+});
+//EXPRESS
 app.use((err, req, res, next) => {
   const { status = 500, message = 'Something Went Wrong'} = err;
   res.status(status).send(message);

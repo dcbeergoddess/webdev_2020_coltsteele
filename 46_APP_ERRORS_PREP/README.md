@@ -385,3 +385,60 @@ app.get('/products/:id', wrapAsync(async (req, res, next) => {
 ```
 - This won't be an issue in Express5 --> still in alpha
 
+### Differentiating Mongoose Errors
+- Validation Errors
+- Create Custom Feedback for Errors
+- Distinct Category of Mongo Errors, all have a property of name
+- LOGGER NAME OF ERROR
+```js
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  next(err);
+})
+```
+- CastError
+- ValidationError
+- Error
+- Can decide to have some logic for validation errors that makes more sense to user, highlight fields they are missing
+```js
+const handleValidationErr = err => {
+  console.dir(err)
+};
+
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  if (err.name === 'ValidationError') err = handleValidationErr(err);
+  return err;
+})
+```
+- IN CONSOLE:
+![Console](assets/mongoose_error1.png)
+- Use custom validation message in Model
+```js
+  name: {
+    type: String,
+    required: [true, 'name cannot be blank']
+  },
+  price: {
+    type: Number,
+    require: true,
+    min: [0, 'NO NEGATIVE PRICES!!!']
+  },
+```
+- What we do with clients to give them a solid experience, take error object and turn it into a nicer string
+```js
+//MONGO
+const handleValidationErr = err => {
+  console.dir(err);
+  return new AppError(`Validation Failed...${err.message}`, 400)
+};
+
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  if (err.name === 'ValidationError') err = handleValidationErr(err);
+  next(err);
+});
+```
+- IN LOCALHOST: 
+![CUSTOM ERROR MESSAGE](assets/mongoose_error2.png)
+
