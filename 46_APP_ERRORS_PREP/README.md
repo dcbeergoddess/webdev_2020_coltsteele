@@ -347,6 +347,41 @@ app.get('/products/:id', async (req, res, next) => {
 - just know you have to use this in any `async middleware` or any `async root handler`
 
 ### Defining An Async Utility
+- Define Function to Pass Entire Async Callback too
+- We want all this code to inherit functionality from parent function
+```js
+async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if(!product){
+      throw new AppError('Product Not Found', 404)
+    };
+    res.render('products/show', { product });
+  } catch(e) {
+    next(e);
+  }
+```
+- `function wrapAsync` --> going to accept a function --> `fn` refers to whole function we pass in --> it needs to return a function and need to pass through req, res, next --> express will `pass req, res, next` and we are going to pass it on to fn
+- if anything goes wrong we are going to catch that error and pass it on to next
+```js
+function wrapAsync(fn){
+  return function(req, res, next){
+    fn(req, res, next).catch(e => next(e));
+  }
+};
+```
+- so you don't have to keep coding try and catch
+```js
+// SINGLE PRODUCT PAGE
+app.get('/products/:id', wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if(!product){
+      throw new AppError('Product Not Found', 404)
+    };
+    res.render('products/show', { product });
+}));
+```
+- This won't be an issue in Express5 --> still in alpha
 
-### Differentiating Mongoose Errors
-- 
