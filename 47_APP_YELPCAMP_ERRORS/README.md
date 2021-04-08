@@ -99,6 +99,30 @@
 - [BOILERPLATE FORM](02_bootstrap_validate/boilerplate.ejs)
 
 ## Basic Error Handler
+- Error Handling in Express
+- For Example we try to pass string to number, it gets stuck
+- Set up our Own Error Handler in `app.js` - test with this -->
+```js
+app.use(err, req, res, next) => {
+  res.send('OH BOY SOMETHING WENT WRONG')
+}
+```
+- Test in POST new campground rent with try and catch
+```js
+//POST ROUTE
+app.post('/campgrounds', async (req, res, next) => {
+  try {
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`campgrounds/${campground._id}`);
+  } catch(e) {
+    next(e);
+  }
+});
+```
+- IN LOCALHOST:
+![Message sent back in browser](assets/basic_error.png)
+- EVENTUALLY WE WILL WRITE LOGIC BUT NEED TO DEFINE OUR EXPRESS ERROR CLASS
 
 ## Defining ExpressError Class
 
