@@ -241,6 +241,7 @@ app.get('/products/:id', async (req, res) => {
   res.render('products/show', { product });
 });
 ```
+- CONSOLE:
 ![ERROR IN CONSOLE](assets/async3.png)
 - ACTS DIFFERENT Inside async function
 - For errors returned from asynchronous functions invoked by route handlers and middleware, you must pass them to the `next()` function, where Express will catch and process them
@@ -254,7 +255,9 @@ app.get('/products/:id', async (req, res, next) => {
   res.render('products/show', { product });
 });
 ```
+- LOCALHOST:
 ![ERROR IN LOCALHOST](assets/async4.png)
+- CONSOLE:
 ![ERROR IN CONSOLE](assets/async5.png)
 - ERROR coming from EJS in console. `return` next function so it does not look for next middleware and run rest of code in route, i.e `res.render`
 ```js
@@ -286,6 +289,64 @@ app.get('/', function (req, res, next) {
   })
 });
 ```
+### More Handling Async Errors
+- errors coming from mongoose, or from messing up code, etc. where you are not calling `next()`
+- There are validations on the Model
+- make new product - with price of 2 but no name
+- LOCALHOST:
+![ERROR IN LOCALHOST](assets/async6.png)
+- CONSOLE:
+![ERROR IN CONSOLE](assets/async7.png)
+- HANDLE MONGOOSE ERROR BY USING `try` and `catch` and passing `e` into `next()`:
+```js
+// 2. ROUTE TO POST FORM WHEN SUBMIT
+app.post('/products', async (req, res, next) => {
+  try {
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+    console.log(newProduct);
+    res.redirect(`/products/${newProduct._id}`);
+  } catch(e){
+    next(e);
+  } 
+});
+```
+- LOCALHOST:
+![ERROR IN LOCALHOST](assets/async7.png)
+- ANOTHER EXAMPLE IN UPDATE ROUTE:
+```js
+//PUT REQUEST TO REPLACE ENTIRE OBJECT WITH UPDATED INFO
+app.put('/products/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true});
+    res.redirect(`/products/${product._id}`); 
+  } catch(e) {
+    next(e);
+  }
+});
+```
+- IF ASYNC FUNCTION WRAP IN TRY AND CATCH!!!!
+- PRODUCT DETAILS PAGE UPDATE-Whether it's an error mongoose throws, or I throw myself it will be caught:
+```js
+// SINGLE PRODUCT PAGE
+app.get('/products/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if(!product){
+      throw new AppError('Product Not Found', 404)
+    };
+    res.render('products/show', { product });
+  } catch(e) {
+    next(e);
+  }
+});
+```
+- Usually we will redirect to a template in our error handling
+- just know you have to use this in any `async middleware` or any `async root handler`
+
 ### Defining An Async Utility
 
 ### Differentiating Mongoose Errors
+- 
