@@ -263,6 +263,88 @@ app.use((err, req, res, next) => {
 ![POST DATA WRONG FROM POSTMAN](assets/postman1.png)
 ## JOI Schema Validations
 - [JOI DOCS](https://joi.dev/api/?v=17.2.1)
-
+- Validate Data with Update and Post Campgrounds
+- You can put in logic individually --> does not scale well with larger models --> USE `JOI` --> DATA VALIDATOR
+- Define a schema for data in JavaScript --> our schema will be for req.body --> validate --> can make sure that campground is there as an object with all data validations
+1. in terminal `npm i joi` 
+2. in `app.js` --> `const Joi = require('joi');`
+3. Define Schema --> to start in `post` route --> NOT A MONGOOSE SCHEMA --> Validates Data before attempting to save to mongoose --> campground is our `key`, i.e everything is `campground[title]`, `campground[price]`, etc.
+```js
+//POST ROUTE
+app.post('/campgrounds', catchAsync(async (req, res, next) => {
+  // if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
+  const campgroundSchema = Joi.object({
+    //campground is our `key` (everything is campground[title], etc)
+    //it should be an object and it needs to be required
+    campground: Joi.object({
+      title: Joi.string().required(),
+      price: Joi.number().required().min(0),
+    }).required()
+  })
+  //save result to variable and print that out to see what happens
+  const result = campgroundSchema.validate(req.body);
+  console.log(result);
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`campgrounds/${campground._id}`);
+}));
+```
+- IN CONSOLE AFTER TESTING IN POSTMAN:
+![Joi print out](assets/joi1.png)
+- Throw Express Error to pass error down to our middleware error handling
+```js
+//POST ROUTE
+app.post('/campgrounds', catchAsync(async (req, res, next) => {
+  // if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
+  const campgroundSchema = Joi.object({
+    //campground is our `key` (everything is campground[title], etc)
+    //it should be an object and it needs to be required
+    campground: Joi.object({
+      title: Joi.string().required(),
+      price: Joi.number().required().min(0),
+    }).required()
+  })
+  //save result to variable and print that out to see what happens
+  const result = campgroundSchema.validate(req.body);
+  if(result.error){
+    throw new ExpressError(result.error.details, 400)
+  }
+  console.log(result);
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`campgrounds/${campground._id}`);
+}));
+```
+- `result.error.details` --> right now prints out as array
+![testing error printout](assets/joi2.png)
+- destructure to only grab error portion
+- map over error.details - join them if there is more than one message in the array
+```js
+//POST ROUTE
+app.post('/campgrounds', catchAsync(async (req, res, next) => {
+  // if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
+  const campgroundSchema = Joi.object({
+    //campground is our `key` (everything is campground[title], etc)
+    //it should be an object and it needs to be required
+    campground: Joi.object({
+      title: Joi.string().required(),
+      price: Joi.number().required().min(0),
+      image: Joi.string().required(),
+      location: Joi.string().required(),
+      description: Joi.string().required()
+    }).required()
+  })
+  //save result to variable and print that out to see what happens
+  const { error } = campgroundSchema.validate(req.body);
+  if(error){
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  }
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`campgrounds/${campground._id}`);
+}));
+```
+![testing error printout](assets/joi3.png)
 
 ## JOI Validation Middleware
