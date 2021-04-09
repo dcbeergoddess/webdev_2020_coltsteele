@@ -385,4 +385,38 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) =
   res.redirect(`campgrounds/${campground._id}`);
 }));
 ```
+### MOVE JOI MIDDLEWARE TO IT'S OWN FILE
+- `touch schemas.js` in root directory
+```js
+const Joi = require('joi');
+
+module.exports.campgroundSchema = Joi.object({
+  //campground is our `key` (everything is campground[title], etc)
+  //it should be an object and it needs to be required
+  campground: Joi.object({
+    title: Joi.string().required(),
+    price: Joi.number().required().min(0),
+    image: Joi.string().required(),
+    location: Joi.string().required(),
+    description: Joi.string().required()
+  }).required()
+});
+```
+- **JOI** --> TONS OF VALIDATIONS IN DOCS --> email patterns --> passwords --> credit card validation
+- require in `app.js` --> destructure to include more joi schemas we create in future --> `const { campgroundSchema } = require('./schemas.js');` --> keep `validateCampground` middleware
+```js
+//Joi MIDDLEWARE
+const validateCampground = (req, res, next) => {
+  const { error } = campgroundSchema.validate(req.body);
+  if(error){
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next();
+  }
+};
+```
+- You do not need to require `joi` in `app.js`
+- You can create custom error messages in `joi` 
+- `schema` is not a mongoose schema it is just a pattern for a javascript object and use that to validate on incoming requests
 
