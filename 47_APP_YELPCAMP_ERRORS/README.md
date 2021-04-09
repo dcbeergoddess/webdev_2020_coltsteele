@@ -205,8 +205,64 @@ app.post('/campgrounds', catchAsync(async (req, res, next) => {
 ```
 
 ## Defining Error Template
+1. touch `views/error.ejs`
+- EXAMPLE BOOTSTRAP ALERT FROM DOCS:
+```html
+<div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Well done!</h4>
+  <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+  <hr>
+  <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+</div>
+```
+2. in `app.use` error middleware --> res.render --> error.ejs --> now shows up for any error
+```js
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = 'Something went wrong' } = err;
+  res.status(statusCode).render(`error`);
+});
+```
+3. Style Error in `error.ejs` --> smaller in bootstrap grid
+```html
+<% layout('layouts/boilerplate') %> 
+<!-- FROM BOOTSTRAP ALERT DOCS -->
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Error!</h4>
+      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+      <hr>
+      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    </div>
+  </div>
+</div>
 
+```
+4. update to use message we have on error and display error stack for development --> pass entire error to template --> default message is not going to work anymore to update error object
+```js
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if(!err.message) err.message = 'Oh No, Something went Wrong';
+  res.status(statusCode).render(`error`, { err });
+});
+```
+```html
+<% layout('layouts/boilerplate') %> 
+<!-- FROM BOOTSTRAP ALERT DOCS -->
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= err.message %></h4>
+      <!-- FOR DEVELOPMENT PURPOSES -->
+        <p><%= err.stack %></p> 
+    </div>
+  </div>
+</div>
+```
+- WE STILL NEED TO PREVENT PEOPLE (EITHER ILL INTENTIONED OR NOT) FROM POST TO SITE VIA POSTMAN WITH BAD DATA
+![POST DATA WRONG FROM POSTMAN](assets/postman1.png)
 ## JOI Schema Validations
 - [JOI DOCS](https://joi.dev/api/?v=17.2.1)
+
 
 ## JOI Validation Middleware
