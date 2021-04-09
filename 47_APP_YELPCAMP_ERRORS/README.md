@@ -348,3 +348,41 @@ app.post('/campgrounds', catchAsync(async (req, res, next) => {
 ![testing error printout](assets/joi3.png)
 
 ## JOI Validation Middleware
+- Logic only on creating new campground, need to apply to update as well and other places we need to validate a schema for
+- MOVE TO MIDDLEWARE!!!!! --> make reusable
+- Define Middleware function in `app.js` file for now
+```js
+//Joi MIDDLEWARE
+const validateCampground = (req, res, next) => {
+  const campgroundSchema = Joi.object({
+    //campground is our `key` (everything is campground[title], etc)
+    //it should be an object and it needs to be required
+    campground: Joi.object({
+      title: Joi.string().required(),
+      price: Joi.number().required().min(0),
+      image: Joi.string().required(),
+      location: Joi.string().required(),
+      description: Joi.string().required()
+    }).required()
+  })
+  //save result to variable and print that out to see what happens
+  const { error } = campgroundSchema.validate(req.body);
+  if(error){
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next();
+  }
+};
+```
+- Add to necessary routes as you do with any middleware
+```js
+//POST ROUTE
+app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) => {
+  // if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`campgrounds/${campground._id}`);
+}));
+```
+
