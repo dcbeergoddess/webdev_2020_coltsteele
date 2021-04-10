@@ -177,4 +177,20 @@ Farm.findOne({ name: 'Full Belly Farms' })
 - freedom and flexible comes with risk of making thinks slow and messing up optimization 
 
 ### Mongo Schema Design
-- [Mongo Blog on Design](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3)
+- [Mongo Blog on Design Part 3](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3)
+
+- Integrate into Express APP
+- Denormalization = duplicate some data that you will be accessing frequently on the model
+- Paradox of Choice --> so many options to do this
+#### RULES OF THUMB: YOUR GUIDE THROUGH THE RAINBOW
+1. favor embedding unless there is a compelling reason not to
+2. needing to access an object on its own is a compelling reason not to embed it
+3. Arrays should not grow without bound. If there are more that a couple hundred documents on the "many" side, don't use an array of ObjectID references. High-cardinality arrays are a compelling reason not to embed
+4. Don't be afraid of application-level joins: if you index correctly and use the projections specifier(as show in part 2 of Mongo's Blog on Design) then application-level joins are barely more expensive than server-side joins in a relational database.
+5. Consider the write/read ratio when denormalizing. A field that will mostly be read and only seldom updated is a good candidate for denormalization: if you denormalize a field that updated frequently then the extra work of finding adn updating all the instances is likely to overwhelm the savings you get from denormalizing
+6. As always with MongoDB, how you model your data depends - entirely - on your particular application's data access patterns. You want to structure your data to match the ways that your application queries and updates it
+#### DENORMALIZATION
+- [Mongo Blog on Design Part 2](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-2)
+- Two-Way-Referencing 
+- Denormalizing from Many --> One
+
