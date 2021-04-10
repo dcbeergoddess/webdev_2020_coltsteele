@@ -103,6 +103,39 @@ app.post('/farms', async (req, res) => {
 ```
 - IN LOCAL HOST:
 ![DATA SENT TO LOCAL HOST](assets/farm1.png)
+- Now Instantiate and Save a new farm
+- import model
+- save farm (no validation or error handling in this app)
+- make index route 
+```js
+//Index Page for Farms
+app.get('/farms', async (req, res) => {
+  const farms = await Farm.find({});
+  res.render('farms/index', { farms });
+});
+```
+- SET UP Quick EJS to test that it's working
+```html
+  <h1>All Farms</h1>
+
+  <ul>
+    <% for( let farm of farms ) { %>
+      <li><%= farm.name %></li>
+  
+    <% } %>
+  </ul>
+```
+- Post Data From Form --> redirect to index
+```js
+//Post Data from Add Farm Form
+app.post('/farms', async (req, res) => {
+  const farm = new Farm(req.body) //NO VALIDATION FOR NOW
+  await farm.save(); //Typically have form of error handler
+  res.redirect('/farms');
+});
+```
+- Create Farm and Test
+![Farm Name Test](assets/farm2)
 
 ### Farms Show Page
 

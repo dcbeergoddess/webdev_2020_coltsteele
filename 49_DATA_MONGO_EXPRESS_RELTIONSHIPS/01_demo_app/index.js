@@ -35,13 +35,21 @@ app.get('/', (req, res) => {
 //********************************************************* */
 ///////////////////FARM ROUTES////////////////////////////
 //******************************************************** */
+//Index Page for Farms
+app.get('/farms', async (req, res) => {
+  const farms = await Farm.find({});
+  res.render('farms/index', { farms });
+});
+
 //Render Add Farm Form
 app.get('/farms/new', (req, res) => {
   res.render('farms/new');
 });
 //Post Data from Add Farm Form
 app.post('/farms', async (req, res) => {
-  res.send(req.body);
+  const farm = new Farm(req.body) //NO VALIDATION FOR NOW
+  await farm.save(); //Typically have form of error handler
+  res.redirect('/farms');
 });
 
 //********************************************************* */
