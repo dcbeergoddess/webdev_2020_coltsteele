@@ -91,8 +91,39 @@ const addAddress = async (id) => {
 ![PROBLEM IN FOLLOWING ALONG](errorme1.png)
 
 ### One to Many
-- Primary focus --> VERY COMMON
-
+- Primary focus --> VERY COMMON --> Medium amount of Data Approach --> technically all three are one to many just different sizes of data being stored
+- One Option is to store your data separately, but then store references to document ID's somewhere inside the parent:
+```js
+{
+  farmName: 'Full Belly Farms',
+  location: 'Guinda, CA',
+  produce: [
+    ObjectID('019823741874389'),
+    ObjectID('987665766489348'),
+    ObjectID('548546632556633')
+  ]
+}
+```
+- Embed a reference to some document that is defined somewhere else --> Most common to use ObjectID
+- create Schema and Model for farm products in `farm.js`
+- create second Model for farms in `farm.js` now - create array for `products` in that model(this does not mean anything to mongoose)
+- [MONGOOSE POPULATE GUIDE](https://mongoosejs.com/docs/populate.html)
+- needs to use mongoose's `type: mongoose.Schema.Types.ObjectId`
+- usually save to variable before hand `const Schema = mongoose.Schema`
+- now `products: [{type: Schema.Types.ObjectID}]` --> not native JS comes from Mongoose
+- need to set `ref:` --> name of Model:
+```js
+//Parent Model
+const farmSchema = new.mongoose.Schema({
+  name: String,
+  city: String,
+  products: [{ type: Schema.Types.ObjectID, ref:'Product' }]
+})
+```
+- MAKE FARM ATTACH PRODUCT TO FARM EXAMPLE 1:
+- ![one to many example 1](assets/onetomany1.png)
+- ATTACH FARM TO PRODUCT EXAMPLE 2
+- ![one to many example 2](assets/onetomany2.png)
 
 ### Mongoose Populate
 
