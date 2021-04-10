@@ -1,5 +1,5 @@
 {
-  "name": "01_mongoose_express",
+  "name": "32_Mongoose_Express",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^3.1.6",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
-    "mongoose": "^5.12.2"
+    "mongoose": "^5.10.0"
   }
 }
