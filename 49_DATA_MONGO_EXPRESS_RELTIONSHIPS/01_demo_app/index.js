@@ -8,6 +8,7 @@ const methodOverride = require('method-override');
 
 //REQUIRE MODELS
 const Product = require('./models/product');
+const Farm = require('./models/farm')
 
 mongoose
   .connect('mongodb://localhost:27017/demoApp', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,18 +26,30 @@ app.set('view engine', 'ejs');
 //MIDDLEWARE 
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
-//******************************************** */
-///////////////////ARRAY CATEGORIES//////////////
-//******************************************** */
-const categories = ['fruit', 'vegetable', 'dairy', 'fungi'];
 
-//******************************************** */
-///////////////////ROUTES////////////////////////
-//******************************************** */
-//DEFAULT TEST-HOME PAGE
+//HOME PAGE
 app.get('/', (req, res) => {
   res.send('THIS IS THE HOME PAGE!!!');
 });
+
+//********************************************************* */
+///////////////////FARM ROUTES////////////////////////////
+//******************************************************** */
+//Render Add Farm Form
+app.get('/farms/new', (req, res) => {
+  res.render('farms/new');
+});
+//Post Data from Add Farm Form
+app.post('/farms', async (req, res) => {
+  res.send(req.body);
+});
+
+//********************************************************* */
+///////////////////PRODUCT ROUTES////////////////////////////
+//******************************************************** */
+const categories = ['fruit', 'vegetable', 'dairy'];
+//DEFAULT TEST-HOME PAGE
+
 //INDEX PAGE - GET ALL PRODUCTS - async (takes time)
 app.get('/products', async (req, res) => {
   const { category } = req.query;

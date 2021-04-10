@@ -86,6 +86,23 @@ const Farm = mongoose.model('Farm', farmSchema);
 module.exports = Farm;
 ```
 ### Creating New Farms
+- Render new Form to make farm - get request 
+- Soon we will learn to move all the routes so `index.js` file isn't so cluttered using **EXPRESS ROUTER**
+- JUST RENDERING FORM DOES NOT NEED TO BE ASYNC
+```js
+app.get('/farms/new', (req, res) => {
+  res.render('farms/new')
+});
+```
+- Create form like product form in `farms` directory under `views`: `new.ejs`
+- Create route to post data from form submission for adding a new farm --> `res.send(req.body)` to test data submission first:
+```js
+app.post('/farms', async (req, res) => {
+  res.send(req.body);
+});
+```
+- IN LOCAL HOST:
+![DATA SENT TO LOCAL HOST](assets/farm1.png)
 
 ### Farms Show Page
 
