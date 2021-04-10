@@ -87,12 +87,12 @@ const addAddress = async (id) => {
 - then call `addAddress()` --> passed in id (copy from mongo)
 - `addAddress(6070d8edb8a83e472a77f42a)`
 - test `node app.js`
-- NOT WORKING--- WILL COME BACK TO LATER
+- NOT WORKING--- WILL COME BACK TO LATER --> *was using address id to find and not user id*
 ![PROBLEM IN FOLLOWING ALONG](errorme1.png)
-
 
 ### One to Many
 - Primary focus --> VERY COMMON
+
 
 ### Mongoose Populate
 
