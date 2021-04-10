@@ -135,7 +135,7 @@ app.post('/farms', async (req, res) => {
 });
 ```
 - Create Farm and Test
-![Farm Name Test](assets/farm2)
+![Farm Name Test](assets/farm2.png)
 
 ### Farms Show Page
 - Make new product and associate it with a farm
@@ -143,7 +143,7 @@ app.post('/farms', async (req, res) => {
 - SHOW ROUTE
 ```js
 //SHOW ROUTE
-app.get('farms/:id', async (req, res) => {
+app.get('/farms/:id', async (req, res) => {
   const farm = await Farm.findById(req.params.id);
   res.render('farm/show', { farm })
 });
@@ -160,7 +160,83 @@ app.get('farms/:id', async (req, res) => {
 3. What Pattern to Structure Route and Create Product and Associate it with a Farm
 
 ### Creating Products for A Farm
+- Create new products associated with a particular farm
+- On Show Page for Farm have a link to add product
+- Add Product through Farm
+- Need to create routes like this `/farms/:farm_id/products/new`
+- Then send post request to this path `/farms/:farm_id/products`
+- We want that farm id --> we need to know what farm the product is associated with
+- with products all you need is id to find all so no need for this `/farms/:farm_id/products/:id"
+1. define new route that gives us the form
+```js
+//NEW ROUTE TO RENDER PRODUCT FORM
+app.get('/farms/:id/products/new', (req, res) => {
+  const { id } = req.params;
+  res.render('products/new', { categories, id });
+})
+```
+![Farm Product Form Render Test](assets/farm3.png)
+2. add `id` into NEW FORM `action` on `new.ejs` for `products` 
+```html
+<form action="/farms/<%= id %>/products" method="POST">
+```
+![Inspect Form in Dev Console](assets/farm4.png)
+3. Now we need to make that route to `POST` --> test that data is being sent with `res.send(req.body)`
+```js
+//NEW POST ROUTE TO SUBMIT NEW PRODUCT FORM
+app.post('/farms/:id/products', async (req, res) => {
+  res.send(req.body)
+});
+```
+- TEST IN LOCAL HOST:
+![Test Adding new product](assets/farm5.png)
 
+4. mongoose and relationships - make new product 
+- we associated farm with product already in model and have array of products on each farm
+- look up farm using id
+- send farm back to test
+```js
+//NEW POST ROUTE TO SUBMIT NEW PRODUCT FORM
+app.post('/farms/:id/products', async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findById(id);
+  const { name, price, category } = req.body;
+  const product = new Product({ name, price, category} );
+  res.send(farm);
+});
+```
+- TEST IN LOCAL HOST | Products empty array --> not saving anything yet:
+![Test Adding new product associated with Farm](assets/farm6.png)
+
+- connect the product and farm --> push to farm array --> add farm found to product
+```js
+app.post('/farms/:id/products', async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findById(id);
+  const { name, price, category } = req.body;
+  const product = new Product({ name, price, category} );
+  farm.products.push(product)
+  product.farm = farm;
+  res.send(farm);
+});
+```
+- - TEST IN LOCAL HOST:
+![Test Connecting Farm and Product once Submitted](assets/farm7.png)
+
+- Now WE GET TO SAVE:
+```js
+app.post('/farms/:id/products', async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findById(id);
+  const { name, price, category } = req.body;
+  const product = new Product({ name, price, category} );
+  farm.products.push(product)
+  product.farm = farm;
+  await farm.save();
+  await product.save();
+  res.send(farm);
+});
+```
 ### Finishing Touches
 
 ### Deletion Mongoose Middleware

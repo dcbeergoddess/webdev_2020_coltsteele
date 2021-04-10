@@ -27,6 +27,8 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
+const categories = ['fruit', 'vegetable', 'dairy'];
+
 //HOME PAGE
 app.get('/', (req, res) => {
   res.send('THIS IS THE HOME PAGE!!!');
@@ -55,14 +57,27 @@ app.get('/farms/:id', async (req, res) => {
   const farm = await Farm.findById(req.params.id);
   res.render('farms/show', { farm });
 });
-
+//NEW ROUTE TO RENDER PRODUCT FORM
+app.get('/farms/:id/products/new', (req, res) => {
+  const { id } = req.params;
+  res.render('products/new', { categories, id });
+});
+//NEW POST ROUTE TO SUBMIT NEW PRODUCT FORM
+app.post('/farms/:id/products', async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findById(id);
+  const { name, price, category } = req.body;
+  const product = new Product({ name, price, category} );
+  farm.products.push(product)
+  product.farm = farm;
+  await farm.save();
+  await product.save();
+  res.send(farm);
+});
 
 //********************************************************* */
 ///////////////////PRODUCT ROUTES////////////////////////////
 //******************************************************** */
-const categories = ['fruit', 'vegetable', 'dairy'];
-//DEFAULT TEST-HOME PAGE
-
 //INDEX PAGE - GET ALL PRODUCTS - async (takes time)
 app.get('/products', async (req, res) => {
   const { category } = req.query;
