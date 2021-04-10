@@ -40,7 +40,6 @@ app.get('/farms', async (req, res) => {
   const farms = await Farm.find({});
   res.render('farms/index', { farms });
 });
-
 //Render Add Farm Form
 app.get('/farms/new', (req, res) => {
   res.render('farms/new');
@@ -51,6 +50,12 @@ app.post('/farms', async (req, res) => {
   await farm.save(); //Typically have form of error handler
   res.redirect('/farms');
 });
+//SHOW ROUTE
+app.get('/farms/:id', async (req, res) => {
+  const farm = await Farm.findById(req.params.id);
+  res.render('farms/show', { farm });
+});
+
 
 //********************************************************* */
 ///////////////////PRODUCT ROUTES////////////////////////////
@@ -110,9 +115,9 @@ app.delete('/products/:id', async (req, res) => {
 //******************************************** */
 ////////DEFAULT ERROR/PORT LISTENING/////////////
 //******************************************** */
-app.get('*', (req, res) => {
-  res.send('I DO NOT KNOW THAT PATH!!!!');
-});
+// app.get('*', (req, res) => {
+//   res.send('I DO NOT KNOW THAT PATH!!!!');
+// });
 
 app.listen(PORT, () => {
   console.log(`LISTENING ON http://localhost:${PORT}`);

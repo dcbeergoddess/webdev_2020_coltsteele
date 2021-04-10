@@ -138,6 +138,26 @@ app.post('/farms', async (req, res) => {
 ![Farm Name Test](assets/farm2)
 
 ### Farms Show Page
+- Make new product and associate it with a farm
+1. set up show page for farms
+- SHOW ROUTE
+```js
+//SHOW ROUTE
+app.get('farms/:id', async (req, res) => {
+  const farm = await Farm.findById(req.params.id);
+  res.render('farm/show', { farm })
+});
+```
+2. Set Up Show Page
+```html
+  <h1><%= farm.name %></h1>
+  <ul>
+    <li>City: <%= farm.city %></li>
+    <li>Email: <%= farm.email %></li>
+  </ul>
+  <a href="/farms">All Farms</a>
+```
+3. What Pattern to Structure Route and Create Product and Associate it with a Farm
 
 ### Creating Products for A Farm
 
