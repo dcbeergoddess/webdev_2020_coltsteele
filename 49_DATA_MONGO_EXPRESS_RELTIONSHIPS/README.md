@@ -220,7 +220,7 @@ app.post('/farms/:id/products', async (req, res) => {
   res.send(farm);
 });
 ```
-- - TEST IN LOCAL HOST:
+- TEST IN LOCAL HOST:
 ![Test Connecting Farm and Product once Submitted](assets/farm7.png)
 
 - Now WE GET TO SAVE:
@@ -237,6 +237,12 @@ app.post('/farms/:id/products', async (req, res) => {
   res.send(farm);
 });
 ```
+- TEST IN LOCAL HOST:
+![Test Connecting Farm and Product once Submitted](assets/farm8.png)
+- LOOK IN MONGO:
+![CHECK DATABASE](assets/farm9.png)
+
 ### Finishing Touches
+- Redirect after new product added
 
 ### Deletion Mongoose Middleware
