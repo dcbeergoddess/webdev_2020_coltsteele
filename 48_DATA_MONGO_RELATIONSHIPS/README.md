@@ -142,7 +142,39 @@ Farm.findOne({ name: 'Full Belly Farms' })
 ```
 - IN CONSOLE DIFFERENCE BETWEEN POPULATED AND UNPOPULATED FARM CONSOLE LOG
 ![NEW Printed Current Farm Object in Console](assets/populate2.png)
+- THIS IS ONE POSSIBLE SOLUTION --> NOT THE ONLY WAY
 
 ### One to "Bajillions"
+- THIRD APPROACH TO ONE TO MANY RELATIONSHIP
+- With thousands or more documents, it's more efficient to store a reference to the PARENT on the CHILD document
+```js
+{
+  tweetText: 'lol I just crashed my car because I was tweeting',
+  tags: ['stupid', 'moron', 'yolo'],
+  user: ObjectId('56465465465')
+}
+```
+- You don't see all tweets from a user on a single page --> some users have tens of thousands of tweets
+- ADD TWEET TO USER EXAMPLE 1:
+![Add Tweet to User Console Example](assets/onetobajillions1.png)
+- `user` is just an ObjectID 
+-- ADD TWEET TO USER EXAMPLE 2:
+![Add Tweet to User Console Example](assets/onetobajillions2.png)
+
+- Query Database using Mongo to find tweets and populate that user:
+![Find First Tweet](assets/onetobajillions3.png)
+- Example 2 w/ Populate User:
+![Find First Tweet and populate User](assets/onetobajillions4.png)
+- Only Populate certain fields:
+![Populate certain fields](assets/onetobajillions5.png)
+- Populate all tweets w/ user info:
+![Populate All Tweets](assets/onetobajillions6.png)
+
+- Build More Complicated Queries Behind the Scene with `Populate`
+- make efficient with indexes, etc. --> better optimization
+- YOU CAN STORE A REFERENCE ON BOTH THE `child` and the `parent` model to go both directions
+- can store just the username on a tweet schema so you wouldn't have to populate
+- freedom and flexible comes with risk of making thinks slow and messing up optimization 
+
 ### Mongo Schema Design
 - [Mongo Blog on Design](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3)
