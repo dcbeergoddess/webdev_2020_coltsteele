@@ -121,13 +121,28 @@ const farmSchema = new.mongoose.Schema({
 })
 ```
 - MAKE FARM ATTACH PRODUCT TO FARM EXAMPLE 1:
-- ![one to many example 1](assets/onetomany1.png)
+![one to many example 1](assets/onetomany1.png)
 - ATTACH FARM TO PRODUCT EXAMPLE 2
-- ![one to many example 2](assets/onetomany2.png)
+![one to many example 2](assets/onetomany2.png)
 
 ### Mongoose Populate
+- One Page you would want just all the farms with name and cit
+- One Page you would want just all the products
+- CONSOLE.LOG FARM WITH PRODUCTS:
+![Printed Current Farm Object in Console](assets/populate1.png)
+- Have Mongoose Populate Page with All Farms and Page with all Products using the `ref:`
+- Our way of telling Mongoose this is an array of objects IDs and each one represents or is connected to the Product Model
+- Call Method called POPULATE --> take ID that has been stored in the array and replace them with the corresponding products
+- add populate to find farm and then console.log
+```js
+Farm.findOne({ name: 'Full Belly Farms' })
+.populate('products')
+.then(farm => console.log(farm));
+
+```
+- IN CONSOLE DIFFERENCE BETWEEN POPULATED AND UNPOPULATED FARM CONSOLE LOG
+![NEW Printed Current Farm Object in Console](assets/populate2.png)
 
 ### One to "Bajillions"
-
 ### Mongo Schema Design
 - [Mongo Blog on Design](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3)

@@ -67,4 +67,13 @@ const addProduct = async () => {
   console.log(farm);
 };
 
-addProduct();
+// addProduct();
+//CONSOLE LOG FARM
+// Farm.findOne({ name: 'Full Belly Farms' }).then(farm => console.log(farm));
+
+//Have Mongoose Populate Page with All Farms and Page with all Products using the `ref:`
+//Our way of telling Mongoose this is an array of objects IDs and each one represents or is connected to the Product Model
+//Call Method called POPULATE
+Farm.findOne({ name: 'Full Belly Farms' })
+.populate('products')
+.then(farm => console.log(farm));
