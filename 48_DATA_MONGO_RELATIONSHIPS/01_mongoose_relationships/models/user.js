@@ -53,7 +53,7 @@ const makeUser = async () => {
 //then set `user.addresses.push` --> second address we are pushing and we are awaiting that so `save()` it and save to variable so we can console.log(res) for learning :)
 const addAddress = async (id) => {
   const user = await User.findById(id);
-  user.addresses.push(
+   user.addresses.push(
     {
       street: '666 Hail Satan St.',
       city: 'New York',
@@ -62,7 +62,8 @@ const addAddress = async (id) => {
     }
   )
   const res = await user.save();
+  console.log(res);
 };
 
 // makeUser();
-addAddress(`6070d8edb8a83e472a77f42a`)
+addAddress(`6070d9046f2fc74733cf1374`);
