@@ -243,6 +243,121 @@ app.post('/farms/:id/products', async (req, res) => {
 ![CHECK DATABASE](assets/farm9.png)
 
 ### Finishing Touches
-- Redirect after new product added
+- Redirect after new product added 
+```js
+res.redirect(`/farms/${farm._id}`); //could use just {id} here
+```
+- Create Link in Farm Show Page
+```html
+<a href="/farms/<%=farm._id%>/products/new">Add Product</a>
+```
+- Show all Products on a Single Farm
+- Test Data Structure in route first
+```js
+//SHOW ROUTE
+app.get('/farms/:id', async (req, res) => {
+  const farm = await Farm.findById(req.params.id);
+  console.log(farm)
+  res.render('farms/show', { farm });
+});
+```
+- you don't get all the fancy stuff with product just the id:
+![farm data test](assets/farm10.png)
+- Need to update route and populate product to show info
+```js
+//SHOW ROUTE
+app.get('/farms/:id', async (req, res) => {
+  const farm = await Farm.findById(req.params.id).populate(`products`);
+  console.log(farm)
+  res.render('farms/show', { farm });
+});
+```
+- TEST IN CONSOLE:
+![farm data test](assets/farm11.png)
 
+- Add Product Data into EJS show template --> needs to be farm.products --> object structure from last photo
+```html
+  <h1><%= farm.name %></h1>
+  <ul>
+    <li>City: <%= farm.city %></li>
+    <li>Email: <%= farm.email %></li>
+  </ul>
+  <h2>Products</h2>
+  <ul>
+    <% for( let product of farm.products ) { %>
+      <li><%= product.name %> </li>
+    <% } %>
+  </ul>
+```
+- Add Farm Name into Add Product Page
+- In New Route for Products on a Farm:
+```js
+//NEW ROUTE TO RENDER PRODUCT FORM
+app.get('/farms/:id/products/new', async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findById(id);
+  res.render('products/new', { categories, farm });
+});
+```
+- Then in EJS for new product --> Add Farm Name and Update form `action`:
+```html
+  <h1><%= farm.name %></h1>
+  <h2>Add a Product</h2>
+  <form action="/farms/<%=farm._id%>/products" method="POST">
+    <div>
+      <label for="name">Product Name</label>
+      <input type="text" name="name" id="name" placeholder="product name">
+    </div>
+```
+- add link to go back to form on new product form
+```html
+      </select>
+    </div>
+    <div>
+      <button>Submit</button>
+    </div>
+  </form>
+
+  <!-- LINK TO GO BACK/CANCEL EDIT ==> take back to main page -->
+  <a href="/farms/<%= farm._id %>">Back To Farm</a>
+```
+- Make link to go to show page for specific project in the show page for the farm
+```html
+  <h1><%= farm.name %></h1>
+  <ul>
+    <li>City: <%= farm.city %></li>
+    <li>Email: <%= farm.email %></li>
+  </ul>
+  <h2>Products</h2>
+  <ul>
+    <% for( let product of farm.products ) { %>
+      <li><a href="/products/<%= product._id%>"><%= product.name%></a></li>
+    <% } %>
+  </ul>
+  <a href="/farms/<%=farm._id%>/products/new">Add Product</a>
+  <a href="/farms">All Farms</a>
+```
+- NEED To Think about when do you need the information that you will need in a route when it comes to `id`'s --> need to have unique names if you are going to have multiple ids in one path --> 
+`/posts/:postId/comments/:commentId`
+- Populate the Farm Field on our Product Show Page
+```js
+// SINGLE PRODUCT PAGE
+app.get('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id).populate('farm', 'name');
+  console.log(product);
+  res.render('products/show', { product });
+});
+```
+- TEST IN CONSOLE: 
+![Test Populate farm in product](assets/farm12.png)
+- Make Link to view Farm in Product Show page
+```html
+  <h1><%= product.name %></h1>
+  <ul>
+    <li>Price: $<%= product.price %></li>
+    <li>Category: <a href="/products?category=<%=product.category%>"><%= product.category %></a></li>
+    <li>Farm: <a href="/farms/<%= product.farm._id %> "><%= product.farm.name %></a></li>
+  </ul>
+```
 ### Deletion Mongoose Middleware
