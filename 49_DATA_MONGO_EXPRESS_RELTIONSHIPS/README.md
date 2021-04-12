@@ -431,7 +431,8 @@ farmSchema.post('findOneAndDelete', async function (farm) {
 - IN CONSOLE:
 ![PRINT OUT OF RES](assets/delete2.png)
 
-
+- ONE ANNOYING THING --> if we set up a different way of deleting --> if we called a different Mongoose Method instead of `findByIdAndDelete()` --> i.e. we just call `delete()` --> our `findOneAndDelete` middleware would not be called --> we would also need to alter the middleware we are listening for
+- READ THE MONGOOSE DOCS AND FIND YOUR SOLUTION --> SO MANY OPTIONS 
 
 
 
