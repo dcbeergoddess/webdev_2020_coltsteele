@@ -361,3 +361,29 @@ app.get('/products/:id', async (req, res) => {
   </ul>
 ```
 ### Deletion Mongoose Middleware
+- Delete relationships when needed based on application
+- ROUTE TO DELETE FARM 
+```js
+app.delete('/farms/:id', async (req, res) => {
+  const farm = await Farm.findByIdAndDelete(req.params.id);
+  res.redirect('/farms');
+});
+```
+- add ejs form functionality in `farms/show` with `_method` to delete:
+```html
+  </ul>
+  <a href="/farms/<%=farm._id%>/products/new">Add Product</a>
+  <a href="/farms">All Farms</a>
+  <form action="/farms/<%=farm._id%>?_method=DELETE" method="POST">
+    <button>Delete Farm</button>
+  </form>
+```
+- TEST FIRST
+```js
+//DELETE FARM AND PRODUCTS ASSOCIATED
+app.delete('/farms/:id', async (req, res) => {
+  console.log("Deleteing!!!");
+  // const farm = await Farm.findByIdAndDelete(req.params.id);
+  res.redirect('/farms');
+});
+```

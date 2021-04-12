@@ -57,6 +57,14 @@ app.get('/farms/:id', async (req, res) => {
   const farm = await Farm.findById(req.params.id).populate(`products`);
   res.render('farms/show', { farm });
 });
+
+//DELETE FARM AND PRODUCTS ASSOCIATED
+app.delete('/farms/:id', async (req, res) => {
+  console.log("Deleting!!!");
+  // const farm = await Farm.findByIdAndDelete(req.params.id);
+  res.redirect('/farms');
+});
+
 //NEW ROUTE TO RENDER PRODUCT FORM
 app.get('/farms/:id/products/new', async (req, res) => {
   const { id } = req.params;
@@ -75,6 +83,7 @@ app.post('/farms/:id/products', async (req, res) => {
   await product.save();
   res.redirect(`/farms/${farm._id}`); //could use just {id} here
 });
+
 
 //********************************************************* */
 ///////////////////PRODUCT ROUTES////////////////////////////
