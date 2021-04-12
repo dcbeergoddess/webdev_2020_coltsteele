@@ -82,6 +82,61 @@ app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
 ![Review added to Campground w/ ObjectId](assets/review_post2.png)
 
 ## Validating Reviews
+1. Client-Side Validation
+* Can't Submit Empty Review --> w/ bootstrap --> `range` has default already --> require `textarea` --> prevent html validation with `novalidate` and add `validate-form` class from `boilerplate.ejs` in JS validation
+```html
+    <h2>Leave a Review</h2>
+    <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validate-form" novalidate>
+      <div class="mb-3">
+        <label class="form-label" for="rating">Rating</label>
+        <input class="form-range" type="range" min="1" max="5" name="review[rating] "id="rating">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="body">Review</label>
+        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Submit</button>
+      </div>
+    </form>
+```
+
+2. Still Possible to POST Other Ways (i.e. Postman) --> JOI
+* in `schemas.js`:
+```js
+module.exports.reviewSchema = Joi.object({
+  review: Joi.object({
+    rating: Joi.number().required().min(1).max(5),
+    body: Joi.string().required()
+  }).required()
+});
+```
+* in `app.js` --> require reviewShema:
+```js
+const { campgroundSchema, reviewSchema } = require('./schemas.js');
+```
+* in `app.js` --> define middleware route:
+```js
+const validateReview = (req, res, next) => {
+  const { error } = projectSchema.validate(req.body);
+  if(error){
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next();
+  }
+};
+```
+* in `app.js` --> pass middleware as second argument in post review route
+```js
+//POST REVIEW TO CAMPGROUND ROUTE
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
+```
+3. TEST IN POSTMAN:
+![Error Handling in POSTMAN](assets/postman_test1.png)
 
 ## Displaying Reviews
 
