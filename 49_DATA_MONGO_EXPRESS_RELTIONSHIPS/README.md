@@ -413,4 +413,25 @@ farmSchema.post('findOneAndDelete', async function(data) {
 ![PRINT OUT OF DATA](assets/delete1.png)
 - Inside Pre Middleware we do not have access to the farm that is being deleted
 - In POST Middleware we do have access to this product
+- Require Product Model in Farm Model
+- Update Mongoose Post Middleware
+- To Delete all Products in array --> mongo operator --> `$in` --> delete all product where their ID is in the products array for the farm just deleted
+- NEW TEST ROUTE
+```js
+//findOneAndDelete - MONGOOSE MIDDLEWARE
+farmSchema.post('findOneAndDelete', async function (farm) {
+  //If products is not an empty array --> take each one of those products and delete them 
+  if(farm.products.length) {
+    //select using id and select all products where id is in farm products
+    const res = await Product.deleteMany({ _id: { $in: farm.products } });
+    console.log(res);
+  };
+});
+```
+- IN CONSOLE:
+![PRINT OUT OF RES](assets/delete2.png)
+
+
+
+
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('./product.js');
 const { Schema } = mongoose;
 
 //CREATE SCHEMA
@@ -22,17 +23,14 @@ const farmSchema = new Schema({
   ]
 });
 
-//PRE vs POST EXAMPLE - MONGOOSE MIDDLEWARE
-// pass in string which is the middleware
-// then write function --> async function --> do not need to call next() --> just return a promise --> unlike express middleware 
-farmSchema.pre('findOneAndDelete', async function(data) {
-  console.log("PRE MIDDLEWARE");
-  console.log(data);
-});
-
-farmSchema.post('findOneAndDelete', async function(data) {
-  console.log("POST MIDDLEWARE");
-  console.log(data);
+//findOneAndDelete - MONGOOSE MIDDLEWARE
+farmSchema.post('findOneAndDelete', async function (farm) {
+  //If products is not an empty array --> take each one of those products and delete them 
+  if(farm.products.length) {
+    //select using id and select all products where id is in farm products
+    const res = await Product.deleteMany({ _id: { $in: farm.products } });
+    console.log(res);
+  };
 });
 
 //COMPILE OUR MODEL
