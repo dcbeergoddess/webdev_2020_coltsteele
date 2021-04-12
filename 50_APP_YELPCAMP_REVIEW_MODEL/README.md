@@ -62,6 +62,24 @@ app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
   <h2>Leave a Review</h2>
     <form class="mb-3" action="/campgrounds/<%= campground._id %>/reviews" method="POST">
 ```
+* IN LOCAL HOST:
+![Test Route to Post Review to Campground](assets/review_post1.png)
+2. Require Review Model in `app.js` --> `const Review = require('./models/review');`
+3. FIND CORRESPONDING CAMPGROUND IN ROUTE:
+```js
+//POST REVIEW TO CAMPGROUND ROUTE
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+  const campground = await Campground.findById(req.body);
+  const review = new Review(req.body.review);
+  campground.reviews.push(review);
+  //THERE IS A WAY TO DO NEXT TWO LINES TOGETHER
+  await review.save();
+  await campground.save();
+  res.redirect(`/campgrounds/${campground._id}`)
+}));
+```
+* CHECK IN MONGOOSE TO SEE IF WE WERE SUCCESSFUL:
+![Review added to Campground w/ ObjectId](assets/review_post2.png)
 
 ## Validating Reviews
 
