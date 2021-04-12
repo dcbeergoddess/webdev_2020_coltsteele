@@ -170,6 +170,20 @@ app.get('/campgrounds/:id', catchAsync(async (req, res) => {
 ![Leaving New Review and it Shows](assets/review_show1.png)
 
 ## Styling Reviews
+- Add Border around each with `card` class in bootstrap
+```html
+    <% for( let review of campground.reviews ) { %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Rating: <%= review.rating %> </h5 >
+          <p class="card-text">Review: <%= review.body %> </p>
+        </div>
+      </div>
+    <% } %>
+```
+- ALIGN REVIEWS NEXT TO CAMPGROUND CARD
+1. take offset off `col-6 offset-6` in campground card class
+2. put all review stuff in new div with `col-6` --> stacks next to campground
 
 ## Deleting Reviews
 
