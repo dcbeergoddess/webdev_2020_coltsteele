@@ -387,3 +387,30 @@ app.delete('/farms/:id', async (req, res) => {
   res.redirect('/farms');
 });
 ```
+- Now on to Associating Products --> could do directly in DELETE route if you wanted but here is another way
+- **MONGOOSE MIDDLEWARE**: middleware in mongoose are functions that we can tell mongoose to run
+- [Mongoose Middleware](https://mongoosejs.com/docs/middleware.html)
+- Tell Mongoose to run functions before and after executing certain things
+- confusing --> `findByIdAndDelete()` --> triggers `findOneAndDelete()` Middleware --> Query Middleware (Not Document Middleware)
+- set up Middleware in Farm Model File on Schema before we compile the model - PRE or POST
+- QUERY MIDDLEWARE --> we need to wait until after our query has complete so that we have access to the document that was found.
+- PRE vs POST MIDDLEWARE TEST on `findOneAndDelete`
+```js
+//PRE vs POST EXAMPLE - MONGOOSE MIDDLEWARE
+// pass in string which is the middleware
+// then write function --> async function --> do not need to call next() --> just return a promise --> unlike express middleware 
+farmSchema.pre('findOneAndDelete', async function(data) {
+  console.log("PRE MIDDLEWARE");
+  console.log(data);
+});
+
+farmSchema.post('findOneAndDelete', async function(data) {
+  console.log("POST MIDDLEWARE");
+  console.log(data);
+});
+```
+- IN CONSOLE:
+![PRINT OUT OF DATA](assets/delete1.png)
+- Inside Pre Middleware we do not have access to the farm that is being deleted
+- In POST Middleware we do have access to this product
+

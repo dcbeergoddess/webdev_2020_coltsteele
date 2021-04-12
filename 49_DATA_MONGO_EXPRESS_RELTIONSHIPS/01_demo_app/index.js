@@ -60,8 +60,9 @@ app.get('/farms/:id', async (req, res) => {
 
 //DELETE FARM AND PRODUCTS ASSOCIATED
 app.delete('/farms/:id', async (req, res) => {
-  console.log("Deleting!!!");
-  // const farm = await Farm.findByIdAndDelete(req.params.id);
+  //findByIdAndDelete wll trigger MG Middleware `findByOneAndDelete`
+  const farm = await Farm.findByIdAndDelete(req.params.id);
+
   res.redirect('/farms');
 });
 

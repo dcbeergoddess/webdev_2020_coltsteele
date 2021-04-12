@@ -22,6 +22,19 @@ const farmSchema = new Schema({
   ]
 });
 
+//PRE vs POST EXAMPLE - MONGOOSE MIDDLEWARE
+// pass in string which is the middleware
+// then write function --> async function --> do not need to call next() --> just return a promise --> unlike express middleware 
+farmSchema.pre('findOneAndDelete', async function(data) {
+  console.log("PRE MIDDLEWARE");
+  console.log(data);
+});
+
+farmSchema.post('findOneAndDelete', async function(data) {
+  console.log("POST MIDDLEWARE");
+  console.log(data);
+});
+
 //COMPILE OUR MODEL
 const Farm = mongoose.model('Farm', farmSchema);
 
