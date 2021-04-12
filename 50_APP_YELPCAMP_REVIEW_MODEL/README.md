@@ -139,6 +139,35 @@ app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res)
 ![Error Handling in POSTMAN](assets/postman_test1.png)
 
 ## Displaying Reviews
+- Don't have access to array in campground --> just ObjectId's --> POPULATE!!!!
+1. Populate on Campground on SHOW CAMPGROUND ROUTE:
+```js
+//SHOW
+app.get('/campgrounds/:id', catchAsync(async (req, res) => {
+  const campground = await Campground.findById(req.params.id).populate('reviews');
+  //TEST THAT IT'S WORKING WITH CAMPGROUND
+  console.log(campground);
+  res.render('campgrounds/show', { campground });
+}));
+```
+* Refresh Show Page and Check in CONSOLE:
+![check response in console](assets/populate_test1)
+
+2. In `views/campground/show` --> Loop Over Reviews after FORM
+```html
+      <div class="mb-3">
+        <button class="btn btn-success">Submit</button>
+      </div>
+    </form>
+    <% for( let review of campground.reviews ) { %>
+      <div class="mb-3">
+        <p>Rating: <%= review.rating %> </p>
+        <p>Review: <%= review.body %> </p>
+      </div>
+    <% } %>
+```
+* TEST IN LOCAL HOST:
+![Leaving New Review and it Shows](assets/review_show1.png)
 
 ## Styling Reviews
 
