@@ -47,9 +47,21 @@ const reviewSchema = new Schema({
       </div>
     </form>
 ```
-
-
 ## Creating Reviews
+- Need to Know Campground it is Associated With --> Include Campground ID in the path (NESTED ROUTE) --> `POST /campground/:id/reviews`
+- WE DO NOT NEED FULL `RESTful` ROUTES for Reviews --> Just look at all reviews for a single campground --> NEED THAT ID
+1. CREATE POST ROUTE && TEST:
+```js
+//POST REVIEW TO CAMPGROUND ROUTE
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+  res.send('You Made It');
+}));
+```
+* SET UP FORM TO TEST SUBMIT:
+```html
+  <h2>Leave a Review</h2>
+    <form class="mb-3" action="/campgrounds/<%= campground._id %>/reviews" method="POST">
+```
 
 ## Validating Reviews
 
