@@ -25,8 +25,29 @@ const reviewSchema = new Schema({
   ]
 ```
 
-
 ## Adding the Review Form
+- Add Form to Make New Review --> Make Review in Context of Individual Campground 
+1. Add Form on `views/campground/show.ejs` --> Nothing Fancy yet :) --> inside col on card
+* FOR LABEL: `class="form-label"` --> bootstrap
+* FOR TEXT-AREA: `class="form-control"` --> bootstrap
+* FOR RANGE INPUT: `class="form-range"` --> bootstrap
+```html
+    <h2>Leave a Review</h2>
+    <form action="">
+      <div class="mb-3">
+        <label class="form-label" for="rating">Rating</label>
+        <input class="form-range" type="range" min="1" max="5" name="review[rating] "id="rating">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="body">Review</label>
+        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Submit</button>
+      </div>
+    </form>
+```
+
 
 ## Creating Reviews
 
