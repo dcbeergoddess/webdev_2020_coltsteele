@@ -230,3 +230,31 @@ app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => 
 }));
 ```
 ## Campground Delete Middleware
+- Delete Reviews associated with Campground when you Delete the Campground
+- What do we want to use --> `Query` vs `Document`
+- What Middleware does your method trigger that you are using to find campground in the route --> look at Mongoose Docs
+- start by console.logging something --> in `campground.js` model --> if we see DELETED we know that this function is running when we want it to run, and we can test to see the doc that we are given back
+```js
+//DELETE MIDDLEWARE
+CampgroundSchema.post('findOneAndDelete', async function (doc) {
+  console.log(doc)
+  console.log("DELETED!!!")
+});
+```
+- Now we want to take the document that was just deleted (we have access to it) --> We have access to ObjectIds in Reviews Array
+- Require Model in `campground.js` --> `const Review = require('./review');`
+```js
+//DELETE MIDDLEWARE
+CampgroundSchema.post('findOneAndDelete', async function (doc) {
+  //if we find a document
+  if(doc){
+    await Review.deleteMany({ //when we used remove() --> got deprecation warning
+      //this doc has reviews --> delete where their id field is in the document we just deleted in it's reviews array
+      _id: {
+        $in: doc.reviews
+      }
+    })
+  } 
+});
+```
+* **NOTE** if you change the way you find a campground and delete it in the delete route in `app.js` it will not trigger the middleware --> you have to update the middleware to the correct method
