@@ -238,9 +238,61 @@ app.get('/greet', (req, res) => {
 - Not about storing information that's important, it's about adding some state fullness between request
 
 ### Signing Cookies
+* FROM COOKIE PARSER DOCS
+- *"Parse `Cookie header` and populate `req.cookies` with an object keyed by the cookie names. Optionally you may enable signed cookie support by passing a `secret` string, which assigns `req.secret` so it may be used by other middleware."*
+- **signing in programming**: digital signature or `cryptographic signature` --> verify it's integrity, verify that something hasn't changed --> like a was seal on a letter
+- Take a cookie we send to user --> instead of sending name as `hookncoder` --> send it as signed cookie --> have `cookie-parser` sign it using a secret code that I specify --> send weirder looking version of our cookie to the client --> ON CLIENT SIDE --> that weird looking version, the signed version will be sent back just like any other cookie 
+- ON SERVER SIDE --> when we're looking at the cookies that have been sent to us `cookie-parser` will be able us if any of those signed cookies have been tampered with --> if they are the same exact value that was sent --> we would be able to tell if someone screwed with it if they don't match --> ENCRYPTING INFORMATION
+1. NEED TO PASS IN A SECRET TO `cookieParser` as string--> can be anything --> will put in environment variable later on `env`
+```js
+const cookieParser = require('cookie-parser');
+app.use(cookieParser('thisismysecret'));
+```
+2. SEND COOKIE WITH SIGNED EQUAL TO TRUE
+```js
+//SIGNED COOKIES
+app.get('/getsignedcookie', (req, res) => {
+  res.cookie('fruit', 'grape', { signed: true })
+})
+```
+- TEST IN LOCALHOST --> you see grape in there --> not about keeping it secret --> just to verify it's integrity
+![Sent Signed Cookie](assets/cookies12.png)
+3. TO UN-SIGN AND VERIFY IT WORKED OUT:
+```js
+//VERIFY SIGNED COOKIE
+app.get('/verifyfruit', (req, res) => {
+  console.log(req.cookies)
+  res.send(req.cookies)
+})
+```
+- FIRST TEST IN TERMINAL/LOCALHOST --> SEE RESPONSE
+![REQ.COOKIES IN TERMINAL](assets/cookies13.png)
+- We do not see fruit in object response
+- USE REQ.SIGNEDCOOKIES:
+```js
+//VERIFY SIGNED COOKIE
+app.get('/verifyfruit', (req, res) => {
+  console.log(req.cookies)
+  console.log(req.signedCookies)
+  res.send(req.signedCookies)
+})
+```
+- IN LOCAL HOST:
+![REQ.SIGNED COOKIES IN LOCALHOST](assets/cookies14.png)
+- IN TERMINAL:
+![REQ.SIGNED COOKIES IN TERMINAL](assets/cookies15.png)
+
+- TRY MANUALLY CHANGING GRAPE IN KEY TO APPLE and VERIFY --> fruit is now set to false:
+![Fruit is now set to false](assets/cookies16.png)
+- If you ever change the value passed into cookieparser as a string it would make all past keys given out invalid
+```js
+app.use(cookieParser('thisismysecret'));
+```
+- AGAIN WE ARE NOT HIDING DATA!!! --> way to verify it's not been tampered with
 
 ### OPTIONAL: HMAC Signing
 * [HMAC Generator-Tester Tool](https://www.freeformatter.com/hmac-generator.html)
+- 
 
 
 
