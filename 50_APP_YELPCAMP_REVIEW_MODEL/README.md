@@ -186,5 +186,47 @@ app.get('/campgrounds/:id', catchAsync(async (req, res) => {
 2. put all review stuff in new div with `col-6` --> stacks next to campground
 
 ## Deleting Reviews
-
+- Right now everyone owns these reviews --> eventually will be attached to person
+- Create Delete Route --> test by sending
+```js
+//DELETE REVIEW
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+  res.send("I HIT IT")
+}));
+```
+- Create Form to Delete --> does not need bootstrap validation
+```html
+    <% for( let review of campground.reviews ) { %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Rating: <%= review.rating %> </h5 >
+          <p class="card-text">Review: <%= review.body %> </p>
+          <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    <% } %>
+```
+- Should get back `I hit it` on the page when you hit delete button
+- `findByIdAndDelete` --> review
+```js
+//DELETE REVIEW
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+  await Review.findByIdAndDelete(req.params.reviewId);
+  res.send("I HIT IT")
+}));
+```
+- We do want to find the Campground and delete one thing in the array of reviews
+- `$pull` operator in mongo --> removes from an existing array all instances of a value or values that match a specified condition
+```js
+//DELETE REVIEW
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+  //DESTRUCTURE FROM REQ.PARAMS
+  const { id, reviewId } = req.params;
+  await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
+  res.redirect(`/campgrounds/${id}`);
+}));
+```
 ## Campground Delete Middleware
