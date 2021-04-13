@@ -204,6 +204,38 @@ app.get('/setname', (req, res) => {
 
 ### Cookie Parser Middleware
 * [COOKE PARSER DOCS](https://www.npmjs.com/package/cookie-parser)
+- In `/greet` we want to find the name that is allegedly stored in the browser
+- we find it in `req.cookies` --> unfortunately you do not have this functionality out of the box --> need cookie parser npm
+* `npm i cookie-parser`:
+```js
+const cookieParser = require('cookie-parser');
+app.use(cookieParser()); //execute it on every request
+```
+* now on every incoming request we have a property called `req.cookie`:
+```js
+app.get('/greet', (req, res) => {
+  console.log(req.cookies);
+  res.send("HEY THERE!")
+})
+```
+- IN Terminal:
+![req.cookies response](assets/cookies8.png)
+- You Can Manually insert a new cookie in the dev console:
+![Add new cookie](assets/cookies9.png)
+- In Terminal:
+![req.cookies response](assets/cookies10.png)
+
+- We can take that name and greet some by their name 
+```js
+app.get('/greet', (req, res) => {
+  // console.log(req.cookies);
+  const { name = 'No-name' } = req.cookies;
+  res.send(`Hey There, ${name}!`)
+})
+```
+- IN LOCALHOST:
+![response with name](assets/cookies11.png)
+- Not about storing information that's important, it's about adding some state fullness between request
 
 ### Signing Cookies
 
