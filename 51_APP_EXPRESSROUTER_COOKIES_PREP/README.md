@@ -97,6 +97,9 @@ router.get('/:id/edit', (req, res) => {
   res.send("EDITING ONE SHELTER");
 });
 ```
+- create new route file for dogs --> follow same pattern as shelters and tell app to use it in `index.js`
+- you can find other patterns for route names --> does not need to be the way we've been doing it thus far --> any pattern works
+
 ### Express Router & Middleware
 
 ### Introducing Cookies
