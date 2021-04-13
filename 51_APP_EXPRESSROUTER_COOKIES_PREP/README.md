@@ -169,6 +169,38 @@ router.get('/deleteeverything', (req, res) => {
 ![CRAZY COOKIES IN CONSOLE](assets/cookies2.png)
 
 ### Sending Cookies
+- set up `index.js` with express app
+- set up a cookies and send a cookie from a different route
+- [EXPRESS RES.COOKIES DOCS](https://expressjs.com/en/4x/api.html#res.cookie)
+```js
+app.get('/greet', (req, res) => {
+  res.send("HEY THERE!")
+})
+
+app.get('/setname', (req, res) => {
+  res.cookie('name', 'stevie chicks')
+  res.send('OK Sent you a Cookie')
+})
+```
+- In DEV Console see cookie when hit `/setname` route
+![SetName Cookie](assets/cookies3.png)
+- Still Available in other `localhost:8080` routes
+![SetName Cookie Stays](assets/cookies4.png)
+- Change name and test in Postman --> (name is updated) --> and we can see the cookies
+![Cookies in Postman](assets/cookies5.png)
+- Other properties we can set on cookies (a lot of these we will take care of with sessions):
+![Express Cookies](assets/cookies6.png)
+- Send Two Cookies:
+```js
+app.get('/setname', (req, res) => {
+  res.cookie('name', 'hookncoder')
+  res.cookie('animal', 'harlequin shrimp')
+  res.send('OK Sent you a Cookie')
+})
+```
+- In Dev Console: 
+![More Cookies in Dev](assets/cookies7.png)
+- how do we parse and use the cookies we are sending
 
 ### Cookie Parser Middleware
 * [COOKE PARSER DOCS](https://www.npmjs.com/package/cookie-parser)
