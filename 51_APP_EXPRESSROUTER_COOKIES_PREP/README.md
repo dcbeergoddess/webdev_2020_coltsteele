@@ -77,7 +77,26 @@ app.use('/', shelterRoutes);
 ```
 - now we can test routes in localhost and postman and see our `res.send` from routes created in `shelters.js`
 
-
+* **VERSION TWO** DRY CODE
+- in `index.js` --> new version --> now you can change the name of route if things change later and you have one central place to change it
+```js
+app.use('/shelters', shelterRoutes);
+```
+- in `shelters.js` --> clean up routes
+```js
+router.get('/', (req, res) => {
+  res.send("ALL SHELTERS");
+});
+router.post('/', (req, res) => {
+  res.send("CREATING SHELTER")
+})
+router.get('/:id', (req, res) => {
+  res.send("VIEWING ONE SHELTER");
+});
+router.get('/:id/edit', (req, res) => {
+  res.send("EDITING ONE SHELTER");
+});
+```
 ### Express Router & Middleware
 
 ### Introducing Cookies
