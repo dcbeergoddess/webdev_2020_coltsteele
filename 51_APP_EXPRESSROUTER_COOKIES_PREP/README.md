@@ -131,7 +131,24 @@ app.use((req, res, next) => {
 - add `?isAdmin=true` query string to localhost
 ![Test with isAdmin](assets/admin2.png)
 - RIGHT NOW IT THE MIDDLEWARE IS EFFECTING ALL ROUTES
+- We have seen before we can save to function and pass into route
+- Or we move the middleware to the `admin.js` and tell the router to use it
+```js
+router.use((req, res, next) => {
+  if (req.query.isAdmin) {
+    next();
+  }
+  res.send("SORRY NOT AN ADMIN")
+})
 
+router.get('/topsecret', (req, res) => {
+  res.send('THIS IS TOP SECRET')
+})
+router.get('/deleteeverything', (req, res) => {
+  res.send('OK DELETED IT ALL!!')
+})
+```
+- Now we can go to other routes not using admin
 
 ### Introducing Cookies
 
