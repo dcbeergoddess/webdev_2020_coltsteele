@@ -101,6 +101,37 @@ router.get('/:id/edit', (req, res) => {
 - you can find other patterns for route names --> does not need to be the way we've been doing it thus far --> any pattern works
 
 ### Express Router & Middleware
+- We can add in our own middleware, just like we do the app itself
+- set up middleware that will only apply to group of routes in one router
+- touch `admin.js` in `routes` directory
+- imagine these are doing something useful that we want to protect using our middleware
+```js
+  router.get('/topsecret', (req, res) => {
+    res.send('THIS IS TOP SECRET')
+  })
+  router.get('/deleteeverything', (req, res) => {
+    res.send('OK DELETED IT ALL!!')
+  })
+```
+- test `app.use` ref in index.js
+```js
+app.use('/admin', adminRoutes);
+```
+- we haven't gotten to auth yet but so we'll create a middleware with a query to allow something only if a user is logged in --> once logged in they can get to these routes in index.js
+```js
+app.use((req, res, next) => {
+  if (req.query.isAdmin) {
+    next();
+  }
+  res.send("SORRY NOT AN ADMIN")
+})
+```
+- now try hitting route
+![Test Route with Middleware in place](assets/admin1.png)
+- add `?isAdmin=true` query string to localhost
+![Test with isAdmin](assets/admin2.png)
+- RIGHT NOW IT THE MIDDLEWARE IS EFFECTING ALL ROUTES
+
 
 ### Introducing Cookies
 
