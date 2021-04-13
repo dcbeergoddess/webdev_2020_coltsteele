@@ -151,6 +151,22 @@ router.get('/deleteeverything', (req, res) => {
 - Now we can go to other routes not using admin
 
 ### Introducing Cookies
+- HTTP Cookies --> Accept terms of use on websites
+- Step One towards Understanding Authentication
+* **Cookies** --> formerly 'magic cookies'
+- Little bits of information that are stored i na user's browser when browsing a particular website
+- Once a cookies is set, a user's browser will send the cookie on every subsequent request to the site
+- **COOKIES ALLOW USE TO MAKE HTTP STATEFUL**
+- Cookie --> send back key and value pair --> store in browser --> remember user shopping cart, remember if they were on dark or light mode, etc
+- [WIKIPEDIA COOKIES USES](https://en.wikipedia.org/wiki/HTTP_cookie#Uses)
+- HTTP is Stateless so we need a way to remember 
+- TRACKING --> is one of the uses --> why it's controversial --> used to track users' web browsing habits --> NOT what we are trying to do...
+- Cookies used as unique identifier 
+- IN DEV TOOLS UNDER `APPLICATION` --> UNDER `STORAGE` --> SECTION FOR `COOKIES` --> KEY VALUE PAIRS: `NAME` & `VALUE`:
+![COOKIES IN CONSOLE](assets/cookies1.png)
+- `GEOIP`: Shows where you are --> wikipedia
+- LESS FRIENDLY COOKIES on site like Pitchfork -- most of the time they don't make sense
+![CRAZY COOKIES IN CONSOLE](assets/cookies2.png)
 
 ### Sending Cookies
 
