@@ -99,5 +99,6 @@ app.get('/greet', (req, res) => {
 
 ### Intro to Flash
 - [GITHUB FOR CONNECT-FLASH](https://github.com/jaredhanson/connect-flash)
+- FLASH = Place in session to flash a message to the user --> success --> confirmation --> failure
 
 ### Res.locals & Flash
