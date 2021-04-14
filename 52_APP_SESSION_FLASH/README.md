@@ -67,6 +67,35 @@ app.get('/viewcount', (req, res) => {
 - ways to change that --> will consider when we need to deploy a production app --> `MemoryStore`
 
 ### More Express Session
+- deprecation warnings in TERMINAL
+![Deprecation warning](assets/session5.png)
+- `resave` --> we will typically want to `false`
+- `saveUninitialized` --> for now we want `false`
+```js
+const sessionOptions = { 
+  secret: 'thisisnotagoodsecret', 
+  resave: false, 
+  saveUninitialized: false 
+};
+app.use(session(sessionOptions));
+```
+- NEW ENDPOINT EXAMPLE:
+```js
+//NEW ENDPOINT EXAMPLE
+/*
+- expect you to pass a query string in, and in that query string i want you to pass in your username --> give default value if you do not pass in --> add that to session --> if you go to /register --> you will be registered in our session
+*/
+app.get('/register', (req, res) => {
+  const { username = 'Anyonymous'} = req.query;
+  req.session.username = username;
+  res.redirect('/greet')
+})
+
+app.get('/greet', (req, res) => {
+  const { username } = req.session;
+  res.send(`Welcome Back, ${username}`)
+})
+```
 
 ### Intro to Flash
 - [GITHUB FOR CONNECT-FLASH](https://github.com/jaredhanson/connect-flash)
