@@ -49,6 +49,22 @@ app.get('/viewcount', (req, res) => {
 - you can see new key: `connect.sid` in cookies --> name of cookie for express-session --> value is signed:
 ![TEST IN LOCAL HOST](assets/session3.png)
 - VALUE is your SESSION ID --> browser automatically sends --> express can now remember you from one request to the next
+* EXAMPLE OF USING `req.session`
+```js
+//SESSIONS EXAMPLE
+app.get('/viewcount', (req, res) => {
+  if(req.session.count){
+    req.session.count += 1
+  } else {
+    req.session.count = 1
+  }
+  res.send(`You have viewed this page ${req.session.count} times`)
+})
+```
+- NOW IN LOCALHOST:
+![SESSIONS EXAMPLE](assets/session4.png)
+- Which part of the session belongs to you and it keeps it stores in `MEMORY` in the DEV CONSOLE --> not what we would do for production
+- ways to change that --> will consider when we need to deploy a production app --> `MemoryStore`
 
 ### More Express Session
 
