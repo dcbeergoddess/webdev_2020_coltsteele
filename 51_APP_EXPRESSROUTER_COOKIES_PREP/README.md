@@ -321,9 +321,9 @@ exports.unsign = function(val, secret){
 }
 ```
 - HMAC GENERATOR TEST:
-![HMAC pass in String](assets/hmac1)
+![HMAC pass in String](assets/hmac1.png)
 - COMPUTED HMAC:
-![Computed HMAC](assets/hmac2)
+![Computed HMAC](assets/hmac2.png)
 - Can Enter the Same values in a new window and get same result
 - We are making sure that the same secret key plus the same val that were used originally are still going to work when we receive that cookie back --> not un-encoding or decrypting it --> simply trying to recreate the same signature
 
