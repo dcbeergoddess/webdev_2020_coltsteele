@@ -291,9 +291,40 @@ app.use(cookieParser('thisismysecret'));
 - AGAIN WE ARE NOT HIDING DATA!!! --> way to verify it's not been tampered with
 
 ### OPTIONAL: HMAC Signing
+
 * [HMAC Generator-Tester Tool](https://www.freeformatter.com/hmac-generator.html)
-- 
+- From Wikipedia: *In cryptography, an HMAC (sometimes expanded as either keyed-hash message authentication code or hash-based message authentication code) is a specific type of message authentication code (MAC) involving a cryptographic hash function and a secret cryptographic key. As with any MAC, it may be used to simultaneously verify both the data integrity and the authenticity of a message.HMAC can provide message authentication using a shared secret instead of using digital signatures with asymmetric cryptography. It trades off the need for a complex public key infrastructure by delegating the key exchange to the communicating parties, who are responsible for establishing and using a trusted channel to agree on the key prior to communication*
 
+- `cookie-parser` uses another package called `cookie-signature` which has two things --> sign and unsign
+- FROM GITHUB:
+```js
+exports.sign = function(val, secret){
+  if ('string' != typeof val) throw new TypeError("Cookie value must be provided as a string.");
+  if ('string' != typeof secret) throw new TypeError("Secret string must be provided.");
+  return val + '.' + crypto
+    .createHmac('sha256', secret) //sha256 --> hashing function
+    .update(val)
+    .digest('base64')
+    .replace(/\=+$/, '');
+};
 
+exports.unsign = function(val, secret){
+  if ('string' != typeof val) throw new TypeError("Signed cookie string must be provided.");
+  if ('string' != typeof secret) throw new TypeError("Secret string must be provided.");
+  var str = val.slice(0, val.lastIndexOf('.'))
+    , mac = exports.sign(str, secret)
+    , macBuffer = Buffer.from(mac)
+    , valBuffer = Buffer.alloc(macBuffer.length);
+
+  valBuffer.write(val);
+  return crypto.timingSafeEqual(macBuffer, valBuffer) ? str : false;
+}
+```
+- HMAC GENERATOR TEST:
+![HMAC pass in String](assets/hmac1)
+- COMPUTED HMAC:
+![Computed HMAC](assets/hmac2)
+- Can Enter the Same values in a new window and get same result
+- We are making sure that the same secret key plus the same val that were used originally are still going to work when we receive that cookie back --> not un-encoding or decrypting it --> simply trying to recreate the same signature
 
 
