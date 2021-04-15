@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const flash = require('connect-flash')
 
 const sessionOptions = { secret: 'thisisnotagoodsecret', resave: false, saveUninitialized: false }
 app.use(session(sessionOptions));
@@ -29,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 // FARM ROUTES
 app.get('/farms', async (req, res) => {
     const farms = await Farm.find({});
-    res.render('farms/index', { farms })
+    res.render('farms/index', { farms, messages: req.flash('success') })
 })
 app.get('/farms/new', (req, res) => {
     res.render('farms/new')
@@ -46,7 +47,7 @@ app.post('/farms', async (req, res) => {
     res.redirect('/farms')
 })
 
-app.listen(3000, () => {
+app.listen(8080, () => {
     console.log("APP IS LISTENING ON PORT 3000!")
 })
 

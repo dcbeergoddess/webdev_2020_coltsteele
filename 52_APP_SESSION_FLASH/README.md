@@ -100,5 +100,51 @@ app.get('/greet', (req, res) => {
 ### Intro to Flash
 - [GITHUB FOR CONNECT-FLASH](https://github.com/jaredhanson/connect-flash)
 - FLASH = Place in session to flash a message to the user --> success --> confirmation --> failure
+- Using files for farm stand 
+1. `npm i connect-flash`
+2. IN `index.js`
+```js
+const session = require('express-session');
+const flash = require('connect-flash')
+
+const sessionOptions = { secret: 'thisisnotagoodsecret', resave: false, saveUninitialized: false }
+app.use(session(sessionOptions));
+app.use(flash());
+```
+- now all messages have access to `req.flash()`
+- pass in 'key', and then you have 'message'
+- usually do before you redirect
+4. WHEN YOU MAKE A NEW FARM
+```js
+app.post('/farms', async (req, res) => {
+    const farm = new Farm(req.body);
+    await farm.save();
+    req.flash('success', 'Successfully made a new farm!');
+    res.redirect('/farms')
+})
+```
+- Right now it is not going to show up --> in order to access it out --> we just call req.flash when we're rendering something and then passing the key 
+5. For Now: ADD TO GET FARMS ROUTE:
+```js
+app.get('/farms', async (req, res) => {
+    const farms = await Farm.find({});
+    res.render('farms/index', { farms, messages: req.flash('success') })
+})
+```
+- IN `index.ejs` for farms
+```html
+    <%= messages %>
+    <h1>All Farms</h1>
+    <ul>
+        <% for(let farm of farms) { %>
+        <li><a href="/farms/<%=farm._id%>"><%= farm.name %></a> </li>
+        <% }%>
+    </ul>
+    <a href="/farms/new">Add Farm</a>
+```
+- MAKE NEW FARM IN LOCALHOST:
+![flash test, success message](assets/flash1.png)
+- if you refresh the page or navigate away it disappears
+- SUM UP --> calling `req.flash` before we redirect, and we can call `req.flash` and retrieve anything under the key we specified that's been stored there --> in this case key = 'success'
 
 ### Res.locals & Flash
