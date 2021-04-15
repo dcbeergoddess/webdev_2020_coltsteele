@@ -148,3 +148,14 @@ app.get('/farms', async (req, res) => {
 - SUM UP --> calling `req.flash` before we redirect, and we can call `req.flash` and retrieve anything under the key we specified that's been stored there --> in this case key = 'success'
 
 ### Res.locals & Flash
+- IMPROVE HOW WE PASS FLASH MESSAGES INTO ROUTES
+1. CREATE MIDDLEWARE TO ADD ONTO RESPONSE OBJECT --> with property `req.locals`
+```js
+//FLASH MIDDLEWARE
+app.use((req, res, next) => {
+    res.locals.messages = req.flash('success');
+    next();
+})
+```
+- NOW: Every route has access, and we wouldn't use it in index.ejs, we would probably create a partial where we display any messages up top
+- Common to use Bootstrap Alert that is dismissible for messages in ejs
