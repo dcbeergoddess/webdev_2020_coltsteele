@@ -69,7 +69,7 @@ app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
 ```js
 //POST REVIEW TO CAMPGROUND ROUTE
 app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
-  const campground = await Campground.findById(req.body);
+  const campground = await Campground.findById(req.params.id);
   const review = new Review(req.body.review);
   campground.reviews.push(review);
   //THERE IS A WAY TO DO NEXT TWO LINES TOGETHER
@@ -121,7 +121,7 @@ const { campgroundSchema, reviewSchema } = require('./schemas.js');
 * in `app.js` --> define middleware route:
 ```js
 const validateReview = (req, res, next) => {
-  const { error } = projectSchema.validate(req.body);
+  const { error } = review.Schema.validate(req.body);
   if(error){
     const msg = error.details.map(el => el.message).join(',')
     throw new ExpressError(msg, 400)
@@ -151,7 +151,7 @@ app.get('/campgrounds/:id', catchAsync(async (req, res) => {
 }));
 ```
 * Refresh Show Page and Check in CONSOLE:
-![check response in console](assets/populate_test1)
+![check response in console](assets/populate_test1.png)
 
 2. In `views/campground/show` --> Loop Over Reviews after FORM
 ```html
