@@ -40,6 +40,22 @@ const validateCampground = (req, res, next) => {
 ```
 
 ## Breaking Out Review Routes
+- We Do Same Thing for a Review Router 
+- NOW WE HAVE ERROR WHEN SUBMITTING A NEW REVIEW
+![error for review routes](assets/error1.png)
+```js
+  const campground = await Campground.findById(req.params.id);
+  const review = new Review(req.body.review);
+  campground.reviews.push(review);
+```
+- cannot get campground --> cannot find by id --> return empty object in `req.params`
+- `app.use('/campgrounds/:id/reviews', reviews);` --> need to be able to use the params to get this id
+- ROUTERS GET SEPARATE PARAMS --> specify option in router --> `mergeParams: true`
+```js
+const express = require('express');
+const router = express.Router({ mergeParams: true });
+```
+- Campgrounds is fine because the id we need is all defined in those routes 
 
 ## Serving Static Assets
 
