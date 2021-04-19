@@ -180,6 +180,7 @@ const hashPassword = async (pw) => {
 1. `npm i express express-session ejs mongoose bcrypt`
 2. `touch models/user.js` --> SET UP USER MODEL
 3. SET UP EXPRESS APP in `index.js`
+4. SET UP FORM FOR REGISTERING - `views/register.ejs`
 
 ### Auth Demo: Registering 
 
