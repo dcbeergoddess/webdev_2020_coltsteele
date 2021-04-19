@@ -195,7 +195,7 @@ app.use('/campgrounds/:id/reviews', reviews);
 ```js
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
-  res.locals.success = req.flash('error');
+  res.locals.error = req.flash('error');
   next();
 });
 ```
@@ -203,5 +203,47 @@ app.use((req, res, next) => {
 - But we will make the messages look a little bit nicer with partials
 
 ## Flash Success Partial
+- Use Bootstrap Dismissible Alert
+```html
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+```
+1. create partial --> `touch views/partials/flash.ejs`
+```js
+<!-- create alert div, role for accessibility -->
+<div class="alert alert-success" role="alert">
+  <%= success %> 
+</div>
+```
+2. Add logic so we don't see empty div when we pass partial into boilerplate, need to also check that success array is empty --> tried `console.dir(success)` to see we are getting back an empty array so message still shows when we have this logic:
+```html
+<% if(success) { %> 
+<!-- create alert div, role for accessibility -->
+<div class="alert alert-success" role="alert">
+  <%= console.dir(success) %> 
+</div>
+<% } %>
+```
+3. More Logic --> check if length of array is falsy 
+```html
+<% if(success && success.length) { %> 
+<!-- create alert div, role for accessibility -->
+<div class="alert alert-success" role="alert">
+  <%= success %> 
+</div>
+<% } %>
+```
+4. LETS MAKE THE MESSAGE DISMISSIBLE:
+```html
+<% if (success && success.length) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= success %> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+```
+- Add to more routes --> can make more that one msg per key, you would need to loop over array of messages and display them all
 
 ## Flash Error Partial
