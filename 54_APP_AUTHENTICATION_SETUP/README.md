@@ -55,6 +55,16 @@
 - There are cryptographic hash functions that are FAST, used for digital signatures --> cookies --> FAST functions
 
 ### Password Salts
+- AN EXTRA SAFEGUARD
+- Need to remember that people use same password across websites, same passwords are used by different people, only couple of hash algorithms suitable for passwords (we are going to use `bcrypt`)
+- [LIST OF MOST COMMON PASSWORDS](https://en.wikipedia.org/wiki/List_of_the_most_common_passwords)
+- Possible if someone knew we were using bcrypt, to test common password and match to hash, possible to figure out all other passwords in database --> Reverse lookup table --> pre-compute ahead of time --> NEED SAFEGUARD
+- **PASSWORD SALTS:** a random value added to the password before we hash it --> helps ensure unique hashes and mitigate common attacks
+- take password and essentially `concatenate` it with some password salt
+- QUICK EXAMPLE OF ADDING ON TO CHANGE HASH:
+- ![Password Salt quick example](assets/hashing5.png)
+- Usually store salt separately --> generate randomly --> add back on to get correct output 
+- BCRYPT: Has functionality to add SALT and we won't need to store it separately
 
 ### Intro to Bcyrpt
 - [BCYRPT PACKAGE](https://github.com/kelektiv/node.bcrypt.js)
