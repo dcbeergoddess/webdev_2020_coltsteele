@@ -159,9 +159,20 @@ const login = async (pw, hashedPw) => {
 // hashPassword('monkey');
 login('monkey', '$2b$12$eNQG7MNRQwiT58AZMcD6AeTM6azA5t2y.z6AmiXcF/k9UKrp8gcPi');
 ```
-- IN CONSOLE: 
+- IN TERMINAL: 
 - ![CONSOLE.LOG RESULT](assets/salt3.png)
 - ![CONSOLE.LOG RESULT](assets/salt4.png)
+- ANOTHER BCRYPT HASHING FUNCTION:
+```js
+//SECOND HASHING FUNCTION EXAMPLE --> GENERATES SALT FOR YOU
+const hashPassword = async (pw) => {
+  const hash = await bcrypt.hash(pw, 12);
+  console.log(hash);
+};
+```
+- IN TERMINAL: 
+- ![CONSOLE.LOG RESULT](assets/salt5.png)
+- ![CONSOLE.LOG RESULT](assets/salt6.png)
 
 ### Auth Demo: Setup
 

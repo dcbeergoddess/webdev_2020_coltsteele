@@ -1,10 +1,17 @@
 const bcrypt = require('bcrypt');
 
-//PROMISE-FYD FORM OF BCRYPT HASH FUNCTION
+/* PROMISE-FYD FORM OF BCRYPT HASH FUNCTION
 const hashPassword = async (pw) => {
   const salt = await bcrypt.genSalt(12);
   const hash = await bcrypt.hash(pw, salt);
   console.log(salt);
+  console.log(hash);
+};
+*/
+
+//SECOND HASHING FUNCTION EXAMPLE --> GENERATES SALT FOR YOU
+const hashPassword = async (pw) => {
+  const hash = await bcrypt.hash(pw, 12);
   console.log(hash);
 };
 
@@ -19,4 +26,4 @@ const login = async (pw, hashedPw) => {
 }
 
 // hashPassword('monkey');
-login('monkey', '$2b$12$eNQG7MNRQwiT58AZMcD6AeTM6azA5t2y.z6AmiXcF/k9UKrp8gcPi');
+login('monkey', '$2b$12$gooAoawVsV47Kq/UchWrNeNNTzHY3gBTB.mjwtKEp.WciLl6lwM8u');
