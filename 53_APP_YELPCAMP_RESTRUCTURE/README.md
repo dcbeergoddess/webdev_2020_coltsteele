@@ -247,3 +247,33 @@ app.use((req, res, next) => {
 - Add to more routes --> can make more that one msg per key, you would need to loop over array of messages and display them all
 
 ## Flash Error Partial
+- Repeat Above Process
+1. Create bootstrap alert div for error:
+```html
+<!-- ERROR ALERT MSG -->
+<% if (error && error.length) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= error %> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+```
+2. Add to Route --> For Example if someone bookmarks a campground that get deleted and when you try to access it again:
+![Current Error Msg](assets/error3.png)
+- in SHOW ROUTE for CAMPGROUND --> if there is no campground flash msg and redirect to campgrounds, otherwise show campground page:
+```js
+//SHOW
+router.get('/:id', catchAsync(async (req, res) => {
+  const campground = await Campground.findById(req.params.id).populate('reviews');
+  if(!campground){
+    req.flash('error', 'Cannot find that campground');
+    return res.redirect('/campgrounds');
+  }
+  res.render('campgrounds/show', { campground });
+}));
+```
+- NEW ERROR MSG:
+- ![New Error Msg](assets/error4.png)
+
+* YOU CAN DO ALERTS DYNAMICALLY --> loop over array of messages and dynamically change bootstrap classes
+* `[{'success': 'it worked', 'danger': 'problem!'}]`
