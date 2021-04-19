@@ -8,4 +8,15 @@ const hashPassword = async (pw) => {
   console.log(hash);
 };
 
-hashPassword('monkey');
+//CHECK PASSWORDS
+const login = async (pw, hashedPw) => {
+  const result = await bcrypt.compare(pw, hashedPw)
+  if(result) {
+    console.log('LOGGED YOU IN SUCCESSFUL MATCH');
+  } else {
+    console.log('INCORRECT')
+  }
+}
+
+// hashPassword('monkey');
+login('monkey', '$2b$12$eNQG7MNRQwiT58AZMcD6AeTM6azA5t2y.z6AmiXcF/k9UKrp8gcPi');

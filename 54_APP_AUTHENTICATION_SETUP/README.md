@@ -88,6 +88,7 @@ bcrypt.genSalt(saltRounds, function(err, salt) {
 ```
 - WE CAN USE PROMISES WITH THIS LIBRARY:
 ```js
+//FROM GITHUB DOCS
 async function checkUser(username, password) {
     //... fetch user from a db etc.
 
@@ -130,6 +131,37 @@ hashPassword('monkey');
 - salt part of hashed result so we do not need to store it separately
 - if change `10` to `17` --> takes considerably longer time to get response back
 - `12` is Standard for right now 
+-  Once we have a hashed password stored somewhere. How Do We Verify It? --> method called `compare()` 
+```js
+//FROM GITHUB DOCS
+// Load hash from your password DB.
+bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+    // result == true
+});
+bcrypt.compare(someOtherPlaintextPassword, hash, function(err, result) {
+    // result == false
+});
+```
+5. CHECK PASSWORD EXAMPLE:
+```js
+//CHECK PASSWORDS
+const login = async (pw, hashedPw) => {
+  const result = await bcrypt.compare(pw, hashedPw)
+  if(result) {
+    console.log('LOGGED YOU IN SUCCESSFUL MATCH');
+  } else {
+    console.log('INCORRECT')
+  }
+}
+```
+- ran `hashPassword('monkey')` first to get passwords we will pretend we stored in a Database --> `$2b$12$eNQG7MNRQwiT58AZMcD6AeTM6azA5t2y.z6AmiXcF/k9UKrp8gcPi`
+```js
+// hashPassword('monkey');
+login('monkey', '$2b$12$eNQG7MNRQwiT58AZMcD6AeTM6azA5t2y.z6AmiXcF/k9UKrp8gcPi');
+```
+- IN CONSOLE: 
+- ![CONSOLE.LOG RESULT](assets/salt3.png)
+- ![CONSOLE.LOG RESULT](assets/salt4.png)
 
 ### Auth Demo: Setup
 
