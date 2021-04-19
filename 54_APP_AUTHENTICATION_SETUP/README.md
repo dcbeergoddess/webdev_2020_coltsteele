@@ -30,6 +30,15 @@
 * Generally, we authorize after a user has been authenticated. "Now that we know who you are, here is what you are allowed to do and NOT allowed to do."
 
 ### How to (not) Store Passwords
+- Username and Password
+- NEVER STORE PASSWORDS IN TEXT IN DATABASE AS IT IS--> DISASTER
+- WHAT DO WE DO INSTEAD??
+- **HASHING** THE SOLUTION!
+* Rather than storing a password in the database, we run the password through a **hashing function** first and then store the result in the database
+* **Hashing Functions:** Functions that map input data of some arbitrary size to fixed-size output values
+![HASHING FUNCTIONS EXAMPLE](assets/hashing1.png)
+- when user logs in with password we run that password through the same algorithm, the same hashing function that we used to store the hashed password, that gives us an output and then we check if the two outputs are the same 
+![HASHING FUNCTIONS EXAMPLE](assets/hashing2.png)
 
 ### Cryptographic Hashing Functions
 
