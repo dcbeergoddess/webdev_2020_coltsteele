@@ -68,6 +68,52 @@
 
 ### Intro to Bcyrpt
 - [BCYRPT PACKAGE](https://github.com/kelektiv/node.bcrypt.js)
+- [BCRYPT WIKIPEDIA](https://en.wikipedia.org/wiki/Bcrypt)
+- OUR HASH FUNCTION!
+- `b` - [Blowfish (cipher)](https://en.wikipedia.org/wiki/Blowfish_(cipher))
+* TWO DIFFERENT PACKAGES:
+1. bcrypt - npm - (node.bcrypt.js): Does not work in browser -- server side only `node.js` -- built on top of c++ --> what we will be using
+2. bcryptjs - npm: written entirely in JavaScript --> can run on the browser like axios --> we don't need it to run in browser
+* Starting new exercise --> without express --> example of Methods we need to use for bcrypt:
+1. `npm i bcrypt`
+2. `const bcrypt = require('bcrypt');`
+- Methods we are going to focus on: `genSalt()` & `hash()`
+```js
+//FROM GITHUB DOCS
+bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+        // Store hash in your password DB.
+    });
+});
+```
+- WE CAN USE PROMISES WITH THIS LIBRARY:
+```js
+async function checkUser(username, password) {
+    //... fetch user from a db etc.
+
+    const match = await bcrypt.compare(password, user.passwordHash);
+
+    if(match) {
+        //login
+    }
+
+    //...
+}
+```
+-  `saltRounds`: number of rounds (difficulty level) for this hash --> AKA the amount of time it takes to compute a hash --> ideal goal is around 250 milliseconds
+3. PROMISE-FYD FORM OF BCRYPT HASH FUNCTION:
+```js
+//PROMISE-FYD FORM OF BCRYPT HASH FUNCTION
+const hashPassword = async () => {
+  const salt = bcrypt.genSalt(10);
+  console.log(salt);
+};
+
+hashPassword();
+```
+- IN TERMINAL:
+- ![CONSOLE.LOG RESULT](assets/salt1.png)
+
 
 ### Auth Demo: Setup
 
