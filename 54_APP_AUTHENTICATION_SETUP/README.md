@@ -179,6 +179,7 @@ const hashPassword = async (pw) => {
 - Have Routes that you will not be able to view unless you are `logged-in`
 1. `npm i express express-session ejs mongoose bcrypt`
 2. `touch models/user.js` --> SET UP USER MODEL
+3. SET UP EXPRESS APP in `index.js`
 
 ### Auth Demo: Registering 
 
