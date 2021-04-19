@@ -10,7 +10,7 @@
 
 ## Important 
 
-### * Auth Demo
+### * Auth Demo 
 ### * Understanding Hashing Functions
 ### * Password Salts
 
@@ -21,6 +21,13 @@
 <hr>
 
 ### Authentication vs. Authorization
+- Overview of How Authentication Works --> Later we will implement `Passport` in YelpCamp to help implement Authentication --> allows you to authenticate using twitter, github, google, etc as well
+- **Authentication**:
+* The Process of verifying who a particular user is
+* We typically authenticate with a username/password combo, but we can also use security questions, facial recognition, etc
+- **Authorization**:
+* Verifying what a specific user has access to
+* Generally, we authorize after a user has been authenticated. "Now that we know who you are, here is what you are allowed to do and NOT allowed to do."
 
 ### How to (not) Store Passwords
 
