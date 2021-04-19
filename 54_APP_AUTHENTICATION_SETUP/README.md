@@ -41,6 +41,18 @@
 ![HASHING FUNCTIONS EXAMPLE](assets/hashing2.png)
 
 ### Cryptographic Hashing Functions
+* [Hash Function Wikipedia](https://en.wikipedia.org/wiki/Hash_function)
+- hash table or hash map with 16 different outputs: 
+![HASH MAP](assets/hashing3.png) 
+* [Cryptographic Hash Functions](https://en.wikipedia.org/wiki/Cryptographic_hash_function)
+1. One-way function which is infeasible to invert
+2. Small change in input yields same output
+3. Deterministic - same input yields same output
+4. Unlikely to find 2 outputs with same value
+5. Password Hash functions are deliberately SLOW
+- EXAMPLE OF HASHING FUNCTION CALLED `SHA-1` --> small changes big difference in output:
+![Cryptographic SHA-1 Hash Function](assets/hashing4.png)
+- There are cryptographic hash functions that are FAST, used for digital signatures --> cookies --> FAST functions
 
 ### Password Salts
 
