@@ -152,6 +152,55 @@ const sessionConfig = {
 ```
 
 ## Setting Up Flash
+1. `npm i connect-flash`
+2. in `app.js` --> `const flash = require('connect-flash')`
+3. in `app.js` after session middleware -->  `app.use(flash())`
+4. should be able to flash something by calling `req.flash` and pass in a key and a value
+* SIMPLE EXAMPLE --> in make a new campground route in `routes/campgrounds.js`
+```js
+//POST NEW CAMPGROUND ROUTE
+router.post('/', validateCampground, catchAsync(async (req, res, next) => {
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  req.flash('success', 'Successfully made a new campground!');
+  res.redirect(`campgrounds/${campground._id}`);
+}));
+```
+5. Make sure to display messages in ejs template --> set up middleware in `app.js` before any of the route handlers:
+```js
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+  //Every Request has access now
+  res.locals.success = req.flash('success');
+  next();
+});
+
+//ROUTER MIDDLEWARE
+app.use('/campgrounds', campgrounds);
+app.use('/campgrounds/:id/reviews', reviews);
+```
+6. Now in `boilerplate.ejs` test that message shows up when you make a new campground:
+```html
+<body class="d-flex flex-column vh-100">
+  <%- include('../partials/navbar') %> 
+  <main class="container mt-5">
+    <%= success %> 
+    <%- body %> 
+  </main>
+  <%- include('../partials/footer') %> 
+```
+7. set up key for `error`:
+```js
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.success = req.flash('error');
+  next();
+});
+```
+- Now we can flash messages to handle if you go to a campground page with id that does not exist with error key
+- But we will make the messages look a little bit nicer with partials
 
 ## Flash Success Partial
 
