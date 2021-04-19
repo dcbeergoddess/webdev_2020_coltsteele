@@ -113,7 +113,23 @@ hashPassword();
 ```
 - IN TERMINAL:
 - ![CONSOLE.LOG RESULT](assets/salt1.png)
+4. HASHING A PASSWORD:
+```js
+//PROMISE-FYD FORM OF BCRYPT HASH FUNCTION
+const hashPassword = async (pw) => {
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(pw, salt);
+  console.log(salt);
+  console.log(hash);
+};
 
+hashPassword('monkey');
+```
+- IN TERMINAL:
+- ![CONSOLE.LOG RESULT](assets/salt2.png)
+- salt part of hashed result so we do not need to store it separately
+- if change `10` to `17` --> takes considerably longer time to get response back
+- `12` is Standard for right now 
 
 ### Auth Demo: Setup
 
