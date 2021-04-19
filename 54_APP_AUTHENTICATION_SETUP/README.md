@@ -175,6 +175,10 @@ const hashPassword = async (pw) => {
 - ![CONSOLE.LOG RESULT](assets/salt6.png)
 
 ### Auth Demo: Setup
+- BUILD SIMPLE EXPRESS APP --> where we can implement soe authentication using `bcrypt`
+- Have Routes that you will not be able to view unless you are `logged-in`
+1. `npm i express express-session ejs mongoose bcrypt`
+2. `touch models/user.js` --> SET UP USER MODEL
 
 ### Auth Demo: Registering 
 
