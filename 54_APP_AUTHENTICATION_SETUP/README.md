@@ -219,6 +219,23 @@ app.post('/register', async (req, res) => {
 - IN LOCAL HOST:
 ![req.body response](assets/user1.png)
 
+- Now we want to take that username and password and create a new user
+- But not going to just take that password and save it to the model we are creating --> Use `bcrypt`
+6. in `app.js` (for now to see all logic in one place) 
+* `const bcrypt = require('bcrypt');`
+* In Route to Post a User to a Database --> TEST HASH:
+```js
+//CREATE USER
+app.post('/register', async (req, res) => {
+  const { password, user } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  res.send(hash);
+});
+```
+- IN LOCAL HOST:
+![hash response](assets/user2.png)
+
+
 ### Auth Demo: Login
 
 ### Auth Demo: Staying Logged In With Session

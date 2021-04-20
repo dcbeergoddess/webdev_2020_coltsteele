@@ -1,7 +1,8 @@
-const express = require('express')
+const express = require('express');
 const app = express();
-const mongoose = require('mongoose')
-const User = require('./models/user')
+const mongoose = require('mongoose');
+const User = require('./models/user');
+const bcrypt = require('bcrypt');
 
 mongoose
   .connect('mongodb://localhost:27017/authDemo', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -17,15 +18,17 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.urlencoded({extended: true}));
-
+//REGISTER FORM
 app.get('/register', (req, res) => {
   res.render('register');
-})
-
+});
+//CREATE USER
 app.post('/register', async (req, res) => {
-  res.send(req.body);
-})
-
+  const { password, user } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  res.send(hash);
+});
+//SECRET ROUTE 
 app.get('/secret', (req, res) => {
   res.send('THIS IS SECRET! YOU CANNOT SEE ME UNLESS YOU ARE LOGGED IN')
 });
