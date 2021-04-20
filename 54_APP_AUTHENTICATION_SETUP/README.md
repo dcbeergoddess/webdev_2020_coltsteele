@@ -363,6 +363,15 @@ app.get('/secret', (req, res) => {
 });
 ```
 - Test in Local Host and All is working!!!
+- ANOTHER WAY TO END A SESSION
+```js
+app.post('/logout', (req, res) => {
+  // req.session.user_id = null;
+  //CAN ALSO USE THIS IF THERE IS MORE INFO ATTACHED TO USER SESSION WITH INFO BEING STORED
+  req.session.destroy();
+  res.redirect('/login');
+});
+```
 
 ### Auth Demo: Require Login Middleware
 

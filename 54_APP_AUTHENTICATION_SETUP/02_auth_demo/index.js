@@ -60,7 +60,9 @@ app.post('/login', async (req, res) => {
 });
 //LOG OUT
 app.post('/logout', (req, res) => {
-  req.session.user_id = null;
+  // req.session.user_id = null;
+  //CAN ALSO USE THIS IF THERE IS MORE INFO ATTACHED TO USER SESSION WITH INFO BEING STORED
+  req.session.destroy();
   res.redirect('/login');
 });
 
