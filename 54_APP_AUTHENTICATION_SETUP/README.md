@@ -423,3 +423,65 @@ app.post('/login', async (req, res) => {
 });
 ```
 3. make sure `bcrypt` is required in User model now that we are using it in our `static method`
+* NEXT ON REGISTER --> we are hashing their password first and then we're taking that and adding it to the new user and then we save:
+- Another Approach: let Mongoose and the Model set hashed password for us using middleware in the model
+1. Update CREATE USER route:
+```js
+//CREATE USER
+app.post('/register', async (req, res) => {
+  const { password, username } = req.body;
+  const user = new User({ username, password });
+  await user.save();
+  req.session.user_id = user._id;
+  res.redirect('/secret')
+});
+```
+2. ADD MIDDLEWARE TO USER MODEL --> run function `pre` saving a user
+- Lets Test to make sure Middleware is working properly
+```js
+userSchema.pre('save', function (next) {
+  //this refers to this particular instance of user
+  this.password = 'NOT YOUR REAL PASSWORD!!!'
+  next(); //this will can save()
+});
+```
+3. Make New User (password entered = pig):
+- ![Create User Pig](assets/user6.png)
+4. CHECK IN MONGO DB:
+- ![User Pig Password in DB](assets/user7.png)
+5. add bcrypt hashing to function instead of 'NOT YOUR REAL PASSWORD'
+```js
+userSchema.pre('save', async function (next) {
+  //`this` refers to this particular instance of user
+  this.password = await bcrypt.hash(this.password, 12)
+  next(); //this will can save()
+});
+```
+- Now we are back to storing hashed passwords
+- ![New Pig User w/ hashed password](assets/user8.png)
+6. SLIGHT MODIFICATION: We only want to rehash the password if the password has been modified, for example if user updates username we do not want to run the password hash code --> paricular method --> `isModified()`:
+```js
+//bcrypt middleware
+userSchema.pre('save', async function (next) {
+  //`this` refers to this particular instance of user
+  this.isModified('password'); //will tell us true or false if password has been modified on this particular user model
+  this.password = await bcrypt.hash(this.password, 12)
+  next(); //this will can save()
+});
+```
+- Check to see that is has not been Modified
+```js
+//bcrypt middleware
+userSchema.pre('save', async function (next) {
+  //`this` refers to this particular instance of user
+  //`isModified` will tell us true or false if password has been modified on this particular user model
+  //if password is unchanged call next otherwise hash password
+  if(!this.isModified('password')) return next(); 
+  this.password = await bcrypt.hash(this.password, 12)
+  next(); //this will can save()
+});
+```
+- Check that everything is still working
+- We are not handling errors or flashing feedback 
+- Stand Alone Example of the Basics!!!
+- BASIC MECHANICS ON DISPLAY 
