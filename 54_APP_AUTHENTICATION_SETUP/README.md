@@ -374,6 +374,27 @@ app.post('/logout', (req, res) => {
 ```
 
 ### Auth Demo: Require Login Middleware
+- Usually we want to protect multiple endpoints
+- SET UP MIDDLEWARE 
+1. instead of `app.use` --> create a function in `index.js`:
+```js
+const requireLogin = (req, res, next) => {
+  if(!req.session.user_id){
+    return res.redirect('/login');
+  }
+  next();
+};
+```
+2. Try in secret route:
+```js
+//SECRET ROUTE 
+app.get('/secret', requireLogin, (req, res) => {
+  res.render('secret')
+}); 
+app.get('/topsecret', requireLogin, (req, res) => {
+  res.send("TOP SECRET")
+});
+```
 
 ### Auth Demo: Refactoring To Model Methods
 
