@@ -334,6 +334,35 @@ app.get('/secret', (req, res) => {
 - now we can't see secret page unless we login with credentials in the database
 
 ### Auth Demo: Logout
+- Just Get Rid of User ID in the Session
+- Signed Cookies
+1. Create post route to logout
+```js
+//LOG OUT
+app.post('/logout', (req, res) => {
+  req.session.user_id = null;
+  res.redirect('/login');
+});
+```
+2. Create Form to Send Post Request to `/logout`:
+- create ejs template for `/secret` and put form their
+```html
+  <h1>Secret Page</h1>
+  <form action="/logout" method="POST">
+    <button>Sign Out</button>
+  </form>
+```
+3. Update Secret Route, `return res.redirect` in if statement so it doesn't run at same time as `res.render`
+```js
+//SECRET ROUTE 
+app.get('/secret', (req, res) => {
+  if(!req.session.user_id) {
+    return res.redirect('/login');
+  }
+  res.render('secret')
+});
+```
+- Test in Local Host and All is working!!!
 
 ### Auth Demo: Require Login Middleware
 
