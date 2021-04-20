@@ -12,6 +12,39 @@
 1. `npm i passport passport-local passport-local-mongoose` 
 
 ## Creating Our User Model
+- Create our User Model
+- FROM PASSPORT-LOCAL MONGOOSE DOC:
+```js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
+
+const User = new Schema({});
+
+User.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model('User', User);
+```
+* FOR YelpCamp:
+1. `touch models/user.js`
+```js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
+
+//DEFINE USER SCHEMA
+const UserSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  }
+});
+//THIS WILL ADD onto our schema --> username --> field for password --> make sure usernames are unique --> and give us some additional methods that we can use
+UserSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model('User', userSchema);
+```
 
 ## Configuring Passport
 
