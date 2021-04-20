@@ -234,7 +234,22 @@ app.post('/register', async (req, res) => {
 ```
 - IN LOCAL HOST:
 ![hash response](assets/user2.png)
-
+7. Set up Logic to save User and hashed password to database
+```js
+//CREATE USER
+app.post('/register', async (req, res) => {
+  const { password, username } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  const user = new User({
+    username,
+    password: hash
+  })
+  await user.save();
+  res.redirect('/')
+});
+```
+- RESULT IN MONGO SHELL:
+![saved user in DB](assets/user3.png)
 
 ### Auth Demo: Login
 
