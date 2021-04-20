@@ -38,6 +38,15 @@ app.post('/register', async (req, res) => {
   await user.save();
   res.redirect('/')
 });
+//LOGIN PAGE
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+//POST LOGIN FORM
+app.post('/login', (req, res) => {
+  res.send(req.body)
+});
+
 //SECRET ROUTE 
 app.get('/secret', (req, res) => {
   res.send('THIS IS SECRET! YOU CANNOT SEE ME UNLESS YOU ARE LOGGED IN')

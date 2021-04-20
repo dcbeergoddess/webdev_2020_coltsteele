@@ -221,7 +221,7 @@ app.post('/register', async (req, res) => {
 
 - Now we want to take that username and password and create a new user
 - But not going to just take that password and save it to the model we are creating --> Use `bcrypt`
-6. in `app.js` (for now to see all logic in one place) 
+6. in `index.js` (for now to see all logic in one place) 
 * `const bcrypt = require('bcrypt');`
 * In Route to Post a User to a Database --> TEST HASH:
 ```js
@@ -252,6 +252,31 @@ app.post('/register', async (req, res) => {
 ![saved user in DB](assets/user3.png)
 
 ### Auth Demo: Login
+1. set up route to render login page
+```js
+//LOGIN PAGE
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+```
+2. create ejs template --> copy code over from register to tweak --> `touch views/login.ejs`
+```html
+  <title>Login Form</title>
+</head>
+<body>
+  <h1>Login!</h1>
+  <form action="/login" method="POST">
+    <div>
+```
+3. Create POST route for login form:
+```js
+//POST LOGIN FORM
+app.post('/login', (req, res) => {
+  res.send(req.body)
+});
+```
+- TEST IN LOCAL HOST TO CHECK CONNECTION:
+![Login Route Test](assets/user4.png)
 
 ### Auth Demo: Staying Logged In With Session
 
