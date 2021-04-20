@@ -331,6 +331,9 @@ app.get('/secret', (req, res) => {
   res.send('THIS IS SECRET! YOU CANNOT SEE ME UNLESS YOU ARE LOGGED IN')
 });
 ```
+- now we can't see secret page unless we login with credentials in the database
+
+### Auth Demo: Logout
 
 ### Auth Demo: Require Login Middleware
 
