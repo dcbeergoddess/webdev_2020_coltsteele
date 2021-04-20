@@ -39,7 +39,7 @@ app.post('/register', async (req, res) => {
   })
   await user.save();
   req.session.user_id = user._id;
-  res.redirect('/')
+  res.redirect('/secret')
 });
 //LOGIN PAGE
 app.get('/login', (req, res) => {
@@ -53,9 +53,9 @@ app.post('/login', async (req, res) => {
   const validPassword = await bcrypt.compare(password, user.password)
   if(validPassword){
     req.session.user_id = user._id;
-    res.send("YAY WELCOME!!");
+    res.redirect('/secret');
   } else {
-    res.send("TRY AGAIN");
+    res.redirect('/login');
   }
 });
 
