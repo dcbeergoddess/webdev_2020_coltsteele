@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const bcrypt = require('bcrypt');
+const session = require('express-session')
 
 mongoose
   .connect('mongodb://localhost:27017/authDemo', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.urlencoded({extended: true}));
+app.use(session({ secret: 'notagoodsecret'}));
 
 //HOME PAGE
 app.get('/', (req, res) => {
@@ -36,6 +38,7 @@ app.post('/register', async (req, res) => {
     password: hash
   })
   await user.save();
+  req.session.user_id = user._id;
   res.redirect('/')
 });
 //LOGIN PAGE
@@ -49,14 +52,18 @@ app.post('/login', async (req, res) => {
   const user = await User.findOne({ username });
   const validPassword = await bcrypt.compare(password, user.password)
   if(validPassword){
-    res.send("YAY WELCOME!!")
+    req.session.user_id = user._id;
+    res.send("YAY WELCOME!!");
   } else {
-    res.send("TRY AGAIN")
+    res.send("TRY AGAIN");
   }
 });
 
 //SECRET ROUTE 
 app.get('/secret', (req, res) => {
+  if(!req.session.user_id) {
+    res.redirect('/login');
+  }
   res.send('THIS IS SECRET! YOU CANNOT SEE ME UNLESS YOU ARE LOGGED IN')
 });
 

@@ -296,8 +296,41 @@ app.post('/login', async (req, res) => {
 - TEST IN LOCAL HOST WITH USER INFO YOU SAVED IN DB:
 - ![Login with valid password](assets/user5.png)
 
-
 ### Auth Demo: Staying Logged In With Session
+- ADDING STATE-FULLNESS TO HTTP AND CHECK A USER LOGGED IN
+- We want to prevent people from seeing the secret page unless they are logged in
+- Associate a given user's browser with some piece of data that says they're logged in --> Many Ways to Do This --> We Will store the ID of somebody who is logged in in the session
+1. require express-session in index.js 
+* `const session = require('express-session');`
+2. set up middleware
+* `app.use(session({ secret: 'notagoodsecret'}));`
+3. When we login we are going to add something to the session
+* we are now getting a session id when you look in cookies automatically as part of the request
+* if you do successfully login, we'll store your user ID in the session, but only if you successfully login
+```js
+  if(validPassword){
+    req.session.user_id = user._id;
+    res.send("YAY WELCOME!!");
+  } else {
+    res.send("TRY AGAIN");
+  }
+```
+4. Do Same Thing For Register after user is created:
+```js
+  await user.save();
+  req.session.user_id = user._id
+  res.redirect('/')
+```
+5. In order to protect something we just need to check if `req.session.user_id` exists or doesn't exist in secret route
+```js
+//SECRET ROUTE 
+app.get('/secret', (req, res) => {
+  if(!req.session.user_id) {
+    res.redirect('/login');
+  }
+  res.send('THIS IS SECRET! YOU CANNOT SEE ME UNLESS YOU ARE LOGGED IN')
+});
+```
 
 ### Auth Demo: Require Login Middleware
 
