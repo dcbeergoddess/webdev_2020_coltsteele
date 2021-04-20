@@ -397,4 +397,29 @@ app.get('/topsecret', requireLogin, (req, res) => {
 ```
 
 ### Auth Demo: Refactoring To Model Methods
-
+- We always want to move as much code out of the root handler itself as possible
+- we're finding a user by username and comparing to see if the password is correct --> move into `static method`ß on the model --> meaning a method we can on user instead of something like `findOne`
+1. In User Model --> with `userSchema.statics` --> define our own method 
+```js
+userSchema.statics.findAndValidate = async function (username, password) {
+  const foundUser = await this.findOne({ username });
+  const isValid = await bcrypt.compare(password, foundUser.password);
+  //if isValid is true return found user otherwise return false --> ternary operator
+  return isValid ? foundUser : false;
+}
+```
+2. Change Route for `/login` in `index.js`:
+```js
+//POST LOGIN FORM
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const foundUser = await User.findAndValidate(username, password);
+  if(foundUser){
+    req.session.user_id = foundUser._id;
+    res.redirect('/secret');
+  } else {
+    res.redirect('/login');
+  }
+});
+```
+3. make sure `bcrypt` is required in User model now that we are using it in our `static method`
