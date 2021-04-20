@@ -277,6 +277,25 @@ app.post('/login', (req, res) => {
 ```
 - TEST IN LOCAL HOST TO CHECK CONNECTION:
 ![Login Route Test](assets/user4.png)
+4. Take username and password, and find user with username --> check if user is in DB and password is correct but you don't want to tell the username which one they did not enter correctly! --> "incorrect username or password"
+- TEST BCRYPT FOR PASSWORD
+```js
+//POST LOGIN FORM
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  // User.findOne({ username: username }) //SAME AS NEXT LINE
+  const user = await User.findOne({ username });
+  const validPassword = await bcrypt.compare(password, user.password)
+  if(validPassword){
+    res.send("YAY WELCOME!!")
+  } else {
+    res.send("TRY AGAIN")
+  }
+});
+```
+- TEST IN LOCAL HOST WITH USER INFO YOU SAVED IN DB:
+- ![Login with valid password](assets/user5.png)
+
 
 ### Auth Demo: Staying Logged In With Session
 

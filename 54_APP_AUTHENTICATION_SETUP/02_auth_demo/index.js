@@ -43,8 +43,16 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 //POST LOGIN FORM
-app.post('/login', (req, res) => {
-  res.send(req.body)
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  // User.findOne({ username: username }) //SAME AS NEXT LINE
+  const user = await User.findOne({ username });
+  const validPassword = await bcrypt.compare(password, user.password)
+  if(validPassword){
+    res.send("YAY WELCOME!!")
+  } else {
+    res.send("TRY AGAIN")
+  }
 });
 
 //SECRET ROUTE 
