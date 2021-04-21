@@ -168,6 +168,44 @@ router.post('/register', async (req, res) => {
 * ![REQ.BODY REGISTER TEST](assets/register1.png)
 
 ## Register Route Logic
+- Make a Basic User Model Instance in post route --> use passport method `register(userObject, password)`:
+```js
+//POST FORM
+router.post('/register', async (req, res) => {
+  //destructure what we want from req.body
+  const { email, username, password } = req.body; 
+  const user = new User({email, username});
+  const registeredUser = await User.register(user, password);
+  console.log(registeredUser);
+  req.flash('success', 'Welcome To Yelp Camp!');
+  res.redirect('/campgrounds');
+});
+```
+* Try Making new User to test
+- ![Terminal Console Result](register2.png)
+- Still are things that can go wrong --> mongoose errors for unique username, etc 
+8. Set up `catchAsync` in `routes/users.js` to wrap around post user route
+```js
+const catchAsync = require('../utils/catchAsync')
+```
+9. Set it up so it doesn't display error on new page for user, rather we want to flash message on same page --> set up another try and catch --> to catch it ourselves and handle in a new way:
+```js
+//POST FORM
+router.post('/register', catchAsync(async (req, res) => {
+  try {
+    //destructure what we want from req.body
+    const { email, username, password } = req.body; 
+    const user = new User({email, username});
+    const registeredUser = await User.register(user, password);
+    // console.log(registeredUser);
+    req.flash('success', 'Welcome To Yelp Camp!');
+    res.redirect('/campgrounds');
+  } catch(e) {
+    req.flash('error', e.message);
+    res.redirect('register');
+  };
+}));
+```
 
 ## Login Routes
 
