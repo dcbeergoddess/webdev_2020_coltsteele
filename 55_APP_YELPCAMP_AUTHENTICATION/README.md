@@ -93,6 +93,79 @@ app.get('/fakeUser', async (req, res) => {
 * Uses Hash Algorithm `Pbkdf2` --> Platform independent
 
 ## Register Form
+* Set up Simple and Ugly Register Form 
+- `/register` --> FORM
+- `POST /register` --> CREATE A USER
+1. `touch routes/users.js`
+```js
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
+
+//RENDER FORM
+router.get('/register', (req, res) => {
+  res.render('users/register')
+});
+
+module.exports = router;
+```
+2. `mkdir views/users`
+3. `touch views/users/register.ejs`
+```html
+<h1>REGISTER!</h1>
+```
+4. require routes in `app.js` and set up middleware
+```js
+//routers
+const userRoutes = require('./routes/users')
+const campgroundRoutes = require('./routes/campgrounds');
+const reviewRoutes = require('./routes/reviews');
+```
+```js
+//ROUTER MIDDLEWARE
+app.use('/', userRoutes)
+app.use('/campgrounds', campgroundRoutes);
+app.use('/campgrounds/:id/reviews', reviewRoutes);
+```
+5. Test to see that `register.ejs` template shows up in local host when you hit the register route
+* NEW EJS TEMPLATE FOR REGISTER
+```html
+<% layout('layouts/boilerplate') %> 
+<h1>Register</h1>
+<form action="/register" method="POST" class="validate-form" novalidate>
+  <div class="mb-3">
+    <label class="form-label" for="username">Username</label>
+    <input class="form-control" type="text" id="username" name="username" required>
+    <div class="valid-feedback">
+      Looks Good!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="email">Email</label>
+    <input class="form-control" type="email" id="email" name="email" required>
+    <div class="valid-feedback">
+      Looks Good!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="password">Password</label>
+    <input class="form-control" type="password" id="password" name="password" required>
+    <div class="valid-feedback">
+      Looks Good!
+    </div>
+  </div>
+  <button class="btn btn-success">Register</button>
+</form>
+```
+6. Set up post route for register
+```js
+//POST FORM
+router.post('/register', async (req, res) => {
+  res.send(req.body); //TEST TO MAKE SURE WE ARE GETTING EVERYTHING WE SENT
+})
+```
+7. TEST IN LOCAL HOST:
+* ![REQ.BODY REGISTER TEST](assets/register1.png)
 
 ## Register Route Logic
 
