@@ -296,7 +296,43 @@ router.get('/logout', (req, res) => {
 - Now we will need to add logic to hide proper links depending on status of isLoggedIn
 
 ## currentUser Model
-
+- hide and show items based on status of user login
+1. in `middleware.js` lets try printing out the user
+```js
+module.exports.isLoggedIn = (req, res, next) => {
+  console.log("REQ.USER...", req.user);
+  if(!req.isAuthenticated()) {
+    req.flash('error', 'you must be signed in');
+    return res.redirect('/login'); //must return this otherwise next line runs and sends error to console
+  }
+  next();
+};
+```
+- When you try to hit protected route:
+![Protected Route Console Output for User](assets/user1.png)
+- When you log in and hit protected route:
+![Protected Route Console Output for Logged In User](assets/user2.png)
+2. In `app.js` under other `res.locals` that our app has access to, add global logic access:
+```js
+app.use((req, res, next) => {
+  //Every Request has access now
+  res.locals.currentUser = req.user; 
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+```
+3. NOW IN `views/partials/navbar.ejs` --> check to see if currentUser = undefined:
+```html
+      <div class="navbar-nav" style="margin-left: auto;">
+        <% if (!currentUser) { %>
+          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/register">Register</a>
+        <% } else {%>
+          <a class="nav-link" href="/logout">Logout</a>
+        <% } %>
+      </div>
+```
 ## Fixing Register Route
 
 ## ReturnTo Behavior
