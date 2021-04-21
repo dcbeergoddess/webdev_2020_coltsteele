@@ -100,6 +100,8 @@ app.get('/fakeUser', async (req, res) => {
 ```js
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const catchAsync = require('../utils/catchAsync')
 const User = require('../models/user');
 
 //RENDER FORM
@@ -208,6 +210,22 @@ router.post('/register', catchAsync(async (req, res) => {
 ```
 
 ## Login Routes
+1. in `routes/users.js` set up render route
+```js
+//RENDER LOGIN FORM
+router.get('/login', (req, res) => {
+  res.render('users/login');
+});
+```
+2. duplicate register template for login form --> no longer need email
+3. use passport middleware method on login POST route -- `passport.authenticate`, you can set up multiple post routes to authenticate for google, twitter, etc --> we have some options we can specify in an object
+```js
+//POST LOGIN
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
+  req.flash('success', 'welcome back!');
+  res.redirect('/campgrounds');
+})
+```
 
 ## isLoggedIn Middleware
 
