@@ -334,6 +334,125 @@ app.use((req, res, next) => {
       </div>
 ```
 ## Fixing Register Route
+- Right now after you register you have to login in --> not logged in automatically at the moment
+- When user registers --> we want to log the user in --> helper method for passport --> `login()`
+1. Automatically login the registered user after they register:
+```js
+//POST REGISTER FORM
+router.post('/register', catchAsync(async (req, res) => {
+  try {
+    //destructure what we want from req.body
+    const { email, username, password } = req.body; 
+    const user = new User({email, username});
+    const registeredUser = await User.register(user, password);
+    // console.log(registeredUser);
+    req.login(registeredUser, err => {
+      if(err) return next(err) 
+      req.flash('success', 'Welcome To Yelp Camp!');
+      res.redirect('/campgrounds');
+    });
+  } catch(e) {
+    req.flash('error', e.message);
+    res.redirect('register');
+  };
+}));
+```
+- Now When you Register you will be automatically logged in
 
 ## ReturnTo Behavior
 - [SOLUTION FOR SMALL BUG IN CODE](https://www.youtube.com/watch?v=g7SaXCYCgXU)
+- Redirect User back to where they were trying to go
+- Keep track of where a user was initialing requesting
+1. Store Url they are requesting --> then we can redirect them based on that property
+```js
+module.exports.isLoggedIn = (req, res, next) => {
+  // console.log("REQ.USER...", req.user);
+  if(!req.isAuthenticated()) {
+    //store the url they are requesting!
+    req.flash('error', 'you must be signed in');
+    return res.redirect('/login'); //must return this otherwise next line runs and sends error to console
+  }
+  next();
+};
+```
+- Store on the session for state-fullness
+2. Figure out what we need to save:
+```js
+module.exports.isLoggedIn = (req, res, next) => {
+  // console.log("REQ.USER...", req.user);
+  if(!req.isAuthenticated()) {
+    console.log(req.path, req.originalUrl);
+    req.flash('error', 'you must be signed in');
+    return res.redirect('/login'); //must return this otherwise next line runs and sends error to console
+  }
+  next();
+};
+```
+- IN TERMINAL:
+![looking up path user requested](assets/user3.png)
+- WE WANT TO STORE THE `originalUrl`
+3. Set up in `middleware.js`
+```js
+module.exports.isLoggedIn = (req, res, next) => {
+  // console.log("REQ.USER...", req.user);
+  if(!req.isAuthenticated()) {
+    req.session.returnTo = req.originalUrl
+    req.flash('error', 'you must be signed in');
+    return res.redirect('/login'); //must return this otherwise next line runs and sends error to console
+  }
+  next();
+};
+```
+4. in middleware in `app.js` - `console.log(req.session)` to see what's going on:
+```js
+app.use((req, res, next) => {
+  //Every Request has access now
+  console.log(req.session);
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+```
+- In Terminal - got to campgrounds --> nothing in session --> try and make new campground and session includes `returnTo: /campgrounds/new`:
+- ![SESSION OUTPUT WHEN NOT LOGGED IN](assets/user4.png)
+5. in `routes/users.js` --> test what we get back in POST Login Route:
+```js
+//POST LOGIN
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
+  req.flash('success', 'welcome back!');
+  const redirectURL = req.session.returnTo || '/campgrounds';
+  res.redirect(redirectURL);
+});
+```
+- IN TERMINAL:
+- ![SESSION OUTPUT WHEN LOGGED IN](assets/user5.png)
+- We don't want returnTo to stay in session so after you redirect user: 
+```js
+//POST LOGIN
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
+  req.flash('success', 'welcome back!');
+  const redirectURL = req.session.returnTo || '/campgrounds';
+  delete req.session.returnTo;
+  res.redirect(redirectURL);
+});
+```
+- IN TERMINAL:
+- ![NEW SESSION OUTPUT WHEN LOGGED IN](assets/user6.png)
+
+- BUG IN CODE --> try to add new campground --> decide you don't want to login in --> move around on page --> then decide to login --> directed back to new campground page --> not what we want
+- move this code `req.session.returnTo = req.originalUrl` in `middleware.js` to `app.js` middleware:
+```js
+app.use((req, res, next) => {
+  //Every Request has access now
+  //if you are not coming from these two routes..., if req.originalUrl does not include one of these then..
+  if(!['/login', '/'].includes(req.originalUrl)) {
+    req.session.returnTo = req.originalUrl 
+  }
+  console.log("req.session....", req.session);
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+```
