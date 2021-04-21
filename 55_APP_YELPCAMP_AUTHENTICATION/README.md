@@ -47,6 +47,50 @@ module.exports = mongoose.model('User', userSchema);
 ```
 
 ## Configuring Passport
+- Our `app.js` is getting a little heavy --> eventually break up a lot of what is in here, but for now...
+1. set up passport in `app.js`
+* FEW LINES TO REQUIRE IN AT TOP OF FILE
+```js
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+```
+* SET UP MIDDLEWARE --> Make sure it is after `app.use` for `session`
+```js
+app.use(passport.initialize());
+app.use(passport.session());
+```
+* Require in `User` model to `app.js` --> for next line
+```js
+//PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+```
+- FROM PASSPORT DOCS:
+- ![Static Methods in Passport](assets/passport1.png)
+- A few more methods to add in `app.js`
+```js
+//PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate())); 
+//Can have multiple strategies going at once
+
+passport.serializeUser(User.serializeUser()); //start session
+passport.deserializeUser(User.deserializeUser()); //Take out of session
+```
+* Demonstrate creation of new user with following route --> `register` method in passport --> pass in new user object and a password (will hash password and store it --> need to await it since it will take time)
+```js
+//NEW USER DEMONSTRATION
+app.get('/fakeUser', async (req, res) => {
+  const user = new User({email: 'rachel@gmail.com', username: 'rrrrachel'});
+  const newUser = await User.register(user, 'jasmine');
+  res.send(newUser);
+});
+```
+* HIT ROUTE IN LOCAL HOST:
+![User Object Stored w/ hash password](assets/passport2.png)
+* Uses Hash Algorithm `Pbkdf2` --> Platform independent
 
 ## Register Form
 
