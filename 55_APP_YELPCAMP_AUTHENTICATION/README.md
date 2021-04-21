@@ -277,7 +277,7 @@ router.get('/logout', (req, res) => {
 ```
 - might eventually want to check to make sure user is logged in in order to hit logout route
 2. ADD BUTTON TO NAVBAR FOR LOGOUT AND LOGIN --> `views/partials/navbar.ejs`
-```js
+```html
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/">Home</a>
