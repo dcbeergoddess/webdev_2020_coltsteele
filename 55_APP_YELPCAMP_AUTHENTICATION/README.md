@@ -228,6 +228,41 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 ```
 
 ## isLoggedIn Middleware
+- Need to check to see if someone is isLoggedIn
+- Passport gives us a helper method --> isAuthenticated
+- Try in --> make a new campground route:
+```js
+//NEW FORM
+router.get('/new', (req, res) => {
+  res.render('campgrounds/new');
+});
+```
+- Test that works in local host
+- Now let's move this logic into a middleware we can use over multiple routes
+- MOVE MIDDLEWARE TO NEW FILE
+- in root directory `touch middleware.js`
+```js
+module.exports.isLoggedIn = (req, res, next) => {
+  if(!req.isAuthenticated()) {
+    req.flash('error', 'you must be signed in');
+    return res.redirect('/login'); //must return this otherwise next line runs and sends error to console
+  }
+  next();
+};
+```
+- require into campground routes file
+```js
+const { campgroundSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
+```
+- add to routes you want to protect
+```js
+//NEW FORM
+router.get('/new', isLoggedIn, (req, res) => {
+  res.render('campgrounds/new');
+});
+```
+- protect routes that could be found using postman, etc.
 
 ## Adding Logout
 
