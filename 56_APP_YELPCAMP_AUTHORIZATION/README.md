@@ -75,6 +75,22 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, nex
 ```
 
 ## Showing and Hiding Edit/Delete
+- Update to only see edit/delete buttons if you are the author
+- AUTHORIZATION
+- TWO THINGS: 
+1. Don't show these buttons unless you are logged in as author of campground: Add logic into show template using `campground.author` and `currentUser._id`
+- `campground.author.equals(currentUser._id)` --> will break things if no user is logged in w/ out checking if currentUser exists first
+```html
+    <% if (currentUser && campground.author.equals(currentUser._id)) { %>
+        <div class="card-body">
+          <a class="card-link btn btn-info" href="/campgrounds/<%= campground._id %>/edit ">Edit Campground</a>
+          <form class="d-inline" action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      <% } %>
+```
+- 2. Protect Routes on Backend --> someone could send delete, patch, put request if they are not the owner (Postman, etc.)  
 
 ## Campground Permissions
 
