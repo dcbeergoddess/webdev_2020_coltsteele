@@ -265,6 +265,35 @@ router.get('/new', isLoggedIn, (req, res) => {
 - protect routes that could be found using postman, etc.
 
 ## Adding Logout
+- Give user the ability to log out --> w/ passport --> method added to req object automatically called login, there's also logout
+1. in `routes/users.js`
+```js
+//LOGOUT
+router.get('/logout', (req, res) => {
+  req.logout();
+  req.flash('success', "GoodBye!")
+  res.redirect('/campgrounds');
+});
+```
+- might eventually want to check to make sure user is logged in in order to hit logout route
+2. ADD BUTTON TO NAVBAR FOR LOGOUT AND LOGIN --> `views/partials/navbar.ejs`
+```js
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/campgrounds">Campgrounds</a>
+        <a class="nav-link" href="/campgrounds/new">New Campgrounds</a>
+      </div>
+      <!-- ml-auto: move to other side of page -->
+      <!-- ml-auto class did not work, inline style working -->
+      <div class="navbar-nav" style="margin-left: auto;">
+        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href="/register">Register</a>
+        <a class="nav-link" href="/logout">Logout</a>
+      </div>
+    </div>
+```
+- Now we will need to add logic to hide proper links depending on status of isLoggedIn
 
 ## currentUser Model
 
