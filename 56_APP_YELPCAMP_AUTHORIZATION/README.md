@@ -117,6 +117,44 @@ router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) =
 2. Can add it to other routes --> Move logic into it's own middleware `isAuthor`
 
 ## Authorization Middleware
+- Add Middleware logic for `isAuthor` in campground routes for now
+1. Middleware for `isAuthor` in `routes/campgrounds.js`
+```js
+//MIDDLEWARE --> isAuthor
+const isAuthor = async (req, res, next) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  if(!campground.author.equals(req.user._id)) {
+    req.flash('error', 'You do not have permission to do that');
+    return res.redirect(`/campgrounds/${id}`); 
+  }
+  next();
+};
+```
+2. Add to Edit Form Route, Update Route, and Delete Route for Campgrounds
+3. MOVE `routes/campgrounds.js` TO `middleware.js`
+```js
+//JOI VALIDATION
+module.exports.validateCampground = (req, res, next) => {
+  const { error } = campgroundSchema.validate(req.body);
+  if(error){
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next();
+  }
+};
+//MIDDLEWARE --> isAuthor
+module.exports.isAuthor = async (req, res, next) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  if(!campground.author.equals(req.user._id)) {
+    req.flash('error', 'You do not have permission to do that');
+    return res.redirect(`/campgrounds/${id}`); 
+  }
+  next();
+};
+```
 
 ## Reviews Permissions
 
