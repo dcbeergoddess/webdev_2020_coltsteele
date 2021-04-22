@@ -93,6 +93,28 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, nex
 - 2. Protect Routes on Backend --> someone could send delete, patch, put request if they are not the owner (Postman, etc.)  
 
 ## Campground Permissions
+- Right now you can send request via Postman or just add edit into path in localhost -> also able to delete and more via Postman
+- Before we update anything does this campground have the same author id as the currently logged in user:
+1. Need to break logic in update campground route up --> find campground first --> then check to see if we are allowed to update based on if the id of the current user matches the author id in the model:
+```js
+//PUT ROUTE TO UPDATE
+router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  if(!campground.author.equal(req.user._id)) {
+    req.flash('error', 'You do not have permission to do that');
+    return res.redirect(`/campgrounds/${id}`); //return to make sure it works and none of the other code runs
+  }
+  const camp = await Campground.findByIdAndUpdate(id, {...req.body.campground}); //this is janky but check to make sure it works
+  req.flash('success', 'Successfully updated campground!')
+  res.redirect(`${campground._id}`);
+}));
+```
+- try to hit edit route on our own hitting it in the path to update a campground you did not create:
+- ![Cannot Update Campground](assets/user2.png)
+- Sign in as user for campground:
+- ![Success Msg for Update Campground](assets/user3.png)
+2. Can add it to other routes
 
 ## Authorization Middleware
 
