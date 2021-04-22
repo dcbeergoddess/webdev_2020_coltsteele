@@ -259,5 +259,5 @@ router.get('/:id', catchAsync(async (req, res) => {
       </div>
     <% } %>
 ```
-
+- ![Campground populated with review authors](assets/review3.png)
 
