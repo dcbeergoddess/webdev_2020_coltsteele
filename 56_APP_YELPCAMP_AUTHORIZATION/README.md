@@ -260,4 +260,41 @@ router.get('/:id', catchAsync(async (req, res) => {
     <% } %>
 ```
 - ![Campground populated with review authors](assets/review3.png)
+* Protect delete route for users own reviews
+```html
+  <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username %> </h6>
+  <p class="card-text">Review: <%= review.body %> </p>
+  <% if (currentUser && review.author.equals(currentUser._id)) { %>
+    <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+      <button class="btn btn-sm btn-danger">Delete</button>
+    </form>
+  <% } %>
+```
+* STILL NEED TO PROTECT DELETE ROUTE FROM BAD ACTORS!!! --> or that you own the review
+- Create Middleware for `isReviewAuthor`
+- `/campgrounds/id/reviews/reviewID`
+```js
+//MIDDLEWARE --> isReviewAuthor
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  if(!review.author.equals(req.user._id)) {
+    req.flash('error', 'You do not have permission to do that');
+    return res.redirect(`/campgrounds/${id}`); 
+  }
+  next();
+};
+```
+- Add middleware to delete route for protection
+```js
+//DELETE REVIEW
+router.delete('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(async (req, res) => {
+  //DESTRUCTURE FROM REQ.PARAMS
+  const { id, reviewId } = req.params;
+  await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
+  req.flash('success', 'Successfully deleted review')
+  res.redirect(`/campgrounds/${id}`);
+}));
+```
 
