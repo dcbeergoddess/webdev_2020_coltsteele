@@ -221,3 +221,24 @@ router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
 - ![reviews in mongo db](assets/review1.png)
 
 ## More Reviews Authorization
+* Show User on Review Show Page --> populate reviews on campground models --> in addition for each review we want to populate it's author
+- provide object to populate and set path:'reviews'
+```js
+//SHOW
+router.get('/:id', catchAsync(async (req, res) => {
+  const campground = await Campground.findById(req.params.id).populate({
+    path: 'reviews',
+    populate: {
+      path: 'author'
+    }
+  }).populate('author');
+  console.log(campground);
+  if(!campground){
+    req.flash('error', 'Cannot find that campground');
+    return res.redirect('/campgrounds');
+  }
+  res.render('campgrounds/show', { campground });
+}));
+```
+- Refresh Campground Page and look in Console:
+- ![Campground populated with review authors](assets/review2.png)
