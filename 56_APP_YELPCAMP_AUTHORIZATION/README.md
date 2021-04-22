@@ -114,7 +114,7 @@ router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) =
 - ![Cannot Update Campground](assets/user2.png)
 - Sign in as user for campground:
 - ![Success Msg for Update Campground](assets/user3.png)
-2. Can add it to other routes
+2. Can add it to other routes --> Move logic into it's own middleware `isAuthor`
 
 ## Authorization Middleware
 
