@@ -157,5 +157,67 @@ module.exports.isAuthor = async (req, res, next) => {
 ```
 
 ## Reviews Permissions
+- Associate a User w/ Reviews --> have to be logged in to see review form, make a review, and connect it to the author
+1. in `models/review.js`
+```js
+//Create Schema
+const reviewSchema = new Schema({
+  body: String, //TEXT
+  rating: Number, //probably 1-5
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+});
+```
+2. in campgrounds show ejs template/campground show page route::
+- render form only if there is a current user:
+```html
+    <% if (currentUser) { %>
+      <h2>Leave a Review</h2>
+      <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validate-form" novalidate>
+        <div class="mb-3">
+          <label class="form-label" for="rating">Rating</label>
+          <input class="form-range" type="range" min="1" max="5" name="review[rating] "id="rating">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="body">Review</label>
+          <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    <% } %>
+```
+- need to also make sure we can't do anything behind the scenes
+
+2. Go to review routes -- import `isLoggedIn` from `middleware.js`:
+```js
+const { validateReview, isLoggedIn } = require('../middleware')
+```
+3. Add to routes
+4. Associate reviews w/ user
+```js
+//ROUTES
+//POST REVIEW TO CAMPGROUND ROUTE
+router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
+  const campground = await Campground.findById(req.params.id);
+  const review = new Review(req.body.review);
+  //After we make review we set:
+  review.author = req.user._id;
+  campground.reviews.push(review);
+  //THERE IS A WAY TO DO NEXT TWO LINES TOGETHER
+  await review.save();
+  await campground.save();
+  req.flash('success', 'Created new review!')
+  res.redirect(`/campgrounds/${campground._id}`);
+}));
+```
+- CHECK IN MONGO SHELL AFTER MAKING A NEW REVIEW
+- ![reviews in mongo db](assets/review1.png)
 
 ## More Reviews Authorization
