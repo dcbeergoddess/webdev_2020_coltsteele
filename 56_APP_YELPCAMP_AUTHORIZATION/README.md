@@ -242,3 +242,22 @@ router.get('/:id', catchAsync(async (req, res) => {
 ```
 - Refresh Campground Page and look in Console:
 - ![Campground populated with review authors](assets/review2.png)
+- You do need to ask yourself how you are using your data for scalability --> maybe we only need the username and not all the data that comes with author, might just want to store the username on each review --> limit the amount of reviews we can populate --> paginate it, or infinite scroll and get more as you scroll
+* FOR EJS TEMPLATE SHOWING REVIEWS: 
+- got error when there were reviews in database that did not have a username!!! FYI
+```html
+    <% for( let review of campground.reviews ) { %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Rating: <%= review.rating %> </h5>
+          <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username %> </h6>
+          <p class="card-text">Review: <%= review.body %> </p>
+          <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    <% } %>
+```
+
+
