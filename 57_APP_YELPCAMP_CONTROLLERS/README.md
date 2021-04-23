@@ -28,7 +28,9 @@ router.get('/', catchAsync(campgrounds.index));
 ```
 
 ## Adding a Reviews Controller
-
+- Duplicate same process for users and reviews controller
+* Example of new file structure and controller logic for Users
+- ![Example](assets/users1.png)
 ## A Fancy Way to Restructure Routes
 
 ## Displaying Star Ratings
