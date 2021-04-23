@@ -59,6 +59,18 @@ router.route('/:id')
 //UPDATE FORM
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditForm));
 ```
+- a little more restructuring to make our code look cleaner:
+```js
+router.route('/:id')
+  .get(catchAsync(campgrounds.showCampground))
+  .put(isLoggedIn, 
+    isAuthor, 
+    validateCampground, 
+    catchAsync(campgrounds.updateCampground))
+  .delete(isLoggedIn, 
+    isAuthor, 
+    catchAsync(campgrounds.deleteCampground));
+```
 
 ## Displaying Star Ratings
 * [Starability CSS](https://github.com/LunarLogic/starability)
