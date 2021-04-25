@@ -125,7 +125,7 @@ router.route('/:id')
 
 - for 0 slider --> make 0 okay or set it as 1 for default if someones does not select (janky)
 - write fancy javascript to make sure that this is considered invalid and the form won't submit unless there's an actual selection made here 
-- write some dumb manipulation stuff to check if any of the radio buttons have been selected in there and if not then don't allow the form to be submitted. 
+- write some DOM manipulation stuff to check if any of the radio buttons have been selected in there and if not then don't allow the form to be submitted
 
 
 
