@@ -98,6 +98,35 @@ router.route('/:id')
 ```
 
 ## Star Rating Form
+-  Replace slider with some nice starts where we can just click
+- Do not need javaScript for this to work
+- Need to copy some important `HTML structure code`
+- need a `field-set` element w/ class of stability --> we are using basic but have other options
+- it makes a bunch of radio buttons --> each one has underling value from 1 to 5
+- Also has some accessibility attributes added in
+```html
+
+<fieldset class="starability-basic">
+  <legend>First rating:</legend>
+  <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+  <input type="radio" id="first-rate1" name="rating" value="1" />
+  <label for="first-rate1" title="Terrible">1 star</label>
+  <input type="radio" id="first-rate2" name="rating" value="2" />
+  <label for="first-rate2" title="Not good">2 stars</label>
+  <input type="radio" id="first-rate3" name="rating" value="3" />
+  <label for="first-rate3" title="Average">3 stars</label>
+  <input type="radio" id="first-rate4" name="rating" value="4" />
+  <label for="first-rate4" title="Very good">4 stars</label>
+  <input type="radio" id="first-rate5" name="rating" value="5" />
+  <label for="first-rate5" title="Amazing">5 stars</label>
+</fieldset>
+```
+- HAD ISSUES OF SUBMITTING WHEN SLIDER WAS STILL IN HTML, would submit two ratings as an array
+
+- for 0 slider --> make 0 okay or set it as 1 for default if someones does not select (janky)
+- write fancy javascript to make sure that this is considered invalid and the form won't submit unless there's an actual selection made here 
+- write some dumb manipulation stuff to check if any of the radio buttons have been selected in there and if not then don't allow the form to be submitted. 
+
 
 
 
