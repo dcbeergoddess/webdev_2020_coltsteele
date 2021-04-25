@@ -74,6 +74,28 @@ router.route('/:id')
 
 ## Displaying Star Ratings
 * [Starability CSS](https://github.com/LunarLogic/starability)
+- Can do by scratch --> loop over and do manually
+* ![star entity number](assets/star1.png)
+- So we could do this... but we are not:
+* ![star entity number](assets/star2.png)
+- would have to loop over and figure out how many entity codes to display and also does not help with accessibility when it comes to showing the stars
+- USE STARABILITY CSS FILE
+* Allow a user to rate using rate selector
+* Copy code from github and add stylesheet for basic starts in public folder
+- in show campground template test css file:
+```html
+  <h3>Rated element name</h3>
+  <p class="starability-result" data-rating="3">
+    Rated: 3 stars
+  </p>
+```
+- Change data-rating to be review.rating
+```html
+  <h3>Rated element name</h3>
+  <p class="starability-result" data-rating="<%= review.rating %>">
+    Rated: <%= review.rating %>
+  </p>
+```
 
 ## Star Rating Form
 
