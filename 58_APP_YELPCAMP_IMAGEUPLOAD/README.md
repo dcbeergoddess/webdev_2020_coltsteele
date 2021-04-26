@@ -477,6 +477,49 @@ const camp = new Campground({
 ```
 
 ## Adding Upload to Edit Page
+- Usually you would want to put images in their own route so we could edit them alone and not have to edit entire form again
+- For now, use existing edit form
+1. in `campgrounds/edit.ejs` --> add to form `enctype="multipart/form-data` --> set input for file
+```html
+<form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" class="validate-form" novalidate enctype="multipart/form-data">
+```
+```html
+      <div class="mb-3">
+        <label class="form-label" for="image">Add Images</label>
+        <input type="file" name="campground[image]" id="campground[image]" multiple>
+        </div>
+      </div>
+```
+2. then go to routes for campgrounds -->  on put route --> once you are logged in and verified as author --> `upload.array('campground[image]')`
+```js
+router.route('/:id')
+  .get(catchAsync(campgrounds.showCampground))
+  .put(isLoggedIn, 
+    isAuthor,
+    upload.array('campground[image]'), 
+    validateCampground, 
+    catchAsync(campgrounds.updateCampground))
+  .delete(isLoggedIn, 
+    isAuthor, 
+    catchAsync(campgrounds.deleteCampground));
+```
+4. in campground controller:
+```js
+//PUT ROUTE TO UPDATE
+module.exports.updateCampground = async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+  const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+  //spread array into push --> take data from array and pass into push
+  campground.images.push(...imgs);
+  await campground.save();
+  req.flash('success', 'Successfully updated campground!')
+  //HAD ISSUES WHEN IT WAS `campgrounds/${campground._id}`
+  res.redirect(`${campground._id}`);
+};
+```
+- TEST by making new campgrounds, working to push new images to the array and not replace entire array
+- Is possible to have less code in updateCampground by finding campground first then update, or add img update into parameter of 
 
 ## Customizing File Input
 
