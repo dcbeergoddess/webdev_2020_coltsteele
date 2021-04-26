@@ -417,6 +417,64 @@ module.exports.campgroundSchema = Joi.object({
 ```
 
 ## Fixing Our Seeds
+- give campgrounds valid images
+- WILL USE IMAGE URLS FROM THIS OUTPUT:
+```js
+{
+  reviews: [],
+  _id: 60873efa07eece92f3709b15,
+  title: 'SEED ME',
+  location: 'asasdf',
+  price: 18,
+  description: 'asdfasdfasdf',
+  images: [
+    {
+      _id: 60873efa07eece92f3709b16,
+      url: 'https://res.cloudinary.com/dc03tm19jx/image/upload/v1619476218/YelpCamp/umcsznh3trem2nwuze7k.jpg',
+      filename: 'YelpCamp/umcsznh3trem2nwuze7k'
+    },
+    {
+      _id: 60873efa07eece92f3709b17,
+      url: 'https://res.cloudinary.com/dc03tm19jx/image/upload/v1619476221/YelpCamp/gehzdoz6zi9yrdwehslg.jpg',
+      filename: 'YelpCamp/gehzdoz6zi9yrdwehslg'
+    }
+  ],
+  author: 608056f48d40d841ba08c88d,
+  __v: 0
+}
+```
+- in `seeds/index.js`:
+```js
+const camp = new Campground({
+  author: '608056f48d40d841ba08c88d',
+    location: `${cities[random1000].city}, ${cities[random1000].state}`,
+    title: `${sample(descriptors)} ${sample(places)}`, 
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet incidunt maiores consectetur asperiores iure obcaecati quia voluptatum ipsa error, optio illo molestiae enim voluptatem itaque suscipit? Culpa excepturi libero deleniti.',
+    price, //shorthand do not need price: price 
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dc03tm19jx/image/upload/v1619476218/YelpCamp/umcsznh3trem2nwuze7k.jpg',
+        filename: 'YelpCamp/umcsznh3trem2nwuze7k'
+      },
+      {
+        url: 'https://res.cloudinary.com/dc03tm19jx/image/upload/v1619476221/YelpCamp/gehzdoz6zi9yrdwehslg.jpg',
+        filename: 'YelpCamp/gehzdoz6zi9yrdwehslg'
+      }
+    ],
+});
+```
+- need to update `index.ejs` for campgrounds to display first image in array --> `src="<%=campground.images[0].url%>"`
+```html
+   <% for( let campground of campgrounds ) { %>
+      <div class="card mb-3">
+        <div class="row">
+          <div class="col-md-4">
+            <img class="img-fluid" src="<%=campground.images[0].url%>" alt="campground image">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><%= campground.title %></h5>
+```
 
 ## Adding Upload to Edit Page
 
