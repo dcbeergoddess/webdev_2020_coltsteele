@@ -522,6 +522,33 @@ module.exports.updateCampground = async (req, res) => {
 - Is possible to have less code in updateCampground by finding campground first then update, or add img update into parameter of 
 
 ## Customizing File Input
+- EDITING BUTTON TO LOOK BETTER IS NOT AS EASY AS YOU MIGHT THINK:
+* ![WHAT WE WANT TO CHANGE](assets/input1.png)
+- Bootstrap comes with some functionality helpers to do this
+* ![Custom File Inputs](assets/input2.png)
+- OLD BOOTSTRAP DOCUMENTATION --> think I found the right one...
+* ![Custom File Inputs](assets/input3.png)
+- I WILL USE THIS ONE of THESE:
+```js
+<div class="mb-3">
+  <label for="formFileMultiple" class="form-label">Add Images</label>
+  <input class="form-control" type="file" id="formFileMultiple" multiple>
+</div>
+```
+```js
+<div class="input-group mb-3">
+  <input type="file" class="form-control" id="inputGroupFile02">
+  <label class="input-group-text" for="inputGroupFile02">Upload</label>
+</div>
+```
+- Will try second one on Campground New Form page:
+```html
+  <div class="input-group mb-3">
+    <input type="file" class="form-control" id="campground[image]" name="campground[image]" multiple>
+    <label class="input-group-text" for="campground[image]">Upload</label>
+  </div>
+```
+- WORKING WITHOUT NEEDING `bs-custom-file-input` package. Bootstrap 5 fixed this issues --> going to roll with what I had for now
 
 ## A Word Of Warning!
 
