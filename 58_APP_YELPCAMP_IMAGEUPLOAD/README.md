@@ -12,7 +12,7 @@
 * [Multer Docs](https://github.com/expressjs/multer)
 - We need to change the way we send them html doc right now it is set to `urlencoded`
 * ENCTYPE WAY:
-- [enctype](assets/image1.png)
+- ![enctype](assets/image1.png)
 - THIS WILL BREAK STUFF
 1. Go to new form on campgrounds --> set it to have an `enctype="multipart/form-data"`:
 ```html
@@ -40,7 +40,7 @@
       </div> -->
 ```
 - NOW IN LOCAL HOST --> CAN SELECT FILES:
-* [New Form in Local Host](assets/image2.png)
+* ![New Form in Local Host](assets/image2.png)
 - Next we go over to route where the form is being submitted --> campground post routes --> `routes/campground.js`
 - Lets print out the `req.body` of new form being submitted
 ```js
@@ -52,7 +52,7 @@ router.route('/')
   });
 ```
 - Nothing be sent back in req.body:
-* [req.send example](assets/image3.png)
+* ![req.send example](assets/image3.png)
 - In order TO PARSE THE `multipart/form-data`, we actually need to use another middleware
 * **Multer** : for express, a middleware for handling `multipart/form-data` which is primarily used for uploading files
 1. `npm i multer`
@@ -108,7 +108,7 @@ router.route('/')
   });
 ```
 - TEST in Local Host:
-* [res.send results in localhost](assets/multer1.png)
+* ![res.send results in localhost](/assets/multer1.png)
 - File created in Repo with encoded file data
 3. Lets console.log so we can see it in the terminal
 ```js
@@ -121,7 +121,7 @@ router.route('/')
   });
 ```
 - RESULT IN TERMINAL:
-* [result from console.log](assets/multer2.png)
+* ![result from console.log](assets/multer2.png)
 4. TEST w/ Multiple Files:
 ```js
 router.route('/')
@@ -138,9 +138,9 @@ router.route('/')
 <input type="file" name="campground[image]" id="" multiple>
 ```
 - Submit a new form with multiple files
-* [sending multiple photos in new form](assets/multer3.png)
+* ![sending multiple photos in new form](assets/multer3.png)
 - RESULT IN TERMINAL:
-* [result from console.log](assets/multer4.png)
+* ![result from console.log](assets/multer4.png)
 - Now we need to use another tool and tell multer to store the files elsewhere and not in the local uploads file in the repo that it created
 
 ## Cloudinary Registration
@@ -151,7 +151,7 @@ router.route('/')
 ## Environment Variables with dotenv
 * [DotEnv](https://github.com/motdotla/dotenv)
 - Store Sensitive Data in separate file that we do not share with other people
-* [FROM DotEnv Docs](assets/dotenv1.png)
+* ![FROM DotEnv Docs](assets/dotenv1.png)
 1. touch `.env` in top level of project
 2. In File Define Key Value Pairs:
 ```
@@ -177,7 +177,7 @@ if(process.env.NODE_ENV !== "production") {
 console.log(process.env.SECRET)
 ```
 - PRINT OUT IN TERMINAL:
-* [console.log result](assets/dotenv2.png)
+* ![console.log result](assets/dotenv2.png)
 6. NOW ADD IN CLOUDINARY INFORMATION FOR YOU:
 ```
 CLOUDINARY_CLOUD_NAME=asdfasdfasdf
@@ -187,6 +187,68 @@ CLOUDINARY_SECRET=asdfasdf
 - DO NOT NEED QUOTES OR SPACES
 
 ## Uploading to Cloudinary Basics
+- [MULTER STORAGE CLOUDINARY DOCS](https://github.com/affanshahid/multer-storage-cloudinary/blob/master/README.md)
+1. `npm i cloudinary multer-storage-cloudinary`
+2. `mkdir cloudinary`
+3. `touch cloudinary/index.js`
+4. Copy imports from docs
+```js
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+```
+- next we need to pass in `cloudinary` to `CloudinaryStorage`
+5. set up config:
+```js
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+})
+```
+6. instantiate an instance of cloudinary storage with is imported above in file:
+```js
+//EXAMPLE FROM DOCS
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'some-folder-name',
+    format: async (req, file) => 'png', // supports promises as well
+    public_id: (req, file) => 'computed-filename-using-request',
+  },
+});
+```
+- IN OUR CLOUDINARY INDEX.JS FILE:
+```js
+//OUR INITIAL SET UP IN YELPCAMP
+//AND EXPORT CODE
+const storage = new CloudinaryStorage({
+  //pass in cloudinary object you just configured
+  cloudinary,
+  folder: 'YelpCamp', //specify folder to store in
+  allowedFormats: ['jpeg', 'png', 'jpg']
+});
+
+module.exports = {
+  cloudinary,
+  storage
+};
+```
+7. update imports in `routes/campgrounds.js` to store in new location:
+```js
+const express = require('express');
+const router = express.Router();
+const campgrounds = require('../controllers/campgrounds');
+const catchAsync = require('../utils/catchAsync');
+const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
+const multer  = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
+```
+8. Let's see what happens now to `req.body` and `req.files`:
+* [TERMINAL RESULT](assets/dotenv3.png)
+- We Can now access picture using url from cloudinary: [buddy christ link](https://res.cloudinary.com/dc03tm19jx/image/upload/v1619469782/gm62faopwbvmas03vmzb.png)
+* ![SCREEN SHOT OF CLOUDINARY LINK](assets/dotenv4.png)
+- images now being uploaded!!! --> now we need to store them in mongo and place a limit on number of uploads per camp and probably per user....
 
 ## Storing Uploaded Image Links in Mongo
 
