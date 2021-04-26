@@ -144,6 +144,9 @@ router.route('/')
 - Now we need to use another tool and tell multer to store the files elsewhere and not in the local uploads file in the repo that it created
 
 ## Cloudinary Registration
+* [CLOUDINARY HOMEPAGE](https://cloudinary.com/)
+- Sign up for free account --> does not require credit card to start
+- We do not want to embed our Account API Key and API Secret directly into our app
 
 ## Environment Variables with dotenv
 * [DotEnv](https://github.com/motdotla/dotenv)
