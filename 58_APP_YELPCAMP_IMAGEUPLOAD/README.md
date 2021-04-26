@@ -10,6 +10,138 @@
 
 ## The Multer Middleware
 * [Multer Docs](https://github.com/expressjs/multer)
+- We need to change the way we send them html doc right now it is set to `urlencoded`
+* ENCTYPE WAY:
+- [enctype](assets/image1.png)
+- THIS WILL BREAK STUFF
+1. Go to new form on campgrounds --> set it to have an `enctype="multipart/form-data"`:
+```html
+  <h1 class="text-center">New Campground</h1>
+  <!-- col-6 => don't want all the way to left => offset-3 -->
+  <div class="col-6 offset-3">
+    <form action="/campgrounds" method="POST" class="validate-form" novalidate enctype="multipart/form-data">
+```
+2. Add in input for file instead of image div in new form for campground:
+```html
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input class="form-control" type="text" id="location" name="campground[location]" required>
+        <div class="valid-feedback">
+          Looks Good!
+        </div>
+      </div>
+      <input type="file" name="campground[image]" id="">
+      <!-- <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input class="form-control" type="text" id="image" name="campground[image]" required>
+        <div class="valid-feedback">
+          Looks Good!
+        </div>
+      </div> -->
+```
+- NOW IN LOCAL HOST --> CAN SELECT FILES:
+* [New Form in Local Host](assets/image2.png)
+- Next we go over to route where the form is being submitted --> campground post routes --> `routes/campground.js`
+- Lets print out the `req.body` of new form being submitted
+```js
+router.route('/')
+  .get(catchAsync(campgrounds.index))
+  // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
+  .post((req, res) => {
+    res.send(req.body);
+  });
+```
+- Nothing be sent back in req.body:
+* [req.send example](assets/image3.png)
+- In order TO PARSE THE `multipart/form-data`, we actually need to use another middleware
+* **Multer** : for express, a middleware for handling `multipart/form-data` which is primarily used for uploading files
+1. `npm i multer`
+-  Multer adds a `body` object and a `file` or `files` object to the `request` object. The `body` object contains the values of the text fields of the form, the `file` or `files` object contains the files uploaded via the form.
+```html
+<form action="/profile" method="post" enctype="multipart/form-data">
+  <input type="file" name="avatar" />
+</form>
+```
+- EXAMPLE OF HOW TO USE FROM DOCS:
+- have access to middleware --> EX: `upload.single('avatar')` or `upload.array('photos')`:
+```js
+var express = require('express')
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' }
+
+var app = express()
+
+app.post('/profile', upload.single('avatar'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+})
+
+app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
+  // req.files is array of `photos` files
+  // req.body will contain the text fields, if there were any
+})
+
+var cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
+app.post('/cool-profile', cpUpload, function (req, res, next) {
+  // req.files is an object (String -> Array) where fieldname is the key, and the value is array of files
+  //
+  // e.g.
+  //  req.files['avatar'][0] -> File
+  //  req.files['gallery'] -> Array
+  //
+  // req.body will contain the text fields, if there were any
+})
+```
+2. In our `routes/campgrounds.js` file:
+```js
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+//INITIALIZE IT (aka EXECUTE THE FUNCTION) --> Pass in a configuration object --> specify a folder path/destinations for the files
+// WOULD NOT STORE LOCALLY IN REAL WORLD THIS IS JUST A DEMO --> Normally specify cloud service, AWS, etc.
+// TESTING PURPOSES --> DiskStorage or MemoryStorage in DOCS
+
+router.route('/')
+  .get(catchAsync(campgrounds.index))
+  // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
+  .post(upload.single('campground[image]'), (req, res) => {
+    res.send(req.body, req.file);
+  });
+```
+- TEST in Local Host:
+* [res.send results in localhost](assets/multer1.png)
+- File created in Repo with encoded file data
+3. Lets console.log so we can see it in the terminal
+```js
+router.route('/')
+  .get(catchAsync(campgrounds.index))
+  // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
+  .post(upload.single('campground[image]'), (req, res) => {
+    console.log(req.body, req.file);
+        res.send("IT WORKED!!")
+  });
+```
+- RESULT IN TERMINAL:
+* [result from console.log](assets/multer2.png)
+4. TEST w/ Multiple Files:
+```js
+router.route('/')
+  .get(catchAsync(campgrounds.index))
+  // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
+  .post(upload.array('campground[image]'), (req, res) => {
+    console.log('REQ.BODY...', req.body, 'REQ.FILES...', req.files);
+    res.send("IT WORKED!!")
+  });
+```
+- now it expects an array of multiple files
+- need to update the input for multiple files:
+```html
+<input type="file" name="campground[image]" id="" multiple>
+```
+- Submit a new form with multiple files
+* [sending multiple photos in new form](assets/multer3.png)
+- RESULT IN TERMINAL:
+* [result from console.log](assets/multer4.png)
+- Now we need to use another tool and tell multer to store the files elsewhere and not in the local uploads file in the repo that it created
 
 ## Cloudinary Registration
 
