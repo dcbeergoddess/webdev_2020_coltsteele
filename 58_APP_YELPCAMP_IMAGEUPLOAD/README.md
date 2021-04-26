@@ -370,6 +370,51 @@ module.exports.campgroundSchema = Joi.object({
 * ![NEW CAMPGROUND multiple Images Showing](assets/upload5.png)
 
 ## Displaying Images In A Carousel
+- USE BOOTSTRAP CAROUSEL --> DISPLAY ALL IMAGES
+- TRY LOOPING BUT RUN INTO ISSUE OF EVERY IMAGE BEING ACTIVE:
+```js
+    <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <% for(let img of campground.images) { %>
+          <div class="carousel-item active">
+            <img src="<%= img.url %>" class="d-block w-100" alt="">
+          </div>
+        <% } %>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+```
+- INSTEAD USE A FOREACH:
+```html
+      <div class="carousel-inner">
+        <% campground.images.forEach((img, i) => { %>
+        <!-- when index is 0, add class 'active' otherwise add nothing -->
+          <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+            <img src="<%= img.url %>" class="d-block w-100" alt="">
+          </div>
+        <% }) %>
+      </div>
+```
+- Need to ADD LOGIC to not display carousel buttons if only one image:
+```js
+      <% if (campground.images.length > 1) { %>
+        <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      <% } %>
+```
 
 ## Fixing Our Seeds
 
