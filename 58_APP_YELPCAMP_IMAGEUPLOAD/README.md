@@ -251,6 +251,123 @@ const upload = multer({ storage });
 - images now being uploaded!!! --> now we need to store them in mongo and place a limit on number of uploads per camp and probably per user....
 
 ## Storing Uploaded Image Links in Mongo
+- FIRST OF ALL --> MISTAKE IN CONFIGURING FOLDER IN CloudinaryStorage (need to put rest in `params`):
+```js
+const storage = new CloudinaryStorage({
+  //pass in cloudinary object you just configured
+  cloudinary,
+  params: {
+    folder: 'YelpCamp', //specify folder to store in
+    allowedFormats: ['jpeg', 'png', 'jpg']
+  }
+});
+```
+- Try submitting form again and it has now created **YelpCamp** Folder with assets
+* ![CLOUDINARY RESULT SCREEN SHOT](assets/cloud1.png)
+```js
+  {
+    fieldname: 'campground[image]',
+    originalname: 'daffodil.jpg',
+    encoding: '7bit',
+    mimetype: 'image/jpeg',
+    path: 'https://res.cloudinary.com/dc03tm19jx/image/upload/v1619470734/YelpCamp/pdzd1vfxjkk9hmkdwvee.jpg',
+    size: 2593314,
+    filename: 'YelpCamp/pdzd1vfxjkk9hmkdwvee'
+  }
+```
+- we will want to store the `path` and the `filename` --> easier to delete with filename
+- NOW FOR MONGO
+1. Update Campground Model and make image an array:
+```js
+const CampgroundSchema = new Schema ({
+  title: String,
+  images: [
+    {
+      url: String,
+      filename: String
+    }
+  ],
+  price: Number,
+  description: String,
+  location: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
+    }
+  ]
+});
+```
+2. use as middleware in campground routes on post new:
+```js
+router.route('/')
+  .get(catchAsync(campgrounds.index))
+  .post(isLoggedIn, validateCampground, upload.array('campground[image]'), catchAsync(campgrounds.createCampground));
+```
+3. Now go to Campground Controller:
+```js
+
+```
+- PROBLEMS!!!
+* [now when we submit](assets/upload1.png)
+- issue with uploading images after validating campground, will shuffle around middleware for now but need to come up with a better way to incorporate both:
+```js
+router.route('/')
+  .get(catchAsync(campgrounds.index))
+  .post(isLoggedIn, upload.array('campground[image]'), validateCampground, catchAsync(campgrounds.createCampground));
+```
+- update JOI validation in `schemas.js` to not include image validation for now:
+```js
+module.exports.campgroundSchema = Joi.object({
+  //campground is our `key` (everything is campground[title], etc)
+  //it should be an object and it needs to be required
+  campground: Joi.object({
+    title: Joi.string().required(),
+    price: Joi.number().required().min(0),
+    // image: Joi.string().required(),
+    location: Joi.string().required(),
+    description: Joi.string().required()
+  }).required()
+});
+```
+- Try to Make new Campground:
+- RESPONSE IN LOCAL HOST:
+* ![NEW CAMPGROUND MADE](assets/upload2.png)
+- IN TERMINAL:
+* ![CONSOLE RESULT OF NEW CAMPGROUND](assets/upload3.png)
+```js
+{
+  reviews: [],
+  _id: 60872e42083fb18e4f7e4294,
+  title: 'asdf',
+  location: 'Washington, DC',
+  price: 10,
+  description: 'asdfasdfasdf',
+  images: [
+    {
+      _id: 60872e42083fb18e4f7e4295,
+      url: 'https://res.cloudinary.com/dc03tm19jx/image/upload/v1619471941/YelpCamp/j7zckraicmsmi9rzwk8g.png',
+      filename: 'YelpCamp/j7zckraicmsmi9rzwk8g'
+    }
+  ],
+  author: 608056f48d40d841ba08c88d,
+  __v: 0
+}
+```
+- CAN USE DATA WE ARE GETTING BACK IN CAMPGROUNDS SHOW PAGE:
+```html
+      <% for(let img of campground.images) { %>
+        <img src="<%= img.url %>" class="card-img-top" alt="...">
+      <% } %>
+```
+- NOW PICTURE WE UPLOADED FOR CAMPGROUND SHOWS --> only one we uploaded
+* ![NEW CAMPGROUND Image Showing](assets/upload4.png)
+- NOW MAKE CAMPGROUND WITH MULTIPLE IMAGES
+* ![NEW CAMPGROUND multiple Images Showing](assets/upload5.png)
 
 ## Displaying Images In A Carousel
 
