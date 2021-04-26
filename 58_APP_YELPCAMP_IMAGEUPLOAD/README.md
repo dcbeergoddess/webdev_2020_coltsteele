@@ -150,6 +150,41 @@ router.route('/')
 
 ## Environment Variables with dotenv
 * [DotEnv](https://github.com/motdotla/dotenv)
+- Store Sensitive Data in separate file that we do not share with other people
+* [FROM DotEnv Docs](assets/dotenv1.png)
+1. touch `.env` in top level of project
+2. In File Define Key Value Pairs:
+```
+SECRET=thisisabettersecret
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=s1mpl3
+```
+- This is where we will put our cloudinary info
+3. make sure that you have a `.gitignore` file set up in top level of project as well to include 
+```
+.env
+node_modules
+```
+- to use information in `.env` file we need to use the `dotenv` npm package
+4. `npm i dotenv`
+5. set up top of `app.js` file:
+```js
+if(process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
+};
+//SHOULD HAVE ACCESS TO 
+console.log(process.env.SECRET)
+```
+- PRINT OUT IN TERMINAL:
+* [console.log result](assets/dotenv2.png)
+6. NOW ADD IN CLOUDINARY INFORMATION FOR YOU:
+```
+CLOUDINARY_CLOUD_NAME=asdfasdfasdf
+CLOUDINARY_KEY=asdfasdfasdf
+CLOUDINARY_SECRET=asdfasdf
+```
+- DO NOT NEED QUOTES OR SPACES
 
 ## Uploading to Cloudinary Basics
 
