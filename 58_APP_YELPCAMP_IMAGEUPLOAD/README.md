@@ -688,3 +688,46 @@ const { cloudinary } = require('../cloudinary');
 
 ## Adding A Thumbnail Virtual Property
 * [Cloudinary Image Transformations](https://cloudinary.com/documentation/image_transformations)
+- Cloudinary API gives us some great thumbnail possiblities
+- however some images are so big
+- doesn't make sense to request 1000px image if we are only displaying 200px --> if we have a bunch of them it takes time to load
+* **CLOUDINARY IMAGE TRANSFORMATION API**
+- We can add parameter to URL to transform our images in any way
+* ![from cloudinary site, example URL](assets/transAPI1.png)
+- has way to detect faces if you are using profile pictures
+- ON MODEL SET UP VIRTUAL PROPERTY --> to slice cloudinary url and specify some style parameters
+- Make an ImageSchema in the Campground Model --define schemas and nest them
+```js
+//NEW IMAGE SCHEMA
+const ImageSchema = new Schema({
+  url: String,
+  filename: String
+});
+//use virtual because we do not need to store this information. We still need to request image url from database -- no need to store two
+//every time we call thumbnail we are going to do this little calculation --> very lightweight
+ImageSchema.virtual('thumbnail').get(function() {
+  return this.url.replace('/upload', '/upload/w_200');
+});
+//CREATE SCHEMA
+const CampgroundSchema = new Schema ({
+  title: String,
+  images: [ImageSchema],
+  price: Number,
+  description: String,
+  location: String,
+```
+- in edit form now have access to `img.thumbnail`:
+```html
+  <div class="mb-3">
+    <!-- we want an index -- so forEach -->
+    <% campground.images.forEach((img, i) => { %>
+      <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+      <div class="form-check-inline">
+        <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+      </div>
+      <label for="image-<%=i%>">Delete?</label>
+    <% }) %>
+  </div>
+```
+- needs a little better display styling --> use grid system later on
+- normalize size with css or use transformation api
