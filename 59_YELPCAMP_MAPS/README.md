@@ -3,6 +3,9 @@
 
 ## Registering for MapBox
 * [MapBox](https://www.mapbox.com/)
+- sign up and have access to a default public token --> can make new tokens if you want
+- include token in `.env` --> `MAPBOX_TOKEN=asdfasdfasdfasdf`
+
 
 ## Geocoding Our Locations
 * [MapBox JS SDK Docs](https://github.com/mapbox/mapbox-sdk-js)
