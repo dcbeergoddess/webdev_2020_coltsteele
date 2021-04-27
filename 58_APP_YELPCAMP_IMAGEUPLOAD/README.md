@@ -561,6 +561,88 @@ module.exports.updateCampground = async (req, res) => {
 * NOT PRODUCTION READY IMAGE UPLOAD!!!
 
 ## Deleting Images Form
+- simple --> not amazing UI
+- IN EDIT FORM TEMPLATE --> at bottom before you hit update button
+- loop over all images in array (using forEach because we want access to the index) and we will add a checkbox you can check to delete
+```js
+  <div class="mb-3">
+    <!-- we want an index -- so forEach -->
+    <% campground.images.forEach((img, i) => { %>
+      <img src="<%= img.url %>" alt="">
+    <% }) %>
+  </div>
+```
+- Images right now are just all clumped in column and huge!!!
+- use bootstrap class --> img-thumbnail --> a little bit better...
+```js
+  <div class="mb-3">
+    <!-- we want an index -- so forEach -->
+    <% campground.images.forEach((img, i) => { %>
+      <img src="<%= img.url %>" class="img-thumbnail" alt="">
+    <% }) %>
+  </div>
+```
+- Now we want to add a checkbox for each one --> bootstrap checkbox
+- Use image index as id forEach
+- Take same id and set it equal to the for attribute
+- If you can click on `Delete?` label and the checkbox is checked than that are now associated
+```js
+  <div class="mb-3">
+    <!-- we want an index -- so forEach -->
+    <% campground.images.forEach((img, i) => { %>
+      <img src="<%= img.url %>" class="img-thumbnail" alt="">
+      <div class="form-check-inline">
+        <input type="checkbox" id="image-<%=i%>">
+      </div>
+      <label for="image-<%=i%>">Delete?</label>
+    <% }) %>
+  </div>
+```
+- Know we have to figure out the deletion
+- if you give every checkbox a `name="deleteImages[]`
+- and give every checkbox a `value="<%=img.filename%>"` --> for server to use --> need pathname/filename from img object --> use filename to delete from Cloudinary
+```js
+  <div class="mb-3">
+    <!-- we want an index -- so forEach -->
+    <% campground.images.forEach((img, i) => { %>
+      <img src="<%= img.url %>" class="img-thumbnail" alt="">
+      <div class="form-check-inline">
+        <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+      </div>
+      <label for="image-<%=i%>">Delete?</label>
+    <% }) %>
+  </div>
+```
+- INSPECT INPUT DIV --> See what the values are of new classes and attributes 
+* ![Look at Input Div in Dev Tools](assets/delete1.png)
+- let print out `req.body` in terminal for update route to see checkbox data being sent:
+```js
+//PUT ROUTE TO UPDATE
+module.exports.updateCampground = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.body);
+  const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+  const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+```
+- Need to update Joi Validation in schemas.js too:
+```js
+module.exports.campgroundSchema = Joi.object({
+  //campground is our `key` (everything is campground[title], etc)
+  //it should be an object and it needs to be required
+  campground: Joi.object({
+    title: Joi.string().required(),
+    price: Joi.number().required().min(0),
+    // image: Joi.string().required(),
+    location: Joi.string().required(),
+    description: Joi.string().required()
+  }).required(),
+  deleteImages: Joi.array()
+});
+```
+- RESULT IN TERMINAL:
+* ![Console.log of req.body](assets/delete2.png)
+- now in campground route/controller we have access to `deleteImages: [ 'YelpCamp/umcsznh3trem2nwuze7k', 'YelpCamp/gehzdoz6zi9yrdwehslg' ]`
+- so now we can delete the image from both mongo and from the cloudinary database
 
 ## Deleting Images Backend
 
