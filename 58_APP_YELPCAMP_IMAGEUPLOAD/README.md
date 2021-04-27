@@ -551,6 +551,14 @@ module.exports.updateCampground = async (req, res) => {
 - WORKING WITHOUT NEEDING `bs-custom-file-input` package. Bootstrap 5 fixed this issues --> going to roll with what I had for now
 
 ## A Word Of Warning!
+- MAIN PROBLEMS
+* Not limiting what we could upload for a single campground
+* Probably don't want someone to upload a hundred images for one campground
+- implement some limit on the server side for each campground and only store so many
+- could implement some client-side validation that look how many images are currently with the campground and how many you can add based on how many there are... Can't submit form until total unless there is less than ten
+- how large a file
+- if you end up with a lot of users you might need to start paying for cloud data storage, impose limits on users... etc.
+* NOT PRODUCTION READY IMAGE UPLOAD!!!
 
 ## Deleting Images Form
 
