@@ -645,6 +645,46 @@ module.exports.campgroundSchema = Joi.object({
 - so now we can delete the image from both mongo and from the cloudinary database
 
 ## Deleting Images Backend
+- In our `req.body` we have access to an array of different file parts of teh images we want to delete from this one campground
+- We need to also delete from cloudinary --> we need to stop hosting the image --> but we don't want to empty the entire array
+- we just want to remove particular images from that array, depending on this other array coming from the checkboxes
+- we want to match the filenames of both arrays
+- THIS IS A BIT OF A HANDFUL 
+- In Update Campground Route:
+```js
+module.exports.updateCampground = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.body);
+  const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+  const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+  //spread array into push --> take data from array and pass into push
+  campground.images.push(...imgs);
+  await campground.save();
+  if(req.body.deleteImages) {
+    //COMPLICATED QUERY --> want to pull images where filename is in the req.body.deleteImages
+    await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages }}}})
+    console.log(campground)
+  };
+```
+- Pictures now being taken from Mongo but need to also take down from Cloudinary
+- Cloudinary --> particular method that comes with the cloudinary client we set up
+- require cloudinary object from our cloudinary directory in the campground controller
+```js
+const Campground = require('../models/campground');
+const { cloudinary } = require('../cloudinary');
+```
+- now where we are checking for images in deleteImages array --> loop over each one and we call `cloudinary.uploader.destroy` --> method called destroy where you pass in the filename and it should delete that particular file
+```js
+  await campground.save();
+  if(req.body.deleteImages) {
+    for(let filename of req.body.deleteImages){
+      await cloudinary.uploader.destroy(filename)
+    };
+    //COMPLICATED QUERY --> want to pull images where filename is in the req.body.deleteImages
+    await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages }}}})
+    console.log(campground)
+  };
+```
 
 ## Adding A Thumbnail Virtual Property
 * [Cloudinary Image Transformations](https://cloudinary.com/documentation/image_transformations)
