@@ -31,6 +31,26 @@
 - know we need to get our data in there which is not too hard but we hard coding the location for the coordinates to be the same in all the seeded campgrounds when we reseeded in the last section so they will be in one massive cluster --> need to reseed data again
 
 ## Reseeding Our Database (again)
+- need to spread them out across the US
+- Use the location --> and in our cities file under `seeds` we are already given the latitude and longitude --> we do not want to use geoData and send unnecessary requests to mapbox API
+- just like we did for location
+```js
+const camp = new Campground({
+      //YOUR USER ID
+      author: '608056f48d40d841ba08c88d',
+        location: `${cities[random1000].city}, ${cities[random1000].state}`,
+        title: `${sample(descriptors)} ${sample(places)}`, 
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet incidunt maiores consectetur asperiores iure obcaecati quia voluptatum ipsa error, optio illo molestiae enim voluptatem itaque suscipit? Culpa excepturi libero deleniti.',
+        price, //shorthand do not need price: price 
+        geometry : { 
+          type: "Point", 
+          coordinates: [
+            cities[random1000].longitude,
+            cities[random1000].latitude
+          ] 
+        },
+```
+- now reseed the database
 
 ## Basic Clustering Campgrounds
 
