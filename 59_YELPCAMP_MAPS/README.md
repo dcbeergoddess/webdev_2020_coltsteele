@@ -234,6 +234,71 @@ const map = new mapboxgl.Map({
 ```
 
 ## Centering the Map On A Campground
+- Add a marker to the Map
+- [EXAMPLE OF Default MARKER in Mapbox GL DOCS](https://docs.mapbox.com/mapbox-gl-js/example/add-a-marker/)
+- create a `new mapboxglMarker` and set Latitude and Longitude and then add to map --> order of LngLat --> follows traditional x y coordinates on a [Cartesian plane](https://www.varsitytutors.com/hotmath/hotmath_help/topics/cartesian-plane#:~:text=A%20Cartesian%20plane%20(named%20after,an%20ordered%20pair%20of%20numbers.)) 
+- in script file
+```js
+mapboxgl.accessToken = mapToken;
+const map = new mapboxgl.Map({
+  container: 'map', // container ID
+  style: 'mapbox://styles/mapbox/streets-v11', // style URL
+  center: [-74.5, 40], // starting position [lng, lat]
+  zoom: 8 // starting zoom
+});
+//ADD PIN TO MAP
+new mapboxgl.Marker()
+  .setLngLat([-74.5, 40])
+  .addTo(map);
+```
+- Hardcoded lat and long showing up with generic styled pin:
+* ![Test of hardcoded lat/lng ong on Campground](assets/pin1.png)
+- We can change what marker looks like --> EXAMPLE FROM DOCS:
+```js
+// Create a default Marker, colored black, rotated 45 degrees.
+var marker2 = new mapboxgl.Marker({ color: 'black', rotation: 45 })
+.setLngLat([12.65147, 55.608166])
+.addTo(map);
+```
+- can also create your own icon, etc.
+- to get location to connect to map to center on campground
+- pass through campground variable in script tag in show.ejs where our mapToken is that we will have immediate access to on the client side
+```html
+<script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+  const campground = <%-campground%>;
+</script>
+```
+- NOW WE GET AN ERROR --> NOT IN PROPER JAVASCRIPT --> info not in quotes
+* ![Error on Show Page](assets/pin2.png)
+* ![Error on Show Page](assets/pin3.png)
+- we can use `JSON.stringify()`
+```html
+<script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+  const campground = <%-JSON.stringify(campground)%>;
+</script>
+```
+- NOW WE GET BACK JSON
+* ![NEW RESPONSE IN DEV TOOLS](assets/pin4.png)
+- Now we can access `campground.geometry.coordinates` in script file:
+```js
+mapboxgl.accessToken = mapToken;
+const map = new mapboxgl.Map({
+  container: 'map', // container ID
+  style: 'mapbox://styles/mapbox/streets-v11', // style URL
+  center: campground.geometry.coordinates, // starting position [lng, lat]
+  zoom: 10 // starting zoom
+});
+//ADD PIN TO MAP
+new mapboxgl.Marker({ color: 'black', rotation: 45 })
+  .setLngLat(campground.geometry.coordinates)
+  .addTo(map);
+```
+- New Result in LOCALHOST:
+* ![NEW SHOW PAGE FOR MAP](assets/pin5.png)
+- probably need to put some error handling in for coordinates that can't be found, etc.
+- change styles of map, marker, etc.
 
 ## Fixing Our Seeds Bug
 
