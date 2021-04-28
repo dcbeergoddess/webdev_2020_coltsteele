@@ -301,5 +301,42 @@ new mapboxgl.Marker({ color: 'black', rotation: 45 })
 - change styles of map, marker, etc.
 
 ## Fixing Our Seeds Bug
+- We have a problem on our INDEX page if we add a campground without an image
+* [NEW ERROR FROM CREATING CAMPGROUNDS WITHOUT IMAGES](assets/error1.png)
+- Add in a default on `campground/index.ejs`
+```html
+<% for( let campground of campgrounds ) { %>
+  <div class="card mb-3">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- if anything in images array we will display first image -->
+        <% if (campground.images.length) { %>
+          <img class="img-fluid" src="<%=campground.images[0].url%>" alt="campground image">
+        <% } else { %>
+          <!-- show default -->
+          <img class="img-fluid" src="https://res.cloudinary.com/dc03tm19jx/image/upload/v1619634360/YelpCamp/hyxreqbomfjh2vkju6ub.jpg" alt="campground image">
+          <% } %> 
+      </div>
+```
+- Right now we can submit the form without an image --> you can edit a form and delete all images --> 
+- Have Error now in old seeded locations because there is no geoData 
+* ![ERROR IN OLD SEEDED CAMPGROUNDS](assets/error2.png)
+- when we try to submit changes
+* ![ERROR when submitting IN OLD SEEDED CAMPGROUNDS](assets/error3.png)
+- Grab geometry data from another campground `"geometry" : { "type" : "Point", "coordinates" : [ -111.3683, 45.2847 ] }`
+- HARD CODE IN SEEDS FILE and RE SEED
+```js
+        const camp = new Campground({
+          //YOUR USER ID
+          author: '608056f48d40d841ba08c88d',
+            location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            title: `${sample(descriptors)} ${sample(places)}`, 
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet incidunt maiores consectetur asperiores iure obcaecati quia voluptatum ipsa error, optio illo molestiae enim voluptatem itaque suscipit? Culpa excepturi libero deleniti.',
+            price, //shorthand do not need price: price 
+            geometry : { 
+              type: "Point", 
+              coordinates: [ -111.3683, 45.2847 ] 
+            },
+```
 
 ## Customizing Map Popup
