@@ -53,7 +53,46 @@ const camp = new Campground({
 - now reseed the database
 
 ## Basic Clustering Campgrounds
-
+- Let's Plug our new data into the Cluster Map
+- First lets console.log a few of the items in the script to test the events in the JS for Cluster Maps
+* ![Testing Events in the Script for Cluster Map](assets/cluster2.png)
+- LETS ADD OUR CAMPGROUND DATA
+* When map loads --> add a new source and set cluster option to true
+- [CHECK OUT THE EARTHQUAKE DATA](https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson)
+- ![IMAGE OF DATA](assets/cluster3.png)
+```js
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+//KEY OF FEATURES
+"features": [
+{ "type": "Feature", "properties": { "id": "ak16994521", "mag": 2.3, "time": 1507425650893, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [ -151.5129, 63.1016, 0.0 ] } },
+{ "type": "Feature", "properties": { "id": "ak16994519", "mag": 1.7, "time": 1507425289659, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [ -150.4048, 63.1224, 105.5 ] } },
+```
+- need to pass our data through so we are using our own data rather than some document online
+- we will put it in a variable like we did in the show page with the `JSON` data from `campground` --> here we want `campgrounds`
+```js
+    <script>
+      const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+      const campgrounds = <%-JSON.stringify(campgrounds)%>;
+    </script>
+```
+- pass in `campgrounds` as data
+- WE GET AN ERROR MESSAGE
+```js
+Error {message: "Cannot read property 'length' of undefined"}
+message: "Cannot read property 'length' of undefined"
+__proto__: Object
+```
+- EVERYTHING IN Earthquake --> located under a key of `Features` --> It's just an array --> but MapBox is actually expecting an object with the key of features set to an array of all our data
+- we just need to make our data conform to that pattern
+- when you stringify the campgrounds just make an object in there
+```js
+  <script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const campgrounds = { features: <%-JSON.stringify(campgrounds)%> };
+  </script>
+```
 ## Tweaking Clustering Code
 
 ## Changing Cluster Size and Color
