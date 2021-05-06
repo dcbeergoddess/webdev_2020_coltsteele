@@ -112,6 +112,159 @@ __proto__: Object
   });
 ```
 ## Changing Cluster Size and Color
+- Make it go across the screen
+- Increase Size of Campground Database to add some more
+* In seeds file change 50 to 300 in for loop --> know our index page is overrun with campgrounds which we will change later to infinite scroll or add in pagination
+* Changing colors and size of dots for clusters and campgrounds
+- [Material UI Colors](https://www.materialui.co/colors)
 
 ## Adding Custom Popups
+- Have Pop up show info about campground and maybe link to go to it's show page
+- There is a function running on click for an un-clustered point --> you have a popup being called where we are setting our own HTML
+- We are going to want to be able to take campground data and plug it into the popup
+* Check out what is under `e.features[0]`:
+```js
+  map.on('click', 'unclustered-point', function (e) {
+    console.log(e.features[0])
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const mag = e.features[0].properties.mag;
+    let tsunami;
+
+    if (e.features[0].properties.tsunami === 1) {
+      tsunami = 'yes';
+    } else {
+      tsunami = 'no';
+    }
+```
+- RESULT IN TERMINAL --> Our `properties` are empty right now --> you see they have the mag and tsunami property in their code for earthquakes:
+* ![Console.log of e.properties[0]](assets/popup1.png)
+- This Bring us back to GeoJson and how our data needs to be formatted for MapBox:
+```js
+{
+  "id": "{feature_id}",
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [0, 0]
+  },
+  "properties": {
+    "name": "null island"
+  }
+}
+```
+- MapBox is automatically looking for something stored under properties but right now our campground data has geometry but not properties in their object
+- When we `console.log(campgrounds)` in `clusterMap.js` file after we define the variable `map` is is what we see in it's object:
+* ![Console.log of campgrounds](assets/popup2.png)
+- We don't need to store everything in there --> just some sore of premade link or something we can pass into where we are setting the setHTML
+- Make `VIRTUAL PROPERTY` in Mongoose and have it automatically send back our data with properties added to it
+- Do not need to change entire schema or document
+* Go To Campground Model --> same concept as when we made the virtual property
+```js
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
+    }
+  ]
+  /* THIS IS WHAT WE ARE TRYING TO INSERT
+  properties: {
+    popUpMarkup: "<h3>...</h3>"
+  }
+  */
+});
+
+
+//FOR MAPBOX POPUP --> NESTED
+CampgroundSchema.virtual('properties.popUpMarkup').get(function() {
+  return "I Am Popup Text";
+});
+```
+- TEST BY ADDING TO CAMPGROUND INDEX
+```html
+<div class="card-body">
+      <h5 class="card-title"><%= campground.title %></h5>
+      <h5 class="card-title"><%= campground.properties.popUpMarkup %></h5>
+      <p class="card-text"><%= campground.description %></p>
+      <p class="card-text">
+```
+* ![Text Now Available to use!!](assets/popup3.png)
+- properties still not showing up in console.log --> My default, Mongoose does not include virtuals when you convert a document to JSON
+- To include virtuals in `res.json()`, you need to set the `toJSON` schema option to `{ virtuals: true }`:
+* ![Notes on JSON from Mongoose Docs](assets/popup4.png)
+* IN OUR CAMPGROUND MODEL:
+```js
+//INCLUDE VIRTUALS
+const opts = { toJSON: { virtuals: true } };
+
+//CREATE SCHEMA
+const CampgroundSchema = new Schema ({
+    title: String,
+  images: [ImageSchema],
+  geometry: {
+    type: {
+      type: String, 
+      enum: ['Point'], 
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  },
+  price: Number,
+  description: String,
+  location: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
+    }
+  ]
+}, opts);
+```
+- AND IT WORKS!!!
+* ![Properties now showing in campgrounds](assets/popup5.png)
+- Now we can access it in our MapBox PopUp Code!!!!
+* In `clusterMap.js` we are still console.log the features, let's see what we have access to now:
+* ![console.log of e.features](assets/popup6.png)
+- We can now save it to a variable and use it:
+```js
+  map.on('click', 'unclustered-point', function (e) {
+    const text = e.features[0].properties.popUpMarkup;
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    // Ensure that if the map is zoomed out such that
+    // multiple copies of the feature are visible, the
+    // popup appears over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(text)
+      .addTo(map);
+  });
+```
+* ![new text in popup](assets/popup7.png)
+* NOW IN CAMPGROUND MODEL:
+```js
+//FOR MAPBOX POPUP --> NESTED
+CampgroundSchema.virtual('properties.popUpMarkup').get(function() {
+  return `<a href="/campgrounds/${this._id}">${this.title}</a>`;
+});
+```
+- Now campground name shows up as link to it's show page!
+* Let's tweak it a little and truncate description to be a substring
+```js
+//FOR MAPBOX POPUP --> NESTED
+CampgroundSchema.virtual('properties.popUpMarkup').get(function() {
+  return `
+  <strong><a href="/campgrounds/${this._id}">${this.title}</a></strong>
+  <p>${this.description.substring(0, 20)}...</p>`;
+});
+```
 
