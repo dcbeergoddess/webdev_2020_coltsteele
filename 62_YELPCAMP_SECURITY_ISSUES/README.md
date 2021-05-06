@@ -51,6 +51,62 @@ app.use(mongoSanitize({
  
 ## Sanitizing HTML w/ JOI
 * [Sanitize HTML Package](https://www.npmjs.com/package/sanitize-html)
+- Using EJS so we can escape the fact if a user enters html into a field when editing a campground but it will show up in the PIN right now
+- Sanitize your inputs --> especially to not let them enter script tags
+- JOI does not come with it's own validation for escaping html (can use `express-validator` instead of JOI)
+* JOI allows us to create extensions 
+```js
+const extension = (joi) => ({
+    type: 'string',
+    base: joi.string(),
+    messages: {
+        'string.escapeHTML': '{{#label}} must not include HTML!'
+    },
+    rules: {
+        escapeHTML: {
+            validate(value, helpers) {
+                const clean = sanitizeHtml(value, {
+                    allowedTags: [],
+                    allowedAttributes: {},
+                });
+                if (clean !== value) return helpers.error('string.escapeHTML', { value })
+                return clean;
+            }
+        }
+    }
+});
+```
+- `npm i sanitize-html`
+```js
+const BaseJoi = require('joi');
+const sanitizeHtml = require('sanitize-html');
+
+const extension = (joi) => ({
+  type: 'string',
+  base: joi.string(),
+  messages: {
+      'string.escapeHTML': '{{#label}} must not include HTML!'
+  },
+  rules: {
+      escapeHTML: {
+          validate(value, helpers) {
+              const clean = sanitizeHtml(value, {
+                  allowedTags: [],
+                  allowedAttributes: {},
+              });
+              if (clean !== value) return helpers.error('string.escapeHTML', { value })
+              return clean;
+          }
+      }
+  }
+});
+
+const Joi = BaseJoi.extend(extension);
+```
+- TRY TO ENTER SCRIPT TAG IN REVIEW FIELD:
+* ![try to hack](assets/secrity3.png)
+- GET ERROR BACK
+* ![application now yelling at us](assets/secrity4.png)
 
 ## Minor Changes to Session/Cookies
 
