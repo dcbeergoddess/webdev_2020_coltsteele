@@ -3,7 +3,45 @@
 
 ## Mongo Injection
 * [Express Mongo Sanitize Package](https://www.npmjs.com/package/express-mongo-sanitize)
-
+- Usually have whole team working on this at a company, we are just going to focus on some of the main issues you run into
+- [SQL Injection ATTACK](https://en.wikipedia.org/wiki/SQL_injection)
+* Writing a query that user information and use search field to populate query
+* user adds in new quote to close query and then they can add in their own query, they could remove and entire table (in mongo collection)
+- IN MONGO COULD DO SOMETHING LIKE THIS in USERNAME FIELD
+* `{"$gt": ""}` --> Mongo Operator --> enter in the field, find username is greater that nothing --> so find all usernames
+- Nested objects allows for people to manipulate original query we are trying to make --> don't let username use dollar signs and periods. 
+* USE Sanitize Package!!!
+1. `npm i express-mongo-sanitize`
+2. ADD CONSOLE.LOG in `app.js` TO SEE `req.query`
+```js
+app.use((req, res, next) => {
+  //Every Request has access now
+  //if you are not coming from these two routes..., if req.originalUrl does not include one of these then..
+  if(!['/login', '/register', '/'].includes(req.originalUrl)) {
+    req.session.returnTo = req.originalUrl 
+  }
+  console.log(req.query)
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+```
+- IN TERMINAL:
+* ![Console.log of req.query](assets/security1.png)
+- We want to prohibit this query
+- include package and use it
+```js
+//mongo sanitize
+const mongoSanitize = require('express-mongo-sanitize');
+```
+```js
+app.use(mongoSanitize({
+  replaceWith: '_'
+}));
+```
+- IN TERMINAL
+* ![Result in terminal](assets/security2.png)
 ## Cross Site Scripting (XSS)
 * [XSS GAME](https://xss-game.appspot.com/)
 
