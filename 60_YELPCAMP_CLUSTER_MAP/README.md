@@ -94,7 +94,23 @@ __proto__: Object
   </script>
 ```
 ## Tweaking Clustering Code
-
+- right now all sources are pointing towards `earthquakes` but we can have multiple sources
+* change all earthquake refs under `source` to campgrounds
+- have multiple layers for circle on map that we can tweak and play around with
+- Here we are interpolating a number for the amount of campgrounds in that cluster number, If you put `Num:` in from of text in text-field that is in brackets it would show up as text in the circle before calculated number of all campgrounds in that cluster:
+```js
+  map.addLayer({
+    id: 'cluster-count',
+    type: 'symbol',
+    source: 'campgrounds',
+    filter: ['has', 'point_count'],
+    layout: {
+      'text-field': '{point_count_abbreviated}', //We are interpolating a number that matchbox counts. 
+      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+      'text-size': 12,
+    },
+  });
+```
 ## Changing Cluster Size and Color
 
 ## Adding Custom Popups
