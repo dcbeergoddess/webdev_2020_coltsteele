@@ -147,5 +147,24 @@ const sessionConfig = {
 ```
 
 ## Using Helmet
+* [Helment Docs](https://helmetjs.github.io/)
+- Tell App to Use and we have access to tons of security stuff
+1. `npm i helmet`
+2. `const helmet = require('helmet')`
+3. Use Middleware --> this gives us access that all comes with it:
+```js
+//SESSION
+app.use(session(sessionConfig));
+app.use(flash());
+app.use(helmet());
+```
+- ONE PROBLEM --> content security policy is not going to be happy with some of our application -- we can tell it to disable it for now
+```js
+app.use(helmet({contentSecurityPolicy: false}));
+```
+- POSTMAN GET REQUEST HEADERS WITH HELMET:
+* ![Helmet Request](assets/security5.png)
+- POSTMAN GET REQUEST HEADERS WITHOUT HELMET:
+* ![Non-Helmet Request](assets/security6.png)
 
 ## Content Security Policy Fun
