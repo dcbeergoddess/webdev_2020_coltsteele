@@ -42,9 +42,13 @@ app.use(mongoSanitize({
 ```
 - IN TERMINAL
 * ![Result in terminal](assets/security2.png)
+
 ## Cross Site Scripting (XSS)
 * [XSS GAME](https://xss-game.appspot.com/)
-
+- An Attacker will inject their own client side scripts that will run in the browser on someone elses application that does something bad
+- Play Hacker in Game --> Simple Intro to XSS
+- a lot of people have cookies available under documents and can inject script to grab information and send it to a bad server
+ 
 ## Sanitizing HTML w/ JOI
 * [Sanitize HTML Package](https://www.npmjs.com/package/sanitize-html)
 
