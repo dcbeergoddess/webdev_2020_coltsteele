@@ -109,6 +109,23 @@ const Joi = BaseJoi.extend(extension);
 * ![application now yelling at us](assets/secrity4.png)
 
 ## Minor Changes to Session/Cookies
+- We set up the `httpOnly` on the session config --> cookies only accessible through HTTP and not JavaScript --> folks cannot see our session cookie if they are trying to hack and grab cookies
+- Add in `secure: true` --> will break things for now... comment out for now --> when we login it is not keeping us logged in but we will want it when we deploy --> give cookie different name so not default `connect.sid`
+```js
+//SESSION MIDDLEWARE
+const sessionConfig = {
+  name: 'session',
+  secret: 'thisshouldbeabettersecret!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true, 
+    secure: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+};
+```
 
 ## Hiding Errors
 
