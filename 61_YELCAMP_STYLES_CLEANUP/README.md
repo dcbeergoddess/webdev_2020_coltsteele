@@ -100,7 +100,20 @@ body {
 - Make Edit and New Form a little more responsive
 
 ## Spacing Campgrounds
+- Colt had an error for the `mb-3` --> Mine was find :)
 
 ## Removing Inline Map Styles
+- Create new style sheet for map styles
 
 ## Adding Map Controls
+- look in mapBox Docs and find controls you can add to map for users to interact with
+* [Display Map Navigation Controls](https://docs.mapbox.com/mapbox-gl-js/example/navigation/)
+```js
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+```
+- Can tweak and add other items to it - specify position, etc.:
+```js
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+```
