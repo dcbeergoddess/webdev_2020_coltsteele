@@ -94,6 +94,10 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 ```
 - secret will be an environment variable we will set up in heroku
 - if you don't have a .gitignore file, set it up!!!
+- `git remote -v`
+- git push and then `git push heroku main`
+- no errors in deploying but application will still not run
+* [Heroku Website Application Error](assets/heroku1.png)
 
 ## Fixing Heroku Errors
 
