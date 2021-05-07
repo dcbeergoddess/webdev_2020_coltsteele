@@ -100,6 +100,37 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 * [Heroku Website Application Error](assets/heroku1.png)
 
 ## Fixing Heroku Errors
+- run `heroku logs --tail` in terminal
+* [Errors in heroku](assets/heroku2.png)
+- We need to tell heroku how to start our app with a script
+- in package.Json there is a scripts section and we can add our own
+- `npm start` will now use `node app.js`
+```json
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "Creating Full CRUD app for Users to load Campgrounds and Review Campgrounds posted.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcbeergoddess/YelpCamp.git"
+  },
+```
+- We now want to change the PORT we are serving on for Heroku
+```js
+//LISTENER
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`LISTENING ON http://localhost:${port}`)
+}); 
+```
+- Push back up to heroku
+- will not work yet but let's see what the error is now again
+- cannot access tokens because our environment variables are not set up
+* [New Error in Heroku](assets/heroku3.png)
 
 ## Configuring Heroku ENV Variables
 
