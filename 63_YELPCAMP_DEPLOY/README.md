@@ -63,8 +63,37 @@ store.on('error', function(e) {
 
 ## Heroku Setup
 * [Heroku](https://www.heroku.com/)
+1. Set Up Account for Heroku --> free tier --> does take page a while to load if it has not been visited in awhile
+2. Download Heroku CLI --> Will need to download git if you don't have it
+3. Login to Heroku with our Command Line Client 
+- `heroku login` --> opens up browser and then login in and close page
+- now logged in to heroku
 
 ## Pushing to Heroku
+- `heroku create` in top level of application
+- gives you heroku link and git link with a generated name
+```
+dcbeergoddess@Rachels-MBP YelpCamp % heroku create
+ ›   Warning: heroku update available from 7.46.2 to 7.53.0.
+Creating app... done, ⬢ rocky-lowlands-82950
+https://rocky-lowlands-82950.herokuapp.com/ | https://git.heroku.com/rocky-lowlands-82950.git
+```
+- now change a few things in the code
+```js
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true,
+  useCreateIndex: true, 
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
+```
+- Change Secret
+```js
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+```
+- secret will be an environment variable we will set up in heroku
+- if you don't have a .gitignore file, set it up!!!
 
 ## Fixing Heroku Errors
 
