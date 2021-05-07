@@ -4,9 +4,6 @@
 ## Setting Up Mongo Atlas
 * [Mongo Cloud](https://www.mongodb.com/cloud)
 - Set Up Production Database 
-
-## Using Mongo For Our Session Store
-* [Connect-Mongo Package](https://www.npmjs.com/package/connect-mongo)
 1. Build your first cluster
 2. Create your first database user
 - Set up user with password who can access database
@@ -31,6 +28,10 @@ mongoose.connect(dbUrl, {
   useFindAndModify: false
 });
 ```
+
+## Using Mongo For Our Session Store
+* [Connect-Mongo Package](https://www.npmjs.com/package/connect-mongo)
+
 - Open localhost --> no longer campgrounds
 * ![New Index Page](assets/mongo1.png)
 - create a new user and then look in collections in Mongo Atlas
