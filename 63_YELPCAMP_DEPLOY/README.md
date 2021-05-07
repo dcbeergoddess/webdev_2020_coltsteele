@@ -36,8 +36,30 @@ mongoose.connect(dbUrl, {
 
 ## Using Mongo For Our Session Store
 * [Connect-Mongo Package](https://www.npmjs.com/package/connect-mongo)
+- configure our application to store the session information using Mongo
+- If you do not specify a store it uses memory store and manages things in it's memory which can be very problematic because it doesn't scale well and just can't hold that much information
+- Use Mongo with the help of **CONNECT-MONGO**
+1. `npm i connect-mongo`
+2. require it and then immediately execute it --> FROM DOCS:
+```js
+const MongoStore = require('connect-mongo');
+```
+4. For our application just need to require MongoStore and then before we set up the sessionConfig:
+```js
+//MONGO STORE
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  secret: 'thisshouldbeabettersecret!',
+  touchAfter: 24 * 60 * 60
+});
 
-
+store.on('error', function(e) {
+  console.log("SESSION STORE ERROR", e)
+});
+```
+- touchAfter --> Lazy session update --> don't update every time the user refreshes a page unless major data changes
+- Now look in collections for yelp-camp in Mongo Shell and we have new collection for sessions
+* ![In Mongo Shell](assets/mongo3.png)
 
 ## Heroku Setup
 * [Heroku](https://www.heroku.com/)
