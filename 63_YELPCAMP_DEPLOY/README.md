@@ -133,4 +133,12 @@ app.listen(port, () => {
 * [New Error in Heroku](assets/heroku3.png)
 
 ## Configuring Heroku ENV Variables
+- We did this locally with our `.env` file
+- FOR HEROKU
+1. We can go to dashboard of application and settings --> can specify `Config Vars` 
+2. Or you can do it from your Command Line --> `heroku config:set SECRET=asdfasdfasdfasf` 
+- Refresh App 
+- Need to Add in New IP Address in Atlas that gives access from anywhere
 
+## WHAT IS NEXT
+- I know we all think that Colt ended this abruptly without a proper goodbye. It is really not like him. lol. So you can probably only imagine how burnt out he got from it all and all the bugs that have been needed to fixed along the way. I think coming from a coding bootcamp and using this a a resource to refresh all my knowledge helped me troubleshoot along the way and figure it out! I hope anyone following along with my repo was found it useful and look forward to time when we get a proper good bye from Colt
