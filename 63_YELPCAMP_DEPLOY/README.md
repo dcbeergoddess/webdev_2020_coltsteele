@@ -28,15 +28,16 @@ mongoose.connect(dbUrl, {
   useFindAndModify: false
 });
 ```
-
-## Using Mongo For Our Session Store
-* [Connect-Mongo Package](https://www.npmjs.com/package/connect-mongo)
-
 - Open localhost --> no longer campgrounds
 * ![New Index Page](assets/mongo1.png)
 - create a new user and then look in collections in Mongo Atlas
 * ![Mongo Collection w/ Users](assets/mongo2.png)
 - but you do not want to be using this database in development mode, when we deploy we will use it so stick with local database for now
+
+## Using Mongo For Our Session Store
+* [Connect-Mongo Package](https://www.npmjs.com/package/connect-mongo)
+
+
 
 ## Heroku Setup
 * [Heroku](https://www.heroku.com/)
