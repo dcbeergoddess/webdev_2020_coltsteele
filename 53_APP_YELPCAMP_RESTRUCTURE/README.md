@@ -102,7 +102,7 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp', {
 ## Configuring Session
 - SET UP EXPRESS SESSION --> TO USE FLASH --> SHORTLY WE WILL ADD AUTHENTICATION
 1. `npm i express-session`
-2. in app.js `const session = require('express-session')
+2. in app.js `const session = require('express-session')`
 3. to set up --> have a lot we could configure --> will come back once we deploy and get our app up and running and we have `production` vs `development`, etc.
 ```js
 //SESSION MIDDLEWARE
