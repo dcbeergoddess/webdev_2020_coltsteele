@@ -184,7 +184,7 @@ router.post('/register', async (req, res) => {
 });
 ```
 * Try Making new User to test
-- ![Terminal Console Result](register2.png)
+- ![Terminal Console Result](assets/register2.png)
 - Still are things that can go wrong --> mongoose errors for unique username, etc 
 8. Set up `catchAsync` in `routes/users.js` to wrap around post user route
 ```js
