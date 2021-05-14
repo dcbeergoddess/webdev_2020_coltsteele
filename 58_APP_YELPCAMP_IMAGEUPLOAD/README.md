@@ -108,7 +108,7 @@ router.route('/')
   });
 ```
 - TEST in Local Host:
-* ![res.send results in localhost](/assets/multer1.png)
+* ![res.send results in localhost](assets/multer1.png)
 - File created in Repo with encoded file data
 3. Lets console.log so we can see it in the terminal
 ```js
@@ -310,7 +310,8 @@ router.route('/')
 ```
 3. Now go to Campground Controller:
 ```js
-
+const Campground = require('../models/campground');
+const { cloudinary } = require("../cloudinary");
 ```
 - PROBLEMS!!!
 * [now when we submit](assets/upload1.png)
